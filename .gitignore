@@ -1,0 +1,6 @@
+/.idea
+/config/dev.ini
+/config/prod.ini
+/vendor
+/content
+/.DS_Store
