@@ -10,16 +10,17 @@ class Route
 
     public function routeRequest()
     {
-        try {
+        /*try {*/
             // Fusion des paramètres GET et POST de la requête
             $request = new Request(array_merge($_GET, $_POST));
 
             $controller = $this->createController($request);
             $action = $this->createAction($request);
+
             $controller->executeAction($action);
-        } catch (Exception $e) {
+        /*} catch (Exception $e) {
             $this->manageError($e);
-        }
+        }*/
     }
 
     // Crée le contrôleur approprié en fonction de la requête reçue
@@ -38,9 +39,8 @@ class Route
             // Première lettre en majuscule
             $controller = ucfirst(strtolower($controller));
         }
-
         // Création du nom du fichier du contrôleur
-        $fileController = "Controller/" . $controller . ".php";
+        $fileController = "../Controller/" . $controller . ".php";
 
         if (file_exists($fileController)) {
             // Instanciation du contrôleur adapté à la requête

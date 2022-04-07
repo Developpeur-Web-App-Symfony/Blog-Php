@@ -24,9 +24,11 @@ abstract class Controller
     // Exécute l'action à réaliser
     public function executeAction($action)
     {
+        $classController = get_class($this);
         if (method_exists($this, $action)) {
             $this->action = $action;
             $this->{$this->action}();
+
         } else {
             $classController = get_class($this);
             throw new Exception("Action '$action' non définie dans la classe $classController");
@@ -45,12 +47,15 @@ abstract class Controller
     // Génère la vue associée au contrôleur courant
     protected function generateView($dataView = array())
     {
+
         // Détermination du nom du fichier vue à partir du nom du contrôleur actuel
         $classController = get_class($this);
         $controller = str_replace("Controller", "", $classController);
+
         // Instanciation et génération de la vue
         $vue = new View($this->action, $controller);
         $vue->generate($dataView);
+
     }
 
 }

@@ -31,9 +31,9 @@ class Configuration
     private static function getParameters()
     {
         if (self::$parameters == null) {
-            $pathFile = "config/dev.ini";
+            $pathFile = "../config/dev.ini";
             if (!file_exists($pathFile)) {
-                $pathFile = "config/prod.ini";
+                $pathFile = "../config/prod.ini";
             }
             if (!file_exists($pathFile)) {
                 throw new Exception("Aucun fichier de configuration trouvé");
