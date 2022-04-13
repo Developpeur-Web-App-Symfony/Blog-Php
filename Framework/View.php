@@ -7,6 +7,7 @@ class View
     private $file;
     // Titre de la vue (défini dans le fichier vue)
     private $title;
+    private $styles;
 
     public function __construct($action, $controller = "")
     {
@@ -35,7 +36,7 @@ class View
         $webRoot = Configuration::get("webRoot", "/");
         // Génération du gabarit commun utilisant la partie spécifique
         $view = $this->generateFile('../View/gabarit.php',
-            array('title' => $this->title, 'content' => $content,
+            array('title' => $this->title, 'styles' => $this->styles,'content' => $content,
                 'webRoot' => $webRoot));
         // Renvoi de la vue générée au navigateur
         echo $view;
