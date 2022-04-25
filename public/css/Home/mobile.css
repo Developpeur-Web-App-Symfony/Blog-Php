@@ -1,0 +1,61 @@
+.img-form-contact{
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.img-form-contact > div{
+    padding: 30px 15px 30px;
+    background-color: #ffffff;
+    display: grid;
+    grid-gap: 25px;
+}
+
+.subscribe-form > input{
+    box-shadow: 0 0 25px rgba(129,129,129, 0.1);
+    color: black;
+    border: none;
+    padding: 15px;
+}
+
+.subscribe-form > p{
+    font-size: 0.8rem;
+}
+
+.contact-me-link > span{
+    text-transform: uppercase;
+}
+
+.slider > img{
+    max-height: 229px;
+}
+
+.slide{
+    display: none;
+}
+
+article{
+    margin-top: 50px;
+    padding: 0 15px 0 15px;
+}
+
+article > div{
+    margin-top: 30px;
+}
+
+.infos-article-top, .article-bottom{
+    display: flex;
+    justify-content: space-around;
+}
+
+.exerpt-article{
+    padding: 15px 0 15px 0;
+}
+
+.article-bottom{
+    padding-top: 25px;
+}
+
+.article-bottom > a{
+    text-transform: uppercase;
+}
+
