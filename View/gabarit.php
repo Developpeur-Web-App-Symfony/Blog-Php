@@ -28,9 +28,9 @@
                 <i class="fa fa-times" id="closeIcon"></i>
             </button>
             <ul id="nav-menu-list">
-                <li><a href="">Accueil</a></li>
+                <li><a href="Home">Accueil</a></li>
                 <li><a href="">Blog Post</a></li>
-                <li><a href="">Contact</a></li>
+                <li><a href="Home/contact">Contact</a></li>
                 <li><a href="">Inscription/Connexion</a></li>
             </ul>
         </div>

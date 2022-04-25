@@ -1,3 +1,5 @@
+/* HOMEPAGE */
+
 .img-form-contact{
     display: grid;
     grid-template-rows: auto auto;
@@ -59,3 +61,41 @@ article > div{
     text-transform: uppercase;
 }
 
+/* CONTACT */
+
+.banner{
+    background-color: #f1f1f1;
+    height: 200px;
+    padding: 0 15px 0 15px;
+}
+
+.banner > h1{
+    text-transform: uppercase;
+}
+
+.info-contact{
+    display: grid;
+    padding: 30px 15px 30px 15px;
+}
+
+.contact-form > input, .contact-form > textarea{
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.btn-form-contact{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background-color: #4f4d5f;
+}
+
+.contact-form{
+    margin-bottom: 20px;
+}
+
+.info-contact > div{
+    text-align: center;
+}

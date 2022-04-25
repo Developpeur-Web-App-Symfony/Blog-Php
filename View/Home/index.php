@@ -6,7 +6,7 @@
 <?php $this->script = '
     <script src="js/slider.js"></script>
     '; ?>
-<?php $this->title = "Mon Blog"; ?>
+<?php $this->title = "Développons l'avenir"; ?>
 
 <section class="img-form-contact">
     <img src="media/background_home.jpeg" alt="ttt">

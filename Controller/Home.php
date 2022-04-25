@@ -17,4 +17,12 @@ class Home extends Controller
         ]);
     }
 
+    public function contact()
+    {
+
+        $this->generateView([
+
+        ]);
+    }
+
 }
