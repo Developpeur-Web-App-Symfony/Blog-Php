@@ -13,8 +13,12 @@
     <div>
         <h1>Solutions Web personnalisées à votre image</h1>
         <form class="subscribe-form" action="">
-            <input type="email" placeholder="Tapez votre email...">
-            <p>Vous ne possedez pas de compte?<a href="#"> Créer en un</a></p>
+            <div>
+                <input type="email" placeholder="Tapez votre email...">
+                <button type="submit"><i class="fa fa-arrow-right"></i></button>
+            </div>
+
+            <p>Vous ne possedez pas de compte ?<a href="#"> Créer en un</a></p>
         </form>
         <a class="contact-me-link" href=""><span>Contactez-nous </span><i class="fa fa-arrow-right"></i></a>
     </div>
@@ -34,17 +38,17 @@
         <div>
             <h1>Titre de l'article</h1>
             <div class="infos-article-top">
-                <span><i class="fa fa-calendar"></i> date</span>
-                <span><i class="fa fa-clock-o"></i>
- heure</span>
+                <span><i class="fa fa-calendar"></i> 02 Mai 2022</span>
+                <span>par <b>MatthieuJ</b></span>
             </div>
-            <span>par <b>Auteur</b></span>
+
             <p class="exerpt-article">Lorem ipsum..........</p>
             <span class="category-title">#Categorie</span>
             <div class="article-bottom">
                 <a href="">Lire plus <i class="fa fa-arrow-right"></i></a>
                 <div>
-                    <a href="https://www.facebook.com/pages/category/Product-Service/JM-Websites-370052016940987/"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.facebook.com/pages/category/Product-Service/JM-Websites-370052016940987/"><i
+                                class="fa-brands fa-facebook"></i></a>
                     <a href=""><i class="fa-brands fa-instagram-square"></i></a>
                 </div>
             </div>

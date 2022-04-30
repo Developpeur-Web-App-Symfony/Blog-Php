@@ -46,13 +46,3 @@ select {
     font: inherit;
 }
 
-article{
-    color: #838b95;
-}
-article > div > h1, article > div > .article-bottom{
-    color: #4f4d5f;
-}
-p, h1{
-    color: #4f4d5f;
-}
-

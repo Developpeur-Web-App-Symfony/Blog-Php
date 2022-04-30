@@ -13,7 +13,7 @@
 <section class="info-contact">
     <form class="contact-form" action="">
         <input type="text" placeholder="Nom">
-        <input type="email" placeholder="Tapez votre email...">
+        <input type="email" placeholder="Email">
         <input type="tel" placeholder="Téléphone">
         <textarea placeholder="Message"></textarea>
         <button class="btn-form-contact" type="submit">Envoyer le message</button>

@@ -7,10 +7,13 @@
     <meta name="author" content="MatthieuJ">
     <base href="<?= $webRoot ?>">
     <title><?= $title ?></title>
-    <script src="https://kit.fontawesome.com/38412cb349.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;800&family=Noto+Sans:wght@200;400;500;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/normalizer.css">
     <link rel="stylesheet" href="css/gabarit_mobile.css">
     <?= $styles ?>
+    <script src="https://kit.fontawesome.com/38412cb349.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -29,7 +32,7 @@
             </button>
             <ul id="nav-menu-list">
                 <li><a href="Home">Accueil</a></li>
-                <li><a href="">Blog Post</a></li>
+                <li><a href="Articles/index">Blog Post</a></li>
                 <li><a href="Home/contact">Contact</a></li>
                 <li><a href="">Inscription/Connexion</a></li>
             </ul>

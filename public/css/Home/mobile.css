@@ -12,19 +12,50 @@
     grid-gap: 25px;
 }
 
-.subscribe-form > input{
+.img-form-contact > div > h1{
+    font-weight: 400;
+}
+
+.subscribe-form{
+    width: 90%;
+}
+
+.subscribe-form > p > a{
+    color: #8f8e97;
+}
+
+.subscribe-form > div{
+    position: relative;
+}
+
+.subscribe-form > div > input{
     box-shadow: 0 0 25px rgba(129,129,129, 0.1);
     color: black;
     border: none;
-    padding: 15px;
+    padding: 20px;
+    width: 100%;
 }
 
-.subscribe-form > p{
-    font-size: 0.8rem;
+.subscribe-form > div >button{
+    border: none;
+    padding-right: 20px;
+    box-shadow: 0 0 25px rgba(129,129,129, 0.1);
+    background-color: ghostwhite;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+
+.contact-me-link{
+    display: flex;
+    align-items: center;
 }
 
 .contact-me-link > span{
     text-transform: uppercase;
+    font-size: 2rem;
+    padding-right: 10px;
 }
 
 .slider > img{
@@ -40,24 +71,62 @@ article{
     padding: 0 15px 0 15px;
 }
 
+article > a > img{
+    transition: 300ms;
+}
+
+article > a > img:hover{
+    filter: grayscale(1);
+    box-shadow: 0 0 10px;
+}
+
 article > div{
     margin-top: 30px;
+    color: #4f4d5fbf;
 }
 
-.infos-article-top, .article-bottom{
-    display: flex;
-    justify-content: space-around;
-}
-
-.exerpt-article{
-    padding: 15px 0 15px 0;
+article > div > h1{
+    font-weight: 500;
+    color: #4f4d5f;
 }
 
 .article-bottom{
+    display: flex;
+    justify-content: space-around;
     padding-top: 25px;
 }
 
+.exerpt-article{
+    padding: 25px 0 25px 0;
+}
+
+.infos-article-top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.infos-article-top > span{
+    padding-top: 10px;
+    font-size: 1.5rem;
+}
 .article-bottom > a{
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.article-bottom > a > i{
+    padding-left: 10px;
+}
+
+.article-bottom > a, .article-bottom > div{
+    color: #4f4d5f;
+}
+
+.category-title{
+    font-size: 1.3rem;
     text-transform: uppercase;
 }
 
@@ -66,11 +135,17 @@ article > div{
 .banner{
     background-color: #f1f1f1;
     height: 200px;
-    padding: 0 15px 0 15px;
+    padding: 10px 15px 10px 15px;
 }
 
 .banner > h1{
     text-transform: uppercase;
+    font-weight: 400;
+}
+
+.banner > p{
+    font-size: 1.8rem;
+    padding-top: 20px;
 }
 
 .info-contact{
@@ -80,20 +155,24 @@ article > div{
 
 .contact-form > input, .contact-form > textarea{
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 20px;
+    border: 1px solid #f1f1f1;
 }
 
 .btn-form-contact{
-    padding: 5px;
-    border-radius: 5px;
+    padding: 15px 20px;
+    border-radius: 25px;
     border: none;
     color: white;
     background-color: #4f4d5f;
+    font-size: 1.5rem;
 }
 
 .contact-form{
     margin-bottom: 20px;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 20px;
 }
 
 .info-contact > div{
