@@ -34,7 +34,7 @@
                 <li><a href="Home">Accueil</a></li>
                 <li><a href="Articles/index">Blog Post</a></li>
                 <li><a href="Home/contact">Contact</a></li>
-                <li><a href="">Inscription/Connexion</a></li>
+                <li><a href="Home/signIn">Inscription/Connexion</a></li>
             </ul>
         </div>
     </nav>

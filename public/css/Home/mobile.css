@@ -178,3 +178,44 @@ article > div > h1{
 .info-contact > div{
     text-align: center;
 }
+
+/** LOGIN / REGISTRATION **/
+.login{
+    padding: 0 20px 0 20px;
+}
+
+.login-form{
+    display: grid;
+    text-align: center;
+    grid-gap: 35px;
+    border-radius: 20px;
+}
+
+.img-form-login{
+    display: flex;
+    justify-content: center;
+}
+
+.img-form-login > img{
+    width: 100px;
+}
+
+.fa-user, .fa-lock, .fa-envelope{
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #9e9e9e;
+    font-size: 1.6rem;
+    padding: 5px;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.login-form > div {
+    position: relative;
+}
+
+.login-form > div> input{
+    border: none;
+    border-bottom: 2px solid #f1f1f1;
+    width: 100%;
+}

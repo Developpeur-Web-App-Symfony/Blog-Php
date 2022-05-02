@@ -58,3 +58,11 @@ article > div > h1, article > div > .article-bottom{
 figcaption > h1,figcaption > span{
     color: white;
 }
+
+figcaption > span{
+    font-size: 1.5rem;
+}
+
+.nav-article > ul > li > a{
+    font-size: 1.8rem;
+}

@@ -25,4 +25,28 @@ class Home extends Controller
         ]);
     }
 
+    public function signIn()
+    {
+
+        $this->generateView([
+
+        ]);
+    }
+
+    public function register()
+    {
+
+        $this->generateView([
+
+        ]);
+    }
+
+    public function forgotPassword()
+    {
+
+        $this->generateView([
+
+        ]);
+    }
+
 }
