@@ -11,14 +11,14 @@
             <img src="media/icons-utilisateur.png" alt="logo">
         </div>
         <h1>Connexion</h1>
+        <label>
+            <i class="fa fa-user"></i><input type="text" placeholder="Nom d'utilisateur">
+        </label>
+        <label>
+            <i class="fa fa-lock"></i><input type="password" placeholder="Mot de passe">
+        </label>
         <div>
-            <i class="fa fa-user"> Nom d'utilisateur</i><input type="text">
-        </div>
-        <div>
-            <i class="fa fa-lock"> Mot de passe</i><input type="password">
-        </div>
-        <div>
-            <button class="btn-form-contact" type="submit">Se connecter</button>
+            <button class="btn-form" type="submit">Se connecter</button>
         </div>
         <a href="Home/forgotPassword">Mot de passe oublié ?</a>
     </form>

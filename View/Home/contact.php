@@ -12,11 +12,22 @@
 </section>
 <section class="info-contact">
     <form class="contact-form" action="">
-        <input type="text" placeholder="Nom">
-        <input type="email" placeholder="Email">
-        <input type="tel" placeholder="Téléphone">
+        <label>
+            <i class="fa fa-user"></i>
+            <input type="text" placeholder="Nom">
+        </label>
+        <label>
+            <i class="fa fa-envelope"></i>
+            <input type="email" placeholder="Email">
+        </label>
+        <label>
+            <i class="fa fa-phone"></i>
+            <input type="tel" placeholder="Téléphone">
+        </label>
         <textarea placeholder="Message"></textarea>
-        <button class="btn-form-contact" type="submit">Envoyer le message</button>
+        <div>
+            <button class="btn-form" type="submit">Envoyer le message</button>
+        </div>
     </form>
     <div>
         <p>312 rue Octave Legrand</p>

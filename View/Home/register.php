@@ -11,20 +11,20 @@
             <img src="media/icons-utilisateur.png" alt="logo">
         </div>
         <h1>Inscription</h1>
+        <label>
+            <i class="fa fa-user"></i><input type="text" placeholder="Nom d'utilisateur">
+        </label>
+        <label>
+            <i class="fa fa-envelope"></i><input type="text" placeholder="Email">
+        </label>
+        <label>
+            <i class="fa fa-lock"></i><input type="password" placeholder="Mot de passe">
+        </label>
+        <label>
+            <i class="fa fa-lock"></i><input type="password" placeholder="Confirmez le mot de passe">
+        </label>
         <div>
-            <i class="fa fa-user"> Nom d'utilisateur</i><input type="text">
-        </div>
-        <div>
-            <i class="fa fa-envelope"> Email</i><input type="text">
-        </div>
-        <div>
-            <i class="fa fa-lock"> Mot de passe</i><input type="password">
-        </div>
-        <div>
-            <i class="fa fa-lock"> Entrez le mot de passe À nouveau</i><input type="password">
-        </div>
-        <div>
-            <button class="btn-form-contact" type="submit">S'inscrire</button>
+            <button class="btn-form" type="submit">S'inscrire</button>
         </div>
         <a href="Home/signIn">Je possède déjà un compte</a>
     </form>
