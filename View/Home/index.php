@@ -14,7 +14,9 @@
         <h1>Solutions Web personnalisées à votre image</h1>
         <form class="subscribe-form" action="">
             <div>
-                <input type="email" placeholder="Tapez votre email...">
+                <label for="email">
+                    <input name="email" type="email" placeholder="Tapez votre email...">
+                </label>
                 <button type="submit"><i class="fa fa-arrow-right"></i></button>
             </div>
 

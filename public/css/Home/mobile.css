@@ -28,7 +28,7 @@
     position: relative;
 }
 
-.subscribe-form > div > input{
+.subscribe-form > div > label > input{
     box-shadow: 0 0 25px rgba(129,129,129, 0.1);
     color: black;
     border: none;
@@ -203,7 +203,14 @@ article > div > h1{
     display: flex;
 }
 
-.login-form > label > input, .contact-form > label > input, .contact-form > textarea{
+.textarea-contact{
+    position: relative;
+    height: 80px !important;
+    max-height: 80px;
+    display: flex;
+}
+
+.login-form > label > input, .contact-form > label > input, .contact-form > label > textarea{
     border: none;
     border-bottom: 2px solid #f1f1f1;
     width: 100%;

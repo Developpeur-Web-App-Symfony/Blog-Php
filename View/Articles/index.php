@@ -16,15 +16,16 @@
         </ul>
     </nav>
     <div>
-        <figure>
-            <a href="">
+        <a href="">
+            <figure>
+
                 <img src="media/article2.jpg"/>
                 <figcaption>
                     <h1>Titre de l'article</h1>
                     <span>Jour mois année</span>
                 </figcaption>
-            </a>
-        </figure>
+            </figure>
+        </a>
     </div>
 </section>
 

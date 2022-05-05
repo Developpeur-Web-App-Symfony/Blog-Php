@@ -5,7 +5,7 @@ $(document).ready(function () {
     let iconClose = document.getElementById("closeIcon");
     iconClose.style.display= "none";
 
-    button.onclick = function(e){
+    button.onclick = function(){
         if(nav.style.display==="block"){
             nav.style.display="none";
             iconBar.style.display="block";

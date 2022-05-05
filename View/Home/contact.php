@@ -12,19 +12,21 @@
 </section>
 <section class="info-contact">
     <form class="contact-form" action="">
-        <label>
+        <label for="name">
             <i class="fa fa-user"></i>
-            <input type="text" placeholder="Nom">
+            <input type="text" placeholder="Nom" name="name">
         </label>
-        <label>
+        <label for="email">
             <i class="fa fa-envelope"></i>
-            <input type="email" placeholder="Email">
+            <input type="email" placeholder="Email" name="email">
         </label>
-        <label>
+        <label for="phone">
             <i class="fa fa-phone"></i>
-            <input type="tel" placeholder="Téléphone">
+            <input type="tel" placeholder="Téléphone" name="phone">
         </label>
-        <textarea placeholder="Message"></textarea>
+        <label class="textarea-contact" for="message">
+            <textarea name="message" placeholder="Message"></textarea>
+        </label>
         <div>
             <button class="btn-form" type="submit">Envoyer le message</button>
         </div>

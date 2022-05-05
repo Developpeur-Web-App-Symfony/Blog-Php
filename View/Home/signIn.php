@@ -11,11 +11,11 @@
             <img src="media/icons-utilisateur.png" alt="logo">
         </div>
         <h1>Connexion</h1>
-        <label>
-            <i class="fa fa-user"></i><input type="text" placeholder="Nom d'utilisateur">
+        <label for="username">
+            <i class="fa fa-user"></i><input name="username" type="text" placeholder="Nom d'utilisateur">
         </label>
-        <label>
-            <i class="fa fa-lock"></i><input type="password" placeholder="Mot de passe">
+        <label for="password">
+            <i class="fa fa-lock"></i><input name="password" type="password" placeholder="Mot de passe">
         </label>
         <div>
             <button class="btn-form" type="submit">Se connecter</button>
