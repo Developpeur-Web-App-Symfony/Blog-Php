@@ -1,0 +1,9 @@
+{
+  "require": {
+    "phpstan/phpstan": "^1.6",
+    "symplify/easy-coding-standard": "^10.2",
+    "rector/rector": "^0.12.23",
+    "twig/twig": "^3.3",
+    "phpmailer/phpmailer": "^6.6"
+  }
+}
