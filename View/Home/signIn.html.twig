@@ -1,14 +1,16 @@
-<?php $this->styles = '
-    <link rel="stylesheet" href="css/Home/mobile.css">
-    <link rel="stylesheet" href="css/Home/tablet.css" media="screen AND (min-width: 600px)">
-    <link rel="stylesheet" href="css/Home/desktop.css" media="screen AND (min-width: 1024px)">
-    '; ?>
-<?php $this->title = "Connexion"; ?>
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Connexion" }}{% endblock %}
 
+{% block main %}
 <section class="login">
     <form class="login-form" action="">
         <div class="img-form-login">
-            <img src="media/icons-utilisateur.png" alt="logo">
+            <img src="../media/icons-utilisateur.png" alt="logo">
         </div>
         <h1>Connexion</h1>
         <label for="username">
@@ -23,5 +25,6 @@
         <a href="Home/forgotPassword">Mot de passe oublié ?</a>
     </form>
 </section>
+{% endblock %}
 
 

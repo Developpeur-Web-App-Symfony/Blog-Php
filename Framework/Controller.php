@@ -1,7 +1,10 @@
 <?php
-require_once 'Configuration.php';
-require_once 'Request.php';
-require_once 'View.php';
+namespace Framework;
+
+
+use Exception;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 abstract class Controller
 {
@@ -10,6 +13,17 @@ abstract class Controller
 
     // Requête entrante
     protected $request;
+
+    private $loader;
+    protected $twig;
+
+    public function __construct()
+    {
+        //Parametre le dossier
+        $this->loader = new FilesystemLoader(__DIR__ .'/../View');
+        //On paramêtre l'environnement twig
+        $this->twig = new Environment($this->loader);
+    }
 
     // Définit la requête entrante
     public function setRequest(Request $request)
@@ -40,6 +54,7 @@ abstract class Controller
     public abstract function index();
 
 
+
     /**
      * @param array $dataView
      * @throws Exception
@@ -52,10 +67,19 @@ abstract class Controller
         $classController = get_class($this);
         $controller = str_replace("Controller", "", $classController);
 
-        // Instanciation et génération de la vue
-        $vue = new View($this->action, $controller);
-        $vue->generate($dataView);
+        //stripslashes :Retrait du \ avant le controleur pour les options
+
+
+        $options = [
+            'style' => '../css/' . stripslashes($controller) . '/',
+            'mediaTablet' => 'screen AND (min-width: 600px)',
+            'mediaDesktop' => 'screen AND (min-width: 1024px)',
+        ];
+        $dataView = array_merge($dataView, $options);
+
+
+        $this->twig->display($controller.DIRECTORY_SEPARATOR.$this->action.'.html.twig', $dataView);
+
 
     }
-
 }

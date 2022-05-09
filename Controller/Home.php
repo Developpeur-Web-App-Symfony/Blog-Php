@@ -1,8 +1,9 @@
 <?php
+namespace Controller;
 
-require_once '../Framework/Controller.php';
+use Exception;
 
-class Home extends Controller
+class Home extends \Framework\Controller
 {
 
     /**
@@ -11,12 +12,17 @@ class Home extends Controller
     public function index()
     {
 
-
         $this->generateView([
-
+            'person' => [
+                'lastname' => 'GILLES'
+            ],
+            'myDog' => 'Winter'
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function contact()
     {
 
@@ -25,6 +31,9 @@ class Home extends Controller
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function signIn()
     {
 
@@ -33,6 +42,9 @@ class Home extends Controller
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function register()
     {
 
@@ -41,6 +53,9 @@ class Home extends Controller
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function forgotPassword()
     {
 

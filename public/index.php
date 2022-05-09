@@ -1,6 +1,9 @@
 <?php
+use Framework\Route;
+
+require_once '../vendor/autoload.php';
+
 session_start();
-require '../Framework/Route.php';
 
 $route = new Route();
 $route->routeRequest();

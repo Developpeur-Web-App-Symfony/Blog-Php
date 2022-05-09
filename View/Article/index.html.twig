@@ -1,0 +1,77 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Articles" }}{% endblock %}
+{% block main %}
+<section class="banner">
+        <img src="../media/banner.jpg" alt="ttt">
+        <h1>ARTICLES</h1>
+</section>
+<section class="articles">
+    <nav class="nav-article">
+        <ul>
+            <li><a href="">Tout</a></li>
+            <li><a href="">Html</a></li>
+            <li><a href="">Jquery</a></li>
+            <li><a href="">Responsive</a></li>
+        </ul>
+    </nav>
+    <div>
+        <a href="/article/articleDetail/1">
+            <figure>
+
+                <img src="../media/article2.jpg"/>
+                <figcaption>
+                    <h1>Titre de l'article</h1>
+                    <span>Jour mois année</span>
+                </figcaption>
+            </figure>
+        </a>
+        <a href="">
+            <figure>
+
+                <img src="../media/article2.jpg"/>
+                <figcaption>
+                    <h1>Titre de l'article</h1>
+                    <span>Jour mois année</span>
+                </figcaption>
+            </figure>
+        </a>
+        <a href="">
+            <figure>
+
+                <img src="../media/article2.jpg"/>
+                <figcaption>
+                    <h1>Titre de l'article</h1>
+                    <span>Jour mois année</span>
+                </figcaption>
+            </figure>
+        </a>
+        <a href="">
+            <figure>
+
+                <img src="../media/article2.jpg"/>
+                <figcaption>
+                    <h1>Titre de l'article</h1>
+                    <span>Jour mois année</span>
+                </figcaption>
+            </figure>
+        </a>
+        <a href="">
+            <figure>
+
+                <img src="../media/article2.jpg"/>
+                <figcaption>
+                    <h1>Titre de l'article</h1>
+                    <span>Jour mois année</span>
+                </figcaption>
+            </figure>
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+

@@ -1,0 +1,40 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Article" }}{% endblock %}
+{% block main %}
+    <div class="detail-article">
+        <section class="title-article">
+            <h1>TITRE DE L'ARTICLE</h1>
+        </section>
+        <div class="infos-article-top">
+            <span><i class="fa fa-calendar"></i> 02 Mai 2022</span>
+            <span>par <b>MatthieuJ</b></span>
+        </div>
+        <article>
+            <img src="/media/article1.jpg" alt="image de l'article">
+            <p>Solution for the morning preparation with every guy’s first date in mind by creating a neat branding finding a self lenguage with the minimal elements possible. Taking care about everything goes right at that special day is the main goal and best briefing possible.</p>
+            <p>Solution for the morning preparation with every guy’s first date in mind by creating a neat branding finding a self lenguage with the minimal elements possible. Taking care about everything goes right at that special day is the main goal and best briefing possible.</p>
+            <p>Solution for the morning preparation with every guy’s first date in mind by creating a neat branding finding a self lenguage with the minimal elements possible. Taking care about everything goes right at that special day is the main goal and best briefing possible.</p>
+        </article>
+        <form method="post" action="article/comment">
+            <input id="autor" name="autor" type="text" placeholder="Votre pseudo"
+                   required />
+            <textarea id="txtComment" name="content" rows="4"
+                      placeholder="Votre commentaire" required></textarea>
+            <div>
+                <input type="hidden" name="id" value="" />
+                <input class="btn-form" type="submit" value="Commenter" />
+            </div>
+        </form>
+        <div class="comment">
+            <p class="author-comment">MatthieuJ</p>
+            <p class="content-comment">Article très interessant, merci</p>
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -1,11 +1,11 @@
-<?php $this->styles = '
-    <link rel="stylesheet" href="css/Home/mobile.css">
-    <link rel="stylesheet" href="css/Home/tablet.css" media="screen AND (min-width: 600px)">
-    <link rel="stylesheet" href="css/Home/desktop.css" media="screen AND (min-width: 1024px)">
-    '; ?>
-<?php $this->script = ''; ?>
-<?php $this->title = "Contactez-nous"; ?>
-
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Contactez-nous" }}{% endblock %}
+{% block main %}
 <section class="banner">
     <h1>Contact</h1>
     <p>Nous sommes présent pour répondre à toutes vos questions et pouvons intervenir en cas de besoins spécifiques, si vous le souhaitez, n’hésitez plus, notre équipe est là pour vous</p>
@@ -37,6 +37,7 @@
         <p>Haut de France, France</p>
     </div>
 </section>
+{% endblock %}
 
 
 

@@ -1,5 +1,5 @@
 <?php
-require_once 'Configuration.php';
+namespace Framework;
 
 abstract class Model
 {

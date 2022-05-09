@@ -1,4 +1,7 @@
 <?php
+namespace Framework;
+
+use Exception;
 
 class View
 {
@@ -14,10 +17,12 @@ class View
     {
         // Détermination du nom du fichier vue à partir de l'action et du constructeur
         $file = "../View/";
+
         if ($controller != "") {
             $file = $file . $controller . "/";
         }
-        $this->file = $file . $action . ".php";
+        $this->file = $file . $action . ".html.twig";
+
     }
 
     // Génère et affiche la vue
@@ -36,7 +41,8 @@ class View
 
         $webRoot = Configuration::get("webRoot", "/");
         // Génération du gabarit commun utilisant la partie spécifique
-        $view = $this->generateFile('../View/gabarit.php',
+
+        $view = $this->generateFile('../View/gabarit.html.twig',
             array('title' => $this->title, 'styles' => $this->styles, 'script' => $this->script, 'content' => $content,
                 'webRoot' => $webRoot));
         // Renvoi de la vue générée au navigateur
