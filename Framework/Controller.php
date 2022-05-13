@@ -42,7 +42,6 @@ abstract class Controller
         if (method_exists($this, $action)) {
             $this->action = $action;
             $this->{$this->action}();
-
         } else {
             $classController = get_class($this);
             throw new Exception("Action '$action' non définie dans la classe $classController");
@@ -68,8 +67,6 @@ abstract class Controller
         $controller = str_replace("Controller", "", $classController);
 
         //stripslashes :Retrait du \ avant le controleur pour les options
-
-
         $options = [
             'style' => '../css/' . stripslashes($controller) . '/',
             'mediaTablet' => 'screen AND (min-width: 600px)',
@@ -77,9 +74,6 @@ abstract class Controller
         ];
         $dataView = array_merge($dataView, $options);
 
-
         $this->twig->display($controller.DIRECTORY_SEPARATOR.$this->action.'.html.twig', $dataView);
-
-
     }
 }

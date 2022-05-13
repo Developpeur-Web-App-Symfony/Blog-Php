@@ -16,6 +16,7 @@ class Route
             $controller = $this->createController($request);
             $action = $this->createAction($request);
             $controller->executeAction($action);
+
         } catch (Exception $e) {
             $this->manageError($e);
         }
@@ -44,6 +45,7 @@ class Route
         if (file_exists($fileController)) {
             // Instanciation du contrôleur adapté à la requête
             $controller = new $controllerClass();
+
             $controller->setRequest($request);
             return $controller;
         } else {
@@ -70,6 +72,10 @@ class Route
     }
 
     // Gère une erreur d'exécution (exception)
+
+    /**
+     * @throws Exception
+     */
     private function manageError(Exception $exception)
     {
         $vue = new View('error');
