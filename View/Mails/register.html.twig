@@ -1,0 +1,11 @@
+{% extends "Mails/gabarit.html.twig" %}
+{% block title %}{{ "Inscription" }}{% endblock %}
+{% block main %}
+<div style="border: 10px solid #2A374E; padding: 10px">
+    <p>Nom d'utilisateur : {{ username }}<?php echo $username; ?></p>
+    <p>Adresse mail : {{ email }}<?php echo $email; ?></p>
+    <p>Veuillez valider votre inscription en cliquant sur le lien ci-dessous :</p><br/>
+    <a href='http://blog-php/index.php?action=userValidationRegistered&email={{ email }}&token={{ token }}'>Valider mon
+    inscription</a>
+</div>
+{% endblock %}

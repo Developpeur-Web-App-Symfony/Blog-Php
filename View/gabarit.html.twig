@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="MatthieuJ">
-    <base href="<?= $webRoot ?>">
+    <base href="{{ webRoot }}">
     <title>{% block title %}{% endblock%}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,6 @@
     <script src="https://kit.fontawesome.com/38412cb349.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
 <header>
     <nav>
         <a href="/Home/index">
@@ -31,16 +30,27 @@
                 <i class="fa fa-times" id="closeIcon"></i>
             </button>
             <ul id="nav-menu-list">
-                <li><a href="/Home/index">Accueil</a></li>
-                <li><a href="/Article/index">Blog Post</a></li>
-                <li><a href="/Home/contact">Contact</a></li>
-                <li><a href="/Home/signIn">Inscription/Connexion</a></li>
+                <li><a href="/home/">Accueil</a></li>
+                <li><a href="/article">Blog Post</a></li>
+                <li><a href="/home/contact">Contact</a></li>
+                {% if auth.roleId == 2 %}
+                    <li><a href="/home/register">Inscription</a></li>
+                    <li><a href="/home/signIn">Connexion</a></li>
+                {%  else %}
+                    <li><a href="/dashboard/index">Mon espace</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
 </header>
 
 <main>
+{# Affichage des messages flash #}
+    {% if messageFlash.existAttribut('flash') %}
+        <p class="alert-message">{{ messageFlash.getAttribut('flash').alert }}</p>
+        {{ messageFlash.deleteAttribut('flash') }}
+    {% endif %}
+
     {% block main %}
     {% endblock %}
 </main>
