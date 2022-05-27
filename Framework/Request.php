@@ -2,19 +2,26 @@
 namespace Framework;
 
 use Exception;
-
+use Framework\Session;
 class Request
 {
     // paramètres de la requête
-    private $parameters;
+    private array $parameters;
+    private Session $session;
 
     public function __construct($parameters)
     {
         $this->parameters = $parameters;
+        $this->session = new Session();
+    }
+
+    public function getSession(): Session
+    {
+        return $this->session;
     }
 
     // Renvoie vrai si le paramètre existe dans la requête
-    public function existsParameter($nom)
+    public function existsParameter($nom): bool
     {
         return (isset($this->parameters[$nom]) && ($this->parameters[$nom] != ""));
     }
@@ -26,6 +33,6 @@ class Request
         if ($this->existsParameter($nom)) {
             return $this->parameters[$nom];
         } else
-            throw new Exception("Paramètre '$nom' absent de la requête");
+            return null;
     }
 }

@@ -2,10 +2,11 @@
 namespace Framework;
 
 use Exception;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class View
 {
-
     // Nom du fichier associé à la vue
     private $file;
     // Titre de la vue (défini dans le fichier vue)
@@ -15,6 +16,8 @@ class View
 
     public function __construct($action, $controller = "")
     {
+
+
         // Détermination du nom du fichier vue à partir de l'action et du constructeur
         $file = "../View/";
 
@@ -41,7 +44,6 @@ class View
 
         $webRoot = Configuration::get("webRoot", "/");
         // Génération du gabarit commun utilisant la partie spécifique
-
         $view = $this->generateFile('../View/gabarit.html.twig',
             array('title' => $this->title, 'styles' => $this->styles, 'script' => $this->script, 'content' => $content,
                 'webRoot' => $webRoot));
@@ -75,9 +77,26 @@ class View
     }
 
     // Nettoie une valeur insérée dans une page HTML
-    private function clean($value)
+    private function clean($value): string
     {
         return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
+    }
+
+    public function generateMail($data): bool|string
+    {
+        // Génération de la partie spécifique de la vue
+        $content = $this->generateFile($this->file, $data);
+        // On définit une variable locale accessible par la vue pour la racine Web
+        // Il s'agit du chemin vers le site sur le serveur Web
+        // Nécessaire pour les URI de type controleur/action/id
+
+        $webRoot = Configuration::get("webRoot", "/");
+        // Génération du gabarit commun utilisant la partie spécifique
+
+        // Renvoi de la vue générée au navigateur
+        return $this->generateFile('../View/Mails/gabarit.html.twig',
+            array('title' => $this->title, 'content' => $content,
+                'webRoot' => $webRoot));
     }
 
 }

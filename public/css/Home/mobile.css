@@ -219,3 +219,8 @@ article > div > h1{
 .login-form > a{
     font-size: 1.5rem;
 }
+
+.text-danger{
+    color: darkred;
+    font-weight: bold;
+}
