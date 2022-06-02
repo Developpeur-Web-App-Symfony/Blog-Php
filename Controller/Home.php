@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Exception;
+use Framework\Session;
 use Model\User;
 use Services\ValidatorUser;
 
@@ -42,9 +43,36 @@ class Home extends \Framework\Controller
      */
     public function signIn()
     {
+        if ($this->request->existsParameter('loginForm')) {
+            if ($this->request->existsParameter('loginForm') == 'login') {
+                $user = new User();
+                $user->setEmail($this->request->getParameter('email'));
+                $user->setPassword($this->request->getParameter('password'));
+                $validatorUser = new ValidatorUser($user);
+                if ($validatorUser->formLoginValidate()) {
+                    $userBdd = $user->getUserInBdd(self::IS_VALID['VALID']);
 
+                    if ($userBdd) {
+                        $user->hydrate($userBdd);
+                        $userRole = $user->getRoleId();
+                        $validatorUser->roleBlocked($userRole);
+
+                        if ($validatorUser->login()) {
+                            $sessionAuth = new Session();
+                            $sessionAuth->setAttribut('auth', $user);
+                            $validatorUser->checkRoleRedirect($userRole);
+                        } else {
+                            $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect"]);
+                        }
+                    } else {
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect"]);
+                    }
+                }
+            }
+        }
         $this->generateView([
-
+            'user' => $user ?? null,
+            'validator' => $validatorUser ?? null
         ]);
     }
 

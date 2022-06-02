@@ -9,7 +9,6 @@ use \PDO;
 
 class User extends \Framework\Model
 {
-    const MAX_LENGTH_USERNAME = 16;
     const LENGTH_TOKEN = 78;
 
     private mixed $id;
@@ -20,12 +19,11 @@ class User extends \Framework\Model
     private mixed $created_at;
     private mixed $role_id;
 
-    private mixed $valid;
+    private mixed $is_valid;
     private mixed $token;
 
     private int $errors = 0;
     private array $errorsMsg = [];
-
 
     public function getId(): mixed
     {
@@ -108,12 +106,12 @@ class User extends \Framework\Model
 
     public function getValid(): mixed
     {
-        return $this->valid;
+        return $this->is_valid;
     }
 
-    public function setValid($valid): void
+    public function setValid($is_valid): void
     {
-        $this->valid = $valid;
+        $this->is_valid = $is_valid;
     }
 
     public function getToken(): mixed
@@ -140,7 +138,7 @@ class User extends \Framework\Model
         $this->setEmail($user->email);
         $this->setUsername($user->username);
         $this->setRoleId($user->role_id);
-        $this->setValid($user->valid);
+        $this->setValid($user->is_valid);
         $this->setToken($user->token);
         $this->setCreatedAt($user->created_at);
         $this->setId($user->id);
@@ -189,12 +187,12 @@ class User extends \Framework\Model
 
     public function updateUser()
     {
-        $sql = 'UPDATE users SET role_id=:roleId, is_valid=:valid, email=:email WHERE id=:id';
+        $sql = 'UPDATE users SET role_id=:roleId, is_valid=:is_valid, email=:email WHERE id=:id';
         $updateUser = $this->executeRequest($sql, array(
             'id' => $this->getId(),
             'email' => $this->getEmail(),
-            'roleId' => $this->getRoleId(),
-            'valid' => $this->getValid(),
+            'role_id' => $this->getRoleId(),
+            'is_valid' => $this->getValid(),
         ));
     }
 
@@ -219,7 +217,7 @@ class User extends \Framework\Model
 
     public function getUser($userId)
     {
-        $sql = 'SELECT id as id, created_at as createdAt, role_id as role, is_valid as is_valid, username as username, email as email, password as password, token as token FROM users WHERE id=:id';
+        $sql = 'SELECT id as id, created_at as createdAt, role_id as role_id, is_valid as is_valid, username as username, email as email, password as password, token as token FROM users WHERE id=:id';
 
         $user = $this->executeRequest($sql, array(
             'id' => $userId,
@@ -232,6 +230,25 @@ class User extends \Framework\Model
         else {
             throw new \Exception("Aucun utilisateur ne correspond à l'identifiant '$userId'");
         }
+    }
+
+    public function getUserInBdd($valid = null)
+    {
+        $sql = 'SELECT id, token, username, email, password, created_at, role_id, is_valid FROM users WHERE email= :email';
+        if ($valid !== null) {
+
+            $sql .= ' AND is_valid = :is_valid';
+            $req = $this->executeRequest($sql, array(
+                'email' => $this->getEmail(),
+                'is_valid' => $valid,
+            ));
+
+            return $req->fetch(PDO::FETCH_OBJ);
+        }
+        $req = $this->executeRequest($sql, array(
+            'email' => $this->getEmail(),
+        ));
+        return $req->fetch(PDO::FETCH_OBJ);
     }
 
     public function save(): bool
