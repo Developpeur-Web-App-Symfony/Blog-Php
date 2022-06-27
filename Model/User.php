@@ -144,56 +144,10 @@ class User extends \Framework\Model
         $this->setId($user->id);
     }
 
-    public function registerValidate(): bool
-    {
-        if ($this->checkEmailInBdd() === 0) {
-            return true;
-        }
-        return false;
-    }
-
     public function passwordHash()
     {
         $this->setPassword(password_hash($this->getPassword(), PASSWORD_BCRYPT));
         $this->setCPassword(null);
-    }
-
-    public function checkEmailInBdd(): int
-    {
-        $sql = 'SELECT email FROM users WHERE email=:email';
-        $req = $this->executeRequest($sql, array(
-            'email' => $this->getEmail()));
-
-        return $req->rowCount();
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function getEmailAndTokenUserInBdd($userEmail)
-    {
-        $sql = 'SELECT * FROM users WHERE email= :email';
-        $user = $this->executeRequest($sql, array(
-            'email' => $this->getEmail(),
-        ));
-
-        if ($user->rowCount() === 1){
-            $userdata= $user->setFetchMode(PDO::FETCH_OBJ);
-            return $user->fetch();
-        } else {
-            throw new Exception("Aucun utilisateur ne correspond à l'adresse email '$userEmail'");
-        }
-    }
-
-    public function updateUser()
-    {
-        $sql = 'UPDATE users SET role_id=:roleId, is_valid=:is_valid, email=:email WHERE id=:id';
-        $updateUser = $this->executeRequest($sql, array(
-            'id' => $this->getId(),
-            'email' => $this->getEmail(),
-            'role_id' => $this->getRoleId(),
-            'is_valid' => $this->getValid(),
-        ));
     }
 
     /**
@@ -213,58 +167,5 @@ class User extends \Framework\Model
     public function generateToken()
     {
         $this->setToken(bin2hex(random_bytes(self::LENGTH_TOKEN)));
-    }
-
-    public function getUser($userId)
-    {
-        $sql = 'SELECT id as id, created_at as createdAt, role_id as role_id, is_valid as is_valid, username as username, email as email, password as password, token as token FROM users WHERE id=:id';
-
-        $user = $this->executeRequest($sql, array(
-            'id' => $userId,
-        ));
-
-        if ($user->rowCount() == 1) {
-            $user->setFetchMode(PDO::FETCH_OBJ);
-            return $user->fetch();
-        }
-        else {
-            throw new \Exception("Aucun utilisateur ne correspond à l'identifiant '$userId'");
-        }
-    }
-
-    public function getUserInBdd($valid = null)
-    {
-        $sql = 'SELECT id, token, username, email, password, created_at, role_id, is_valid FROM users WHERE email= :email';
-        if ($valid !== null) {
-
-            $sql .= ' AND is_valid = :is_valid';
-            $req = $this->executeRequest($sql, array(
-                'email' => $this->getEmail(),
-                'is_valid' => $valid,
-            ));
-
-            return $req->fetch(PDO::FETCH_OBJ);
-        }
-        $req = $this->executeRequest($sql, array(
-            'email' => $this->getEmail(),
-        ));
-        return $req->fetch(PDO::FETCH_OBJ);
-    }
-
-    public function save(): bool
-    {
-        $this->passwordHash();
-        $sql = "INSERT INTO users(username, email, password, role_id, is_valid, created_at, token) VALUES(:username, :email, :password, :role_id, :is_valid, :createdAt, :token)";
-
-        $req = $this->executeRequest($sql, array(
-            'username' => $this->getUsername(),
-            'email' => $this->getEmail(),
-            'password' => $this->getPassword(),
-            'role_id' => $this->getRoleId(),
-            'is_valid' => $this->getValid(),
-            'createdAt' => $this->getCreatedAt(),
-            'token' => $this->getToken(),
-        ));
-        return true;
     }
 }

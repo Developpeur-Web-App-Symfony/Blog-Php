@@ -22,6 +22,8 @@ class Session
     public function deconnexion()
     {
         unset($_SESSION['auth']);
+        header('Location: /home');
+        exit;
     }
 
     public function setAttribut($name, $value)

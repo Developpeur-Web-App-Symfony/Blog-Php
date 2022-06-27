@@ -7,6 +7,7 @@ use Framework\Controller;
 use Model\User;
 use Services\Validator;
 
+
 class ValidatorUser extends Validator
 {
     const MAX_LENGTH_USERNAME = 16;
@@ -110,6 +111,26 @@ class ValidatorUser extends Validator
         }
     }
 
+    public function formForgotPasswordValidate(): bool
+    {
+        $this->checkEmail();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function formNewPasswordValidate(): bool
+    {
+        $this->checkPassword();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private function checkPasswordLogin()
     {
         if ($this->isEmpty($this->user->getPassword())) {
@@ -149,5 +170,12 @@ class ValidatorUser extends Validator
             exit();
         }
     }
-
+    public function registerValidate(): bool
+    {
+        $repoUser = new \Repository\User($this->user);
+        if ($repoUser->checkEmailInBdd() === 0) {
+            return true;
+        }
+        return false;
+    }
 }
