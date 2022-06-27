@@ -9,7 +9,6 @@ use \PDO;
 
 class User extends \Framework\Model
 {
-    const MAX_LENGTH_USERNAME = 16;
     const LENGTH_TOKEN = 78;
 
     private mixed $id;
@@ -20,12 +19,11 @@ class User extends \Framework\Model
     private mixed $created_at;
     private mixed $role_id;
 
-    private mixed $valid;
+    private mixed $is_valid;
     private mixed $token;
 
     private int $errors = 0;
     private array $errorsMsg = [];
-
 
     public function getId(): mixed
     {
@@ -108,12 +106,12 @@ class User extends \Framework\Model
 
     public function getValid(): mixed
     {
-        return $this->valid;
+        return $this->is_valid;
     }
 
-    public function setValid($valid): void
+    public function setValid($is_valid): void
     {
-        $this->valid = $valid;
+        $this->is_valid = $is_valid;
     }
 
     public function getToken(): mixed
@@ -140,62 +138,16 @@ class User extends \Framework\Model
         $this->setEmail($user->email);
         $this->setUsername($user->username);
         $this->setRoleId($user->role_id);
-        $this->setValid($user->valid);
+        $this->setValid($user->is_valid);
         $this->setToken($user->token);
         $this->setCreatedAt($user->created_at);
         $this->setId($user->id);
-    }
-
-    public function registerValidate(): bool
-    {
-        if ($this->checkEmailInBdd() === 0) {
-            return true;
-        }
-        return false;
     }
 
     public function passwordHash()
     {
         $this->setPassword(password_hash($this->getPassword(), PASSWORD_BCRYPT));
         $this->setCPassword(null);
-    }
-
-    public function checkEmailInBdd(): int
-    {
-        $sql = 'SELECT email FROM users WHERE email=:email';
-        $req = $this->executeRequest($sql, array(
-            'email' => $this->getEmail()));
-
-        return $req->rowCount();
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function getEmailAndTokenUserInBdd($userEmail)
-    {
-        $sql = 'SELECT * FROM users WHERE email= :email';
-        $user = $this->executeRequest($sql, array(
-            'email' => $this->getEmail(),
-        ));
-
-        if ($user->rowCount() === 1){
-            $userdata= $user->setFetchMode(PDO::FETCH_OBJ);
-            return $user->fetch();
-        } else {
-            throw new Exception("Aucun utilisateur ne correspond à l'adresse email '$userEmail'");
-        }
-    }
-
-    public function updateUser()
-    {
-        $sql = 'UPDATE users SET role_id=:roleId, is_valid=:valid, email=:email WHERE id=:id';
-        $updateUser = $this->executeRequest($sql, array(
-            'id' => $this->getId(),
-            'email' => $this->getEmail(),
-            'roleId' => $this->getRoleId(),
-            'valid' => $this->getValid(),
-        ));
     }
 
     /**
@@ -215,39 +167,5 @@ class User extends \Framework\Model
     public function generateToken()
     {
         $this->setToken(bin2hex(random_bytes(self::LENGTH_TOKEN)));
-    }
-
-    public function getUser($userId)
-    {
-        $sql = 'SELECT id as id, created_at as createdAt, role_id as role, is_valid as is_valid, username as username, email as email, password as password, token as token FROM users WHERE id=:id';
-
-        $user = $this->executeRequest($sql, array(
-            'id' => $userId,
-        ));
-
-        if ($user->rowCount() == 1) {
-            $user->setFetchMode(PDO::FETCH_OBJ);
-            return $user->fetch();
-        }
-        else {
-            throw new \Exception("Aucun utilisateur ne correspond à l'identifiant '$userId'");
-        }
-    }
-
-    public function save(): bool
-    {
-        $this->passwordHash();
-        $sql = "INSERT INTO users(username, email, password, role_id, is_valid, created_at, token) VALUES(:username, :email, :password, :role_id, :is_valid, :createdAt, :token)";
-
-        $req = $this->executeRequest($sql, array(
-            'username' => $this->getUsername(),
-            'email' => $this->getEmail(),
-            'password' => $this->getPassword(),
-            'role_id' => $this->getRoleId(),
-            'is_valid' => $this->getValid(),
-            'createdAt' => $this->getCreatedAt(),
-            'token' => $this->getToken(),
-        ));
-        return true;
     }
 }

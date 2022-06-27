@@ -13,15 +13,17 @@ class Session
             session_start();
         };
         if ($this->notExistAttribut('auth')) {
-            $user = new User();
-            $user->setRoleId(Controller::VISITOR);
-            $this->setAttribut('auth',$user);
+            $userAuth = new User();
+            $userAuth->setRoleId(Controller::VISITOR);
+            $this->setAttribut('auth',$userAuth);
         }
     }
 
     public function deconnexion()
     {
         unset($_SESSION['auth']);
+        header('Location: /home');
+        exit;
     }
 
     public function setAttribut($name, $value)

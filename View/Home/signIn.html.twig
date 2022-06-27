@@ -8,21 +8,32 @@
 
 {% block main %}
 <section class="login">
-    <form class="login-form" action="">
+    <form class="login-form" method="post">
         <div class="img-form-login">
             <img src="../media/icons-utilisateur.png" alt="logo">
         </div>
         <h1>Connexion</h1>
         <label for="username">
-            <i class="fa fa-user"></i><input name="username" type="text" placeholder="Nom d'utilisateur">
+            <i class="fa fa-envelope"></i>
+            <input name="email" type="text" placeholder="Email"
+                   value="{% if post.email is defined %}{{ post.email }}{% endif %}">
         </label>
+        {% if validator.getErrorsMsg.email is defined %}
+            <p class="text-danger">{{ validator.getErrorsMsg.email }}</p>
+        {% endif %}
         <label for="password">
-            <i class="fa fa-lock"></i><input name="password" type="password" placeholder="Mot de passe">
+            <i class="fa fa-lock"></i>
+            <input name="password" type="password" placeholder="Mot de passe" value="{% if post.password is defined %}{{ post.password }}{% endif %}">
         </label>
+        {% if validator.errorsMsg.password is defined %}
+            <p class="text-danger">{{ validator.errorsMsg.password }}</p>
+        {% endif %}
         <div>
-            <button class="btn-form" type="submit">Se connecter</button>
+            <input type="hidden" name="loginForm" value="login">
+            <input class="btn-form" type="submit" id="submit" value="Se connecter">
         </div>
         <a href="/home/forgotPassword">Mot de passe oublié ?</a>
+        <a href="/home/register">Créer mon compte</a>
     </form>
 </section>
 {% endblock %}

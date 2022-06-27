@@ -75,6 +75,7 @@ abstract class Controller
     {
         // Détermination du nom du fichier vue à partir du nom du contrôleur actuel
         $classController = get_class($this);
+
         $controller = str_replace("Controller", "", $classController);
 
 
@@ -112,7 +113,7 @@ abstract class Controller
 
         $mail->addAddress($toEmail);
         $mail->From = $fromEmail;
-        $mail->FromName = $toEmail;
+        $mail->FromName = Configuration::get('mailerauthor');
 
         $mail->isHTML();
         $mail->Subject = $subject;

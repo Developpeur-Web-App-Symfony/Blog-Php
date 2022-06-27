@@ -3,13 +3,23 @@
 
 namespace Services;
 
+use Framework\Controller;
 use Model\User;
 use Services\Validator;
 
+
 class ValidatorUser extends Validator
 {
+    const MAX_LENGTH_USERNAME = 16;
+
     private int $errors = 0;
+    private object $user;
     private array $errorsMsg = [];
+
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * @return array
@@ -19,50 +29,50 @@ class ValidatorUser extends Validator
         return $this->errorsMsg;
     }
 
-    private function checkUsername($username, $number)
+    private function checkUsername()
     {
-        if ($this->isEmpty($username)) {
+        if ($this->isEmpty($this->user->getUsername())) {
             $this->errors++;
             $this->errorsMsg['username'] = "Champ 'nom d'utilisateur' vide";
         }
 
-        if ($this->isToUpper($username, User::MAX_LENGTH_USERNAME)) {
+        if ($this->isToUpper($this->user->getUsername(), self::MAX_LENGTH_USERNAME)) {
             $this->errors++;
             $this->errorsMsg['firstname'] = "Champ 'nom d'utilisateur' trop long";
         }
     }
 
-    private function checkEmail($email)
+    private function checkEmail()
     {
-        if ($this->isEmpty($email)) {
+        if ($this->isEmpty($this->user->getEmail())) {
             $this->errors++;
             $this->errorsMsg['email'] = "Email vide";
         }
 
-        if ($this->isNotAnEmail($email)) {
+        if ($this->isNotAnEmail($this->user->getEmail())) {
             $this->errors++;
             $this->errorsMsg['email'] = "Email non valide";
         }
     }
 
-    private function checkPassword($password, $cPassword)
+    private function checkPassword()
     {
-        if ($this->isEmpty($password)) {
+        if ($this->isEmpty($this->user->getPassword())) {
             $this->errors++;
             $this->errorsMsg['password'] = "Mot de passe vide";
         } elseif (
-            $this->isEmpty($cPassword)
-            || $this->isNotIdentic($password, $cPassword)) {
+            $this->isEmpty($this->user->getCPassword())
+            || $this->isNotIdentic($this->user->getPassword(), $this->user->getCPassword())) {
             $this->errors++;
             $this->errorsMsg['password'] = "Les mots de passe ne sont pas identiques";
         }
     }
 
-    public function formRegisterValidate($username, $number, $email, $password, $cPassword): bool
+    public function formRegisterValidate(): bool
     {
-        $this->checkUsername($username, $number);
-        $this->checkEmail($email);
-        $this->checkPassword($password, $cPassword);
+        $this->checkUsername();
+        $this->checkEmail();
+        $this->checkPassword();
         if ($this->errors !== 0) {
             return false;
         } else {
@@ -70,18 +80,18 @@ class ValidatorUser extends Validator
         }
     }
 
-    public function checkToken($token)
+    public function checkToken()
     {
-        if ($this->isEmpty($token)) {
+        if ($this->isEmpty($this->user->getToken())) {
             $this->errors++;
             $this->errorsMsg['token'] = "Token non valide";
         }
     }
 
-    public function emailAndTokenValidation($email, $token)
+    public function emailAndTokenValidation(): bool
     {
-        $this->checkEmail($email);
-        $this->checkToken($token);
+        $this->checkEmail();
+        $this->checkToken();
         if ($this->errors !== 0) {
             return false;
         } else {
@@ -89,4 +99,83 @@ class ValidatorUser extends Validator
         }
     }
 
+    public function formLoginValidate(): bool
+    {
+        $this->checkEmail();
+        $this->checkPasswordLogin();
+
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function formForgotPasswordValidate(): bool
+    {
+        $this->checkEmail();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function formNewPasswordValidate(): bool
+    {
+        $this->checkPassword();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private function checkPasswordLogin()
+    {
+        if ($this->isEmpty($this->user->getPassword())) {
+            $this->errors++;
+            $this->errorsMsg['password'] = "Password vide";
+        }
+    }
+
+    public function roleBlocked($userRole){
+        if ($userRole == Controller::BANNED) {
+            $this->errors++;
+            $this->errorsMsg['blocked'] = "Connexion impossible";
+        }
+    }
+
+    public function login(): bool
+    {
+        if (password_verify($this->user->getPassword(), $this->user->getCPassword())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function checkRoleRedirect($userRole){
+        if ($userRole == Controller::ADMIN){
+            header('Location: /Dashboard/index');
+            exit();
+        }
+        if ($userRole == Controller::USER){
+            header('Location: /Dashboard/user');
+            exit();
+        } elseif ($userRole == Controller::VISITOR){
+            $this->errors++;
+            $this->errorsMsg['message'] = "Veuillez valider votre adresse email afin d'acceder a toutes les fonctionnalités";
+            header('Location: login');
+            exit();
+        }
+    }
+    public function registerValidate(): bool
+    {
+        $repoUser = new \Repository\User($this->user);
+        if ($repoUser->checkEmailInBdd() === 0) {
+            return true;
+        }
+        return false;
+    }
 }
