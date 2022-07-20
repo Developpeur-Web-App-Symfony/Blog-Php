@@ -7,7 +7,7 @@ body{
     position: relative;
 }
 
-body, input, textarea {
+body, input, textarea, button, select {
     font-family: 'Noto Sans', sans-serif;
 }
 
@@ -20,7 +20,7 @@ p {
     font-size: 1.5rem;
 }
 
-.fa-times{
+[class*="fa-"]{
     font-size: 2.5rem;
 }
 
@@ -55,7 +55,6 @@ header > nav {
 
 .fa-facebook, .fa-instagram-square, .fa-arrow-right {
     color: #4f4d5f;
-    font-size: 2.5rem;
 }
 
 .nav-menu {
@@ -99,7 +98,31 @@ main {
     padding-bottom: 140px;
 }
 
-input, textarea{
+article{
+    margin-top: 50px;
+    padding: 0 15px 0 15px;
+}
+
+.banner{
+    background-color: #f1f1f1;
+    padding: 10px 15px 10px 15px;
+}
+
+.banner > h1{
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.btn-form{
+    padding: 20px 60px;
+    border-radius: 40px;
+    border: none;
+    color: white;
+    background-color: #4f4d5f;
+    font-size: 2rem;
+}
+
+input, textarea, select{
     font-size: 2rem;
 }
 

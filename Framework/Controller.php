@@ -16,6 +16,15 @@ abstract class Controller
     const VISITOR = 2;
     const USER = 3;
 
+    const PATH_UPLOAD = '../media/';
+
+    const ALLOWED = [
+        "jpg" => "image/jpg",
+        "jpeg" => "image/jpeg",
+        "png" => "image/png"
+    ];
+
+    const MAX_SIZE = 5 * 1024 * 1024;
 
     const IS_VALID = [
         'NO_VALID' => 0,

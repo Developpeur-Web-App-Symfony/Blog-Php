@@ -10,83 +10,13 @@
         <section class="banner">
             <h1>Tableau de bord</h1>
         </section>
-        <div class="table">
-            <h2 class="text-center">Infos Utilisateurs</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th scope="col">Pseudo</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Statut</th>
-                    <th scope="col" class="text-center"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        <a class="btn-form" role="button"
-                           href="dashboard/adminUpdateUser/">Modifier
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="table border mb-3">
-            <h2 class="text-center">Articles</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th scope="col" class="text-center">Date de publications</th>
-                    <th scope="col">Titres</th>
-                    <th scope="col">Extraits</th>
-                    <th scope="col">Images</th>
-                    <th scope="col">Statuts</th>
-                    <th scope="col">Modifier</th>
-                    <th scope="col">Supprimer</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row" class="text-center">
-                        Créer le
-                    </th>
-                    <td>
-                        Titre de l'article
-                    </td>
-                    <td>
-                        Excerpt
-                    </td>
-                    <td>
-                        <a href="dashboard/pictureArticleUpload/"
-                           class="btn btn-primary text-center">Ajouter image</a>
-                    </td>
-                    <td>
-                        Statut (publié ou non)
-                    </td>
-                    <td>
-                        <a class=" btn btn-primary" role="button" href="dashboard/updateArticle/">Modifier</a>
-                    </td>
-                    <td>
-                        <a class=" btn btn-danger" role="button" href="dashboard/deleteArticle/">Supprimer</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="text-center mb-3">
-                <a class=" btn btn-primary" role="button" href="dashboard/createArticle">Créer un nouvel article</a>
-            </div>
-        </div>
-        <div class="table">
-            <div>
-                <h2 class="text-center">Aucun commentaire en attentes</h2>
-            </div>
+        <div class="tile-dashboard">
+            <ul>
+                <li><a class="btn-form" href="accountManagement">Mon compte</a></li>
+                <li><a class="btn-form" href="articleManagement">Articles / Catégories</a></li>
+                <li><a class="btn-form" href="commentManagement">Commentaires</a></li>
+                <li><a class="btn-form" href="userManagement">Utilisateurs</a></li>
+            </ul>
         </div>
     </div>
 

@@ -1,0 +1,44 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Gestion des articles" }}{% endblock %}
+{% block main %}
+    <div>
+        <section class="banner">
+            <h1>Articles</h1>
+        </section>
+        <div>
+            <div class="create-article">
+                <a class="btn-form" role="button" href="/dashboard/createArticle">Créer un article</a>
+            </div>
+            {% for article in allArticle %}
+            <article>
+                <img src="{{ constant('Framework\\Controller::PATH_UPLOAD') }}{{ article.image_filename }}" alt="{{ article.image_alt }}">
+                <h1>{{ article.title }}</h1>
+                <span class="date-create">Créer le: <i class="fa fa-calendar"></i> {{ article.createdAt|date("m/d/Y H:i") }}</span>
+                <span class="user-create">Auteur: <i class="fa fa-user"></i> <b>{{ article.username }}</b></span>
+                <p class="exerpt-article">{{ article.excerpt }}</p>
+                <span class="category-title">Catégorie: #{{ article.name }}</span>
+
+                <span class="article-publish">État: {% if article.publish == 1 %}{{ 'En ligne' }}
+                    {%  else %}
+                        {{ 'Brouillon' }}
+                    {% endif %}
+                </span>
+                <div class="management-article">
+                    <a class="btn-form" href="/dashboard/updateArticle">Modifier</a>
+                    <a class="btn-form" href="/dashboard/deleteArticle">Supprimer</a>
+                </div>
+            </article>
+            {% endfor %}
+            <div class="create-article">
+                <a class="btn-form" role="button" href="/dashboard/createArticle">Créer un article</a>
+            </div>
+    </div>
+
+{% endblock %}
+
+

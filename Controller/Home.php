@@ -15,14 +15,12 @@ class Home extends \Framework\Controller
      */
     public function index()
     {
+        $repositoryArticle = new \Repository\Article();
+        $allArticle = $repositoryArticle->getAllArticles();
 
 
         $this->generateView([
-            'person' => [
-                'lastname' => 'GILLES'
-            ],
-            'myDog' => 'Winter',
-
+            'allArticle' => $allArticle,
         ]);
     }
 
