@@ -1,12 +1,10 @@
 <?php
 namespace Controller;
 
-use App\Framework\Controller;
 use Exception;
 use Model\ArticleAsCategory;
 use Repository\Category;
 use Services\Upload;
-use Services\Validator;
 use Services\ValidatorAddArticle;
 
 class Dashboard extends \Framework\Controller
@@ -43,7 +41,7 @@ class Dashboard extends \Framework\Controller
 
         $repositoryArticle = new \Repository\Article();
         $allArticle = $repositoryArticle->getAllArticles();
-
+        var_dump($allArticle);die();
 
         $this->generateView([
             'allArticle' => $allArticle,
@@ -71,35 +69,34 @@ class Dashboard extends \Framework\Controller
                 $article->setImageFilename($_FILES['file']['name']);
                 $article->setImageAlt($this->request->getParameter('alt'));
                 $validator = new ValidatorAddArticle($article, $category);
-                if ($validator->formAddArticleValidate())
-                {
-
-                    if ($validator->checkImagePresent())
-                    {
-                        if ($validator->imageUpload())
-                        {
-                            $path = \Framework\Controller::PATH_UPLOAD;
-                            Upload::uploadPicture(null, $path);
-                        }
+                $path = \Framework\Controller::PATH_UPLOAD;
+                if ($validator->checkImagePresent()) {
+                    if ($validator->checkImageUpload()) {
+                        Upload::uploadPicture($article, $path);
                     }
-
+                } else{
+                    $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
+                    $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
+                    Upload::uploadPicture($article, $path);
                 }
-
-
-
-
-
+                if ($validator->formAddArticleValidate()) {
+                    if ($this->request->getParameter('publishArticle')) {
+                        $article->setPublish(\Framework\Controller::PUBLISH['PUBLISH']);
+                    } else{
+                        $article->setPublish(\Framework\Controller::PUBLISH['DRAFT']);
+                    }
+                    $repositoryArticle = new \Repository\Article();
+                    $repositoryArticle->save($article);
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
+                    header('Location: articleManagement');
+                    exit();
+                } else {
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Veuillez verifier les champs"]);
+                    header('Location: createArticle');
+                    exit();
+                }
             }
         }
-//        Récupération des données du form
-//        Création de l'objet Article de la class
-//        Enregistrer l'id du User connecter dans l'article user_id à partir de request
-//        hydratation de l'objet
-//        appel du validateur
-//        passage de l'objet au validateur
-//        si objet valider => appel du service Upload
-//        Si upload correct => appel du repository Article
-//        Enregistrement en bdd et affichage du succès
 
         $this->generateView([
             'allCategory' => $allCategory,

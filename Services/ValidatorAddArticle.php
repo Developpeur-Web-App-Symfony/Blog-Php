@@ -55,8 +55,9 @@ class ValidatorAddArticle extends Validator
     {
         if ($this->article->getImageFilename() !== '') {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     private function checkImageName()
@@ -69,8 +70,7 @@ class ValidatorAddArticle extends Validator
 
     private function checkAltImage()
     {
-        if ($this->checkImagePresent() === true
-            && $this->isEmpty($this->article->getImageAlt()) ) {
+        if ($this->isEmpty($this->article->getImageAlt()) ) {
             $this->errors++;
             $this->errorsMsg['imageAlt'] = "Description de l'image vide";
         }
@@ -111,7 +111,7 @@ class ValidatorAddArticle extends Validator
         }
     }
 
-    public function imageUpload(): bool
+    public function checkImageUpload(): bool
     {
         $this->checkImageName();
         $this->checkAltImage();

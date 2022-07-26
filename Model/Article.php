@@ -1,6 +1,7 @@
 <?php
 namespace Model;
 
+use _PHPStan_7a922a511\Nette\Utils\DateTime;
 use Exception;
 use Framework\Controller;
 use Services\Validator;
@@ -21,7 +22,9 @@ class Article extends \Framework\Model
 
     public function __construct()
     {
-        $this->created_at = new \DateTime();
+        $dateTime = new DateTime();
+        $dateTime->format('Y-m-d H:i:s');
+        $this->created_at = $dateTime;
     }
 
     /**

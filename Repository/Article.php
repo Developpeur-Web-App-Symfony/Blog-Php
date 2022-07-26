@@ -44,8 +44,8 @@ class Article extends \Framework\Model
             'title' => $article->getTitle(),
             'publish' => $article->getPublish(),
             'excerpt' => $article->getExcerpt(),
-            'image_filename' => $article->getExcerpt(),
-            'image_alt' => $article->getExcerpt(),
+            'image_filename' => $article->getImageFilename(),
+            'image_alt' => $article->getImageAlt(),
             'user_id' => $article->getUserId(),
         ));
     }
