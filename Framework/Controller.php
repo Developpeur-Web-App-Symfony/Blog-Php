@@ -16,7 +16,8 @@ abstract class Controller
     const VISITOR = 2;
     const USER = 3;
 
-    const PATH_UPLOAD = 'media/article/';
+    const PATH_UPLOAD = '../public/media/article/';
+    const LINK_FILENAME = '../media/article/';
 
     const ALLOWED = [
         "jpg" => "image/jpg",

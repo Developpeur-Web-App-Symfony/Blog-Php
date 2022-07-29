@@ -99,12 +99,3 @@ form > input, form > textarea{
     border-bottom: 2px solid #f1f1f1;
     width: 100%;
 }
-
-.btn-form{
-    padding: 20px 60px;
-    border-radius: 40px;
-    border: none;
-    color: white;
-    background-color: #4f4d5f;
-    font-size: 2rem;
-}

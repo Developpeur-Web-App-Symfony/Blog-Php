@@ -35,7 +35,7 @@
         {% for article in allArticle %}
         <article>
             <a href="">
-                <img src="{{ constant('Framework\\Controller::PATH_UPLOAD') }}{{ article.image_filename }}" alt="image article">
+                <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.image_filename }}" alt="image article">
             </a>
             <div>
                 <h1>{{ article.title }}</h1>

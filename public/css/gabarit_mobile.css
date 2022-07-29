@@ -122,6 +122,16 @@ article{
     font-size: 2rem;
 }
 
+.btn-form-category{
+    padding: 10px 15px;
+    display: inline-flex;
+    border-radius: 40px;
+    border: none;
+    color: white;
+    background-color: #4f4d5f;
+    font-size: 1.8rem;
+}
+
 input, textarea, select{
     font-size: 2rem;
 }

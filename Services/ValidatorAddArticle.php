@@ -47,7 +47,7 @@ class ValidatorAddArticle extends Validator
     {
         if ($this->isEmpty($this->category->getId())) {
             $this->errors++;
-            $this->errorsMsg['category'] = "Veuillez selectionner au minimum une categorie";
+            $this->errorsMsg['category'] = "Veuillez sélectionner au minimum une categorie";
         }
     }
 

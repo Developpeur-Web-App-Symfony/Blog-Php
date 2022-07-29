@@ -24,7 +24,7 @@
                 <select name="category[]" size="3" multiple>
                     <optgroup label="Catégories">
                         {% for category in allCategory %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            <option value="{{ category.id }}" name="{{ category.name }}">{{ category.name }}</option>
                         {% endfor %}
                     </optgroup>
                 </select>
@@ -39,6 +39,8 @@
             </label>
             {% if validator.getErrorsMsg.file is defined %}
                 <p class="text-danger">{{ validator.getErrorsMsg.file }}</p>
+            {% elseif validatorUpload.getErrorsMsg.file is defined %}
+                <p class="text-danger">{{ validatorUpload.getErrorsMsg.file }}</p>
             {% endif %}
             <label for="alt">
                 <i class="fa fa-file-text-o"></i>

@@ -1,0 +1,31 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Créer une catégorie" }}{% endblock %}
+{% block main %}
+    <section class="banner">
+        <h1>Création d'une nouvelle catégorie</h1>
+    </section>
+    <section class="create-category-form">
+        <form class="new-category-form" method="post">
+            <label for="name">
+                <i class="fa fa-heading"></i>
+                <input name="name" type="text" placeholder="Nom de la catégorie"
+                       value="{% if category.name is defined %}{{ category.name }}{% endif %}">
+            </label>
+            {% if validator.getErrorsMsg.name is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.name }}</p>
+            {% endif %}
+            <div>
+                <input type="hidden" name="saveCategory" value="save">
+                <input class="btn-form" name="publishCategory" type="submit" id="submit" value="Créer la catégorie">
+            </div>
+        </form>
+    </section>
+
+{% endblock %}
+
+
