@@ -8,6 +8,8 @@ use \PDO;
 
 class User extends \Framework\Model
 {
+    /** AJOUTER LES PDO::FETCH_CLASS, \Model\User::class */
+
     private object $user;
 
     public function __construct($user)

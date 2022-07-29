@@ -22,6 +22,7 @@ class User extends \Framework\Model
     private mixed $is_valid;
     private mixed $token;
 
+    /** A supprimer **/
     private int $errors = 0;
     private array $errorsMsg = [];
 

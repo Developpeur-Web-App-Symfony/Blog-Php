@@ -16,6 +16,26 @@ abstract class Controller
     const VISITOR = 2;
     const USER = 3;
 
+    const PATH_UPLOAD = '../public/media/article/';
+    const LINK_FILENAME = '../media/article/';
+
+    const ALLOWED = [
+        "jpg" => "image/jpg",
+        "jpeg" => "image/jpeg",
+        "png" => "image/png"
+    ];
+
+    const MAX_SIZE = 5 * 1024 * 1024;
+
+    const PUBLISH = [
+        'PUBLISH' => 1,
+        'DRAFT' => 0
+    ];
+
+    const IMAGE_DEFAULT= [
+        'NAME' => 'image_default.png',
+        'ALT' => 'image par default'
+    ];
 
     const IS_VALID = [
         'NO_VALID' => 0,

@@ -32,19 +32,20 @@
         <img class="slide" src="../media/slide5.jpg" alt="slide">
     </section>
     <section>
+        {% for article in allArticle %}
         <article>
             <a href="">
-                <img src="../media/article1.jpg" alt="image article">
+                <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.image_filename }}" alt="image article">
             </a>
             <div>
-                <h1>Titre de l'article</h1>
+                <h1>{{ article.title }}</h1>
                 <div class="infos-article-top">
-                    <span><i class="fa fa-calendar"></i> 02 Mai 2022</span>
-                    <span>par <b>MatthieuJ</b></span>
+                    <span><i class="fa fa-calendar"></i> {{ article.createdAt|date("m/d/Y H:i") }}</span>
+                    <span>par <b>{{ article.username }}</b></span>
                 </div>
 
-                <p class="exerpt-article">Lorem ipsum..........</p>
-                <span class="category-title">#Categorie</span>
+                <p class="exerpt-article">{{ article.excerpt }}</p>
+                <span class="category-title">#{{ article.name }}</span>
                 <div class="article-bottom">
                     <a href="">Lire plus <i class="fa fa-arrow-right"></i></a>
                     <div>
@@ -55,5 +56,6 @@
                 </div>
             </div>
         </article>
+        {% endfor %}
     </section>
 {% endblock %}
