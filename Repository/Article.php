@@ -33,6 +33,25 @@ class Article extends \Framework\Model
         return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
     }
 
+    public function getLastIdArticle()
+    {
+        $sql = 'SELECT id FROM articles ORDER BY id DESC LIMIT 1';
+        $article = $this->executeRequest($sql);
+
+
+        $article->setFetchMode(PDO::FETCH_CLASS, \Model\Article::class);
+        return $article->fetch();
+
+    }
+
+    public function deleteArticle($articleId)
+    {
+        $sql = 'DELETE FROM articles WHERE id =:id';
+        $req = $this->executeRequest($sql, array(
+            'id' => $articleId,
+        ));
+    }
+
     public function save($article)
     {
         $sql = "INSERT INTO articles( created_at, content, title, publish, excerpt, image_filename, image_alt, user_id) VALUES( :created_at, :content, :title, :publish, :excerpt, :image_filename, :image_alt, :user_id)";

@@ -2,6 +2,7 @@
 namespace Controller;
 
 use Exception;
+use Repository\ArticleHasCategory;
 use Repository\Category;
 use Services\ValidatorAddArticle;
 use Services\ValidatorAddCategory;
@@ -68,34 +69,50 @@ class Dashboard extends \Framework\Controller
                 $category->setId($this->request->getParameter('category'));
                 $article->setContent($this->request->getParameter('content'));
                 $article->setExcerpt($this->request->getParameter('excerpt'));
-                $article->setImageFilename($_FILES['file']['name']);
+                $article->setImageFilename($this->request->getParameter('file')['name']);
                 $article->setImageAlt($this->request->getParameter('alt'));
                 $validator = new ValidatorAddArticle($article, $category);
                 $validatorUpload = new ValidatorUpload($article);
                 if ($validator->formAddArticleValidate()) {
-                    if ($validator->checkImagePresent()) {
-                        if ($validator->checkImageUpload()) {
-                            if ($validatorUpload->checkErrorFile()) {
-                                if ($validatorUpload->formUploadValidate()) {
-                                    $validatorUpload->uploadFile();
-                                }
-                            }
-                        }
-                    } else{
-                        $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
-                        $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
-                        $validatorUpload->uploadFile();
-                    }
                     if ($this->request->getParameter('publishArticle')) {
                         $article->setPublish(\Framework\Controller::PUBLISH['PUBLISH']);
                     } else{
                         $article->setPublish(\Framework\Controller::PUBLISH['DRAFT']);
                     }
                     $repositoryArticle = new \Repository\Article();
-                    $repositoryArticle->save($article);
-                    $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
-                    header('Location: /dashboard/articleManagement');
-                    exit();
+                    if ($validator->checkImagePresent()) {
+
+                        if ($validator->checkImageUpload()) {
+                            if ($validatorUpload->checkErrorFile()) {
+                                if ($validatorUpload->formUploadValidate()) {
+                                    $validatorUpload->uploadFile();
+                                    $repositoryArticle->save($article);
+                                    $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
+                                    header('Location: /dashboard/articleManagement');
+                                    exit();
+                                }
+                            }
+                        }
+                    } else{
+                        $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
+                        $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
+                        var_dump($article);die();
+                        $repositoryArticle->save($article);
+                        //                    ENREGISTREMENT DE LA CATEGORIE EN BDD
+                        $lastArticle = $repositoryArticle->getLastIdArticle();
+                        $article->setId($lastArticle);
+                        $repositoryArticleHasCategory = new ArticleHasCategory();
+                        $categoryId = $category->getId();
+                        $articleId = $article->getId();
+                        var_dump($categoryId);
+
+                        $repositoryArticleHasCategory->save($categoryId, $articleId);
+
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
+                        header('Location: /dashboard/articleManagement');
+                        exit();
+                    }
+
                 }
             }
         }
@@ -106,6 +123,18 @@ class Dashboard extends \Framework\Controller
             'validatorUpload' => $validatorUpload ?? null,
             'article' => $article ?? null
         ]);
+    }
+
+    public function deleteArticle()
+    {
+        $articleId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $article = new \Model\Article();
+        $repositoryArticle = new \Repository\Article();
+        $repositoryArticle->deleteArticle($articleId);
+        $this->request->getSession()->setAttribut('flash', ['alert' => "Article supprimer avec succès"]);
+        header('Location: /dashboard/articleManagement');
+        exit;
+
     }
 
     /**
@@ -170,6 +199,7 @@ class Dashboard extends \Framework\Controller
 
         $this->generateView([
             'category' => $categorySelect ?? null,
+            'validator' => $validator ?? null,
         ]);
     }
 

@@ -4,6 +4,7 @@
 namespace Services;
 
 use Framework\Controller;
+use Framework\Request;
 use Model\User;
 use Services\Validator;
 
@@ -29,9 +30,12 @@ class ValidatorUpload extends Validator
     // Vérifie si le fichier a été uploadé sans erreur.
     public function checkErrorFile(): bool
     {
-        if (isset($_FILES["file"]) && $_FILES["file"]["error"] !== 0) {
+        $request = new Request($_FILES);
+        $file = $request->getParameter('file');
+        $fileError = $request->getParameter('file')['error'];
+        if (isset($file) && $fileError !== 0) {
             $this->errors++;
-            $this->errorsMsg['file'] = "Erreur " . $_FILES["file"]["error"];
+            $this->errorsMsg['file'] = "Erreur " . $fileError;
         } else{
             return true;
         }
@@ -39,7 +43,9 @@ class ValidatorUpload extends Validator
 
     private function checkExtensionFile()
     {
-        $ext = pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION);
+        $request = new Request($_FILES);
+        $fileName = $request->getParameter('file')['name'];
+        $ext = pathinfo($fileName, PATHINFO_EXTENSION);
         if (!array_key_exists($ext, Controller::ALLOWED)) {
             $this->errors++;
             $this->errorsMsg['file'] = "Erreur : Veuillez sélectionner un format de fichier valide.";
@@ -49,7 +55,9 @@ class ValidatorUpload extends Validator
     // Vérifie la taille du fichier - 5Mo maximum
     private function checkSizeFile()
     {
-        if ($_FILES["file"]["size"] > controller::MAX_SIZE) {
+        $request = new Request($_FILES);
+        $fileSize = $request->getParameter('file')['size'];
+        if ($fileSize > controller::MAX_SIZE) {
             $this->errors++;
             $this->errorsMsg['file'] = "Erreur : La taille du fichier est supérieure à la limite autorisée.";
         }
@@ -58,7 +66,9 @@ class ValidatorUpload extends Validator
     // Vérifie le type MIME du fichier
     private function checkMimeFile()
     {
-        if (!in_array($_FILES["file"]["type"], Controller::ALLOWED)) {
+        $request = new Request($_FILES);
+        $fileType = $request->getParameter('file')['type'];
+        if (!in_array($fileType, Controller::ALLOWED)) {
             $this->errors++;
             $this->errorsMsg['file'] = "Erreur : Veuillez sélectionner un format de fichier valide.";
         }
@@ -74,9 +84,12 @@ class ValidatorUpload extends Validator
 
     public function uploadFile()
     {
+        $request = new Request($_FILES);
+        $fileTmp = $request->getParameter('file')['tmp_name'];
+        $fileName = $request->getParameter('file')['name'];
         $filename = substr(md5(session_id().microtime()),-12);
-        move_uploaded_file($_FILES["file"]["tmp_name"],Controller::PATH_UPLOAD . $filename . "." . pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION));
-        $this->article->setImageFilename($filename . "." . pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION));
+        move_uploaded_file($fileTmp,Controller::PATH_UPLOAD . $filename . "." . pathinfo($fileName, PATHINFO_EXTENSION));
+        $this->article->setImageFilename($filename . "." . pathinfo($fileName, PATHINFO_EXTENSION));
     }
 
     public function formUploadValidate(): bool

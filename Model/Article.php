@@ -1,12 +1,8 @@
 <?php
 namespace Model;
 
-use _PHPStan_7a922a511\Nette\Utils\DateTime;
-use Exception;
-use Framework\Controller;
-use Services\Validator;
-use Framework\Model;
-use \PDO;
+use Cassandra\Date;
+use DateTime;
 
 class Article extends \Framework\Model
 {
@@ -22,7 +18,7 @@ class Article extends \Framework\Model
 
     public function __construct()
     {
-        $dateTime = new DateTime();
+        $dateTime = new Date('Y-m-d H:i:s');
         $dateTime->format('Y-m-d H:i:s');
         $this->created_at = $dateTime;
     }
@@ -169,5 +165,18 @@ class Article extends \Framework\Model
     public function setUserId(mixed $userId): void
     {
         $this->userId = $userId;
+    }
+
+    public function hydrate($article)
+    {
+        $this->setCreatedAt($article->created_at);
+        $this->setContent($article->content);
+        $this->setTitle($article->title);
+        $this->setPublish($article->publish);
+        $this->setExcerpt($article->excerpt);
+        $this->setImageFilename($article->imageFilename);
+        $this->setImageAlt($article->imageAlt);
+        $this->setUserId($article->userId);
+        $this->setId($article->id);
     }
 }
