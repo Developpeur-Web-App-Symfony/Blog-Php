@@ -1,7 +1,7 @@
 <?php
 namespace Model;
 
-use Cassandra\Date;
+
 use DateTime;
 
 class Article extends \Framework\Model
@@ -18,9 +18,8 @@ class Article extends \Framework\Model
 
     public function __construct()
     {
-        $dateTime = new Date('Y-m-d H:i:s');
-        $dateTime->format('Y-m-d H:i:s');
-        $this->created_at = $dateTime;
+        $dateTime = new \DateTime();
+        $this->created_at = $dateTime->format('Y-m-d H:i:s');
     }
 
     /**

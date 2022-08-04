@@ -42,8 +42,10 @@ class Dashboard extends \Framework\Controller
         $category = new \Model\Category();
         $repositoryCategory = new Category($category);
         $allCategory = $repositoryCategory->getAllCategory();
+
         $repositoryArticle = new \Repository\Article();
-        $allArticle = $repositoryArticle->getAllArticles();
+        $allArticle = $repositoryArticle->getAllArticles(null,);
+
 
         $this->generateView([
             'allCategory' => $allCategory ?? null,
@@ -96,15 +98,13 @@ class Dashboard extends \Framework\Controller
                     } else{
                         $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
                         $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
-                        var_dump($article);die();
+
                         $repositoryArticle->save($article);
                         //                    ENREGISTREMENT DE LA CATEGORIE EN BDD
-                        $lastArticle = $repositoryArticle->getLastIdArticle();
-                        $article->setId($lastArticle);
+                        $articleId = $repositoryArticle->getLastIdArticle();
                         $repositoryArticleHasCategory = new ArticleHasCategory();
                         $categoryId = $category->getId();
-                        $articleId = $article->getId();
-                        var_dump($categoryId);
+
 
                         $repositoryArticleHasCategory->save($categoryId, $articleId);
 

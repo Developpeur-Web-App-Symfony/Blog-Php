@@ -37,8 +37,10 @@
                 <span class="date-create">Créer le: <i class="fa fa-calendar"></i> {{ article.createdAt|date("m/d/Y H:i") }}</span>
                 <span class="user-create">Auteur: <i class="fa fa-user"></i> <b>{{ article.username }}</b></span>
                 <p class="exerpt-article">{{ article.excerpt }}</p>
-                <span class="category-title">Catégorie: #{{ article.name }}</span>
-
+                {% for name in article.name %}
+                <p>ici {{ name }}</p>
+                {% endfor %}
+                <span class="category-title">Catégorie: {{ article.name }}</span>
                 <span class="article-publish">État: {% if article.publish == 1 %}{{ 'En ligne' }}
                     {%  else %}
                         {{ 'Brouillon' }}

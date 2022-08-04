@@ -10,7 +10,15 @@ class Article extends \Framework\Model
 
     public function getAllArticles($publish = null, $nbStart = null, $nbEnd = null): array
     {
-        $sql = 'SELECT a.id, a.created_at as createdAt, a.user_id, a.content, a.title, a.excerpt, a.publish, a.image_filename, a.image_alt, u.username, c.name, a.user_id AS userId FROM articles AS a INNER JOIN articles_has_categories AS ac ON a.id = ac.articles_id INNER JOIN categories AS c ON ac.categories_id = c.id INNER JOIN users AS u ON a.user_id = u.id';
+        $sql = 'SELECT a.id, a.created_at as createdAt, a.user_id, a.content, a.title, a.excerpt, a.publish, a.image_filename, a.image_alt, ac.articles_id,  u.username, GROUP_CONCAT(c.name) AS name
+FROM articles_has_categories AS ac 
+RIGHT JOIN articles AS a 
+ON ac.articles_id = a.id 
+LEFT JOIN categories AS c 
+ON ac.categories_id = c.id 
+LEFT JOIN users AS u 
+        ON a.user_id = u.id
+        GROUP BY a.id';
 
         if ($publish != null && $nbStart !== null or $nbEnd !== null) {
             $sql .= " WHERE publish =:publish ORDER BY ID DESC LIMIT " . $nbStart . "," . $nbEnd;
@@ -40,7 +48,7 @@ class Article extends \Framework\Model
 
 
         $article->setFetchMode(PDO::FETCH_CLASS, \Model\Article::class);
-        return $article->fetch();
+        return $article->fetch()->getId();
 
     }
 
