@@ -11,16 +11,16 @@
             <h1>Articles</h1>
         </section>
             <div class="create-category">
-                <a class="btn-form" role="button" href="/dashboard/createCategory">Créer une catégorie</a>
+                <a class="btn-form" role="button" href="/category/create">Créer une catégorie</a>
             </div>
             <div class="category-list">
                 <ul>
                     {% for category in allCategory %}
                         <li class="category-list">{{ category.name }}
-                            <a class="btn-form-category" role="button" href="/dashboard/deleteCategory{{ category.id }}">
+                            <a class="btn-form-category" role="button" href="/category/delete{{ category.id }}">
                                 <i class="fa fa-times"></i>
                             </a>
-                            <a class="btn-form-category" role="button" href="/dashboard/updateCategory{{ category.id }}">
+                            <a class="btn-form-category" role="button" href="/category/update{{ category.id }}">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </li>
@@ -28,33 +28,33 @@
                 </ul>
             </div>
             <div class="create-article">
-                <a class="btn-form" role="button" href="/dashboard/createArticle">Créer un article</a>
+                <a class="btn-form" role="button" href="/article/create">Créer un article</a>
             </div>
             {% for article in allArticle %}
             <article>
-                <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.image_filename }}" alt="{{ article.image_alt }}">
+                <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
                 <h1>{{ article.title }}</h1>
                 <span class="date-create">Créer le: <i class="fa fa-calendar"></i> {{ article.createdAt|date("m/d/Y H:i") }}</span>
+                <span class="date-create">Dernière modification le: <i class="fa fa-calendar"></i> {{ article.lastModification|date("m/d/Y H:i") }}</span>
                 <span class="user-create">Auteur: <i class="fa fa-user"></i> <b>{{ article.username }}</b></span>
                 <p class="exerpt-article">{{ article.excerpt }}</p>
-                <span class="category-title">Catégorie: #{{ article.name }}</span>
-
-                <span class="article-publish">État: {% if article.publish == 1 %}{{ 'En ligne' }}
+                <span class="category-title">Catégorie: {{ article.name }}</span>
+                <span class="article-publish">État: {% if article.publish == 1 %}{{ 'Publié' }}
                     {%  else %}
                         {{ 'Brouillon' }}
                     {% endif %}
                 </span>
                 <div class="management-article">
-                    <a class="btn-form" href="/dashboard/updateArticle/{{ article.id }}">Modifier</a>
-                    <a class="btn-form" href="/dashboard/deleteArticle/{{ article.id }}">Supprimer</a>
+                    <a class="btn-form" href="/article/update{{ article.id }}">Modifier</a>
+                    <a class="btn-form" href="/article/delete{{ article.id }}">Supprimer</a>
                 </div>
             </article>
             {% endfor %}
             <div class="create-category">
-                <a class="btn-form" role="button" href="/dashboard/createCategory">Créer une catégorie</a>
+                <a class="btn-form" role="button" href="/category/create">Créer une catégorie</a>
             </div>
             <div class="create-article">
-                <a class="btn-form" role="button" href="/dashboard/createArticle">Créer un article</a>
+                <a class="btn-form" role="button" href="/article/create">Créer un article</a>
             </div>
     </div>
 

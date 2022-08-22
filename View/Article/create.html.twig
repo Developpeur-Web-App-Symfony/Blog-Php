@@ -39,7 +39,9 @@
             </label>
             {% if validator.getErrorsMsg.file is defined %}
                 <p class="text-danger">{{ validator.getErrorsMsg.file }}</p>
-            {% elseif validatorUpload.getErrorsMsg.file is defined %}
+            {% endif %}
+
+            {% if validatorUpload.getErrorsMsg.file is defined %}
                 <p class="text-danger">{{ validatorUpload.getErrorsMsg.file }}</p>
             {% endif %}
             <label for="alt">

@@ -111,6 +111,7 @@ article{
 .banner > h1{
     text-transform: uppercase;
     font-weight: 400;
+    color: #8f8e97;
 }
 
 .btn-form{

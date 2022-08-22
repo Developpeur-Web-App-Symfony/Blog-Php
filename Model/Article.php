@@ -1,17 +1,14 @@
 <?php
 namespace Model;
 
-use _PHPStan_7a922a511\Nette\Utils\DateTime;
-use Exception;
-use Framework\Controller;
-use Services\Validator;
-use Framework\Model;
-use \PDO;
+
+use DateTime;
 
 class Article extends \Framework\Model
 {
     private mixed $id;
     private mixed $created_at;
+    private mixed $lastModification;
     private mixed $content;
     private mixed $title;
     private mixed $publish;
@@ -22,9 +19,8 @@ class Article extends \Framework\Model
 
     public function __construct()
     {
-        $dateTime = new DateTime();
-        $dateTime->format('Y-m-d H:i:s');
-        $this->created_at = $dateTime;
+        $dateTime = new \DateTime();
+        $this->created_at = $dateTime->format('Y-m-d H:i:s');
     }
 
     /**
@@ -57,6 +53,22 @@ class Article extends \Framework\Model
     public function setCreatedAt(mixed $created_at): void
     {
         $this->created_at = $created_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastModification(): mixed
+    {
+        return $this->lastModification;
+    }
+
+    /**
+     * @param mixed $lastModification
+     */
+    public function setLastModification(mixed $lastModification): void
+    {
+        $this->lastModification = $lastModification;
     }
 
     /**
