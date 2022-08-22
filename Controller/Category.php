@@ -1,0 +1,99 @@
+<?php
+namespace Controller;
+
+use Exception;
+use Services\ValidatorAddCategory;
+
+class Category extends \Framework\Controller
+{
+
+    /**
+     * @throws Exception
+     */
+    public function index()
+    {
+
+
+        $this->generateView([
+
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function create()
+    {
+        if ($this->request->existsParameter('saveCategory')) {
+            if ($this->request->existsParameter('saveCategory') == 'save') {
+                $category = new \Model\Category();
+                $category->setName($this->request->getParameter('name'));
+                $validator = new ValidatorAddCategory($category);
+                if ($validator->formAddCategoryValidate()) {
+                    if ($validator->categoryNameValidate())
+                    {
+                        $repositoryCategory = new \Repository\Category($category);
+                        $repositoryCategory->save();
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie créer avec succès"]);
+                        header('Location: /dashboard/articleManagement');
+                    } else {
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Nom de catégorie déjà existant"]);
+                        header('Location: create');
+                    }
+                    exit();
+                }
+            }
+        }
+        $this->generateView([
+            'validator' => $validator ?? null,
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function update()
+    {
+        $categoryId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $category = new \Model\Category();
+        $repositoryCategory = new \Repository\Category($category);
+        $categorySelect = $repositoryCategory->getCategory($categoryId);
+        if ($this->request->existsParameter('saveCategory')) {
+            if ($this->request->existsParameter('saveCategory') == 'save') {
+                $category->setId($categoryId);
+                $category->setName($this->request->getParameter('name'));
+                $validator = new ValidatorAddCategory($category);
+
+                if ($validator->formAddCategoryValidate()) {
+                    if ($validator->categoryNameValidate())
+                    {
+                        $repositoryCategory->updateCategory();
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie modifier avec succès"]);
+                        header('Location: /dashboard/articleManagement');
+                    } else {
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Nom de catégorie déjà existant"]);
+                        header("Location: update$categoryId");
+                    }
+                    exit();
+                }
+            }
+        }
+
+        $this->generateView([
+            'category' => $categorySelect ?? null,
+            'validator' => $validator ?? null,
+        ]);
+    }
+
+    public function delete()
+    {
+        $categoryId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $category = new \Model\Category();
+        $repositoryCategory = new \Repository\Category($category);
+        $repositoryCategory->deleteCategory($categoryId);
+        $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie supprimer avec succès"]);
+        header('Location: /dashboard/articleManagement');
+        exit;
+    }
+
+}

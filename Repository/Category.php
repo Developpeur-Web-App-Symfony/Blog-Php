@@ -22,6 +22,9 @@ class Category extends \Framework\Model
         return $req->fetchAll(PDO::FETCH_CLASS, \Model\Category::class);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getCategory($categoryId)
     {
         $sql = 'SELECT id, name FROM categories WHERE id=:id';

@@ -8,6 +8,7 @@ class Article extends \Framework\Model
 {
     private mixed $id;
     private mixed $created_at;
+    private mixed $lastModification;
     private mixed $content;
     private mixed $title;
     private mixed $publish;
@@ -52,6 +53,22 @@ class Article extends \Framework\Model
     public function setCreatedAt(mixed $created_at): void
     {
         $this->created_at = $created_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastModification(): mixed
+    {
+        return $this->lastModification;
+    }
+
+    /**
+     * @param mixed $lastModification
+     */
+    public function setLastModification(mixed $lastModification): void
+    {
+        $this->lastModification = $lastModification;
     }
 
     /**
@@ -164,18 +181,5 @@ class Article extends \Framework\Model
     public function setUserId(mixed $userId): void
     {
         $this->userId = $userId;
-    }
-
-    public function hydrate($article)
-    {
-        $this->setCreatedAt($article->created_at);
-        $this->setContent($article->content);
-        $this->setTitle($article->title);
-        $this->setPublish($article->publish);
-        $this->setExcerpt($article->excerpt);
-        $this->setImageFilename($article->imageFilename);
-        $this->setImageAlt($article->imageAlt);
-        $this->setUserId($article->userId);
-        $this->setId($article->id);
     }
 }
