@@ -1,0 +1,39 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block main %}
+    <section class="banner">
+        <h1>{{ article.title }}</h1>
+    </section>
+    <div class="detail-article">
+        <article>
+            <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
+            <h2>{{ article.excerpt }}</h2>
+            <p>{{ article.content }}</p>
+            <div class="infos-article">
+                <p>Catégorie(s): {{ article.name }}</p>
+                <p>Modifié le {{ article.lastModification|date("d/m/Y H:i") }}</p>
+                <p>Auteur <b>{{ article.username }}</b></p>
+            </div>
+        </article>
+        <form method="post" action="comment/post">
+            <input id="autor" name="autor" type="text" placeholder="Votre pseudo"
+                   required/>
+            <textarea id="txtComment" name="content" rows="4" placeholder="Votre commentaire" required></textarea>
+            <div>
+                <input type="hidden" name="commentForm" value="comment" />
+                <input class="btn-form" type="submit" value="Commenter" />
+            </div>
+        </form>
+        <div class="comment">
+            <p class="author-comment">MatthieuJ</p>
+            <p class="content-comment">Article très interessant, merci</p>
+        </div>
+    </div>
+{% endblock %}
+
+

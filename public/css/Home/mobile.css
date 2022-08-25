@@ -1,61 +1,19 @@
 /* HOMEPAGE */
 
-.img-form-contact{
+.img-home{
     display: grid;
     grid-template-rows: auto auto;
 }
 
-.img-form-contact > div{
+.img-home > div{
     padding: 30px 15px 30px;
     background-color: #ffffff;
     display: grid;
     grid-gap: 25px;
 }
 
-.img-form-contact > div > h1{
+.img-home > div > h1{
     font-weight: 400;
-}
-
-.subscribe-form{
-    width: 90%;
-}
-
-.subscribe-form > p > a{
-    color: #8f8e97;
-}
-
-.subscribe-form > div{
-    position: relative;
-}
-
-.subscribe-form > div > label > input{
-    box-shadow: 0 0 25px rgba(129,129,129, 0.1);
-    color: black;
-    border: none;
-    padding: 20px;
-    width: 100%;
-}
-
-.subscribe-form > div >button{
-    border: none;
-    padding-right: 20px;
-    box-shadow: 0 0 25px rgba(129,129,129, 0.1);
-    background-color: ghostwhite;
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-}
-
-.contact-me-link{
-    display: flex;
-    align-items: center;
-}
-
-.contact-me-link > span{
-    text-transform: uppercase;
-    font-size: 2rem;
-    padding-right: 10px;
 }
 
 .slider > img{
@@ -125,6 +83,15 @@ article > div > h1{
     text-transform: uppercase;
 }
 
+/* CONTACT HOME */
+.contact-home > div > h2{
+    font-weight: 300;
+}
+
+.contact-home > div{
+    margin-top: 50px;
+    padding: 0 15px 0 15px;
+}
 /* CONTACT */
 
 .banner > p{
@@ -188,6 +155,7 @@ article > div > h1{
     border-bottom: 2px solid #f1f1f1;
     width: 100%;
     padding-left: 30px;
+    max-height: 90px;
 }
 
 .login-form > a{

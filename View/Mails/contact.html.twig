@@ -1,0 +1,10 @@
+{% extends "Mails/gabarit.html.twig" %}
+{% block title %}{{ "Contact" }}{% endblock %}
+{% block main %}
+<div style="border: 10px solid #2A374E; padding: 10px">
+    <p>Nom : {{ name }}</p>
+    <p>Adresse mail : {{ email }}</p>
+    <p>Numéro de téléphone : {{ phone }}</p>
+    <p>Contenu du message : {{ content }}</p>
+</div>
+{% endblock %}

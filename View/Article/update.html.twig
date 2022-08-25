@@ -34,6 +34,21 @@
             {% if validator.getErrorsMsg.category is defined %}
                 <p class="text-danger">{{ validator.getErrorsMsg.category }}</p>
             {% endif %}
+
+            <label for="author">
+                <i class="fa fa-list-alt"></i>
+                <select name="author[]" size="3">
+                    <optgroup label="author">
+                        {% for user in listUsers %}
+                            <option value="{{ user.id }}" name="{{ user.username }}" {% if article.userId == user.id %}selected{% endif %}>
+                                {{ user.username }}
+                            </option>
+                        {% endfor %}
+                    </optgroup>
+                </select>
+            </label>
+
+
             <label for="file">
                 <i class="fa fa-image"></i>
                 <input name="file" type="file"

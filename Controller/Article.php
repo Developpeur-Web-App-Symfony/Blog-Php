@@ -2,7 +2,9 @@
 namespace Controller;
 
 use Exception;
+use Framework\Controller;
 use Model\ArticleAsCategory;
+use Model\User;
 use Repository\ArticleHasCategory;
 use Repository\Category;
 use Services\ValidatorAddArticle;
@@ -16,10 +18,28 @@ class Article extends \Framework\Controller
      */
     public function index()
     {
+        $repositoryArticle = new \Repository\Article();
+        $allArticle = $repositoryArticle->getAllArticles();
+
+        $this->generateView([
+            'allArticle' => $allArticle ?? null,
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function read()
+    {
+        $articleId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $article = new \Repository\Article();
+        $articleDetails = $article->getArticle($articleId);
+
+        // Ajout de la fonction de commentaire à faire
 
 
         $this->generateView([
-
+            'article' => $articleDetails,
         ]);
     }
 
@@ -104,13 +124,16 @@ class Article extends \Framework\Controller
         $allCategory =$repositoryCategory->getAllCategory();
         $repositoryArticleHasCategory = new \Repository\ArticleHasCategory();
         $articleHasCategoryList = $repositoryArticleHasCategory->getCategoriesHasArticle($articleId);
+        $user = new User();
+        $repositoryUser = new \Repository\User($user);
+        $listUsers = $repositoryUser->getUsers(Controller::AUTHOR, Controller::IS_VALID['VALID']);
 
         if ($this->request->existsParameter('saveArticle')) {
             if ($this->request->existsParameter('saveArticle') == 'save') {
                 $article = new \Model\Article();
                 $article->setId($articleId);
-                $userid = $this->request->getSession()->getSession()->getId();
-                $article->setUserId($userid);
+                $userId = implode("",$this->request->getParameter('author'));
+                $article->setUserId($userId);
                 $newModification = new \DateTime();
                 $article->setLastModification($newModification->format('Y-m-d H:i:s'));
                 $article->setTitle($this->request->getParameter('title'));
@@ -178,6 +201,7 @@ class Article extends \Framework\Controller
             'validatorUpload' => $validatorUpload ?? null,
             'allCategory' => $allCategory,
             'articleHasCategory' => $articleHasCategoryList,
+            'listUsers' => $listUsers ?? null,
         ]);
     }
 

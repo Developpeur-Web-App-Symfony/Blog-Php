@@ -34,8 +34,8 @@
             <article>
                 <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
                 <h1>{{ article.title }}</h1>
-                <span class="date-create">Créer le: <i class="fa fa-calendar"></i> {{ article.createdAt|date("m/d/Y H:i") }}</span>
-                <span class="date-create">Dernière modification le: <i class="fa fa-calendar"></i> {{ article.lastModification|date("m/d/Y H:i") }}</span>
+                <span class="date-create">Créer le: <i class="fa fa-calendar"></i> {{ article.createdAt|date("d/m/Y H:i") }}</span>
+                <span class="date-create">Dernière modification le: <i class="fa fa-calendar"></i> {{ article.lastModification|date("d/m/Y H:i") }}</span>
                 <span class="user-create">Auteur: <i class="fa fa-user"></i> <b>{{ article.username }}</b></span>
                 <p class="exerpt-article">{{ article.excerpt }}</p>
                 <span class="category-title">Catégorie: {{ article.name }}</span>

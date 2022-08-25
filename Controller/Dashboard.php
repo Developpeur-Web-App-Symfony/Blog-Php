@@ -37,7 +37,6 @@ class Dashboard extends \Framework\Controller
         $repositoryArticle = new \Repository\Article();
         $allArticle = $repositoryArticle->getAllArticles();
 
-
         $this->generateView([
             'allCategory' => $allCategory ?? null,
             'allArticle' => $allArticle ?? null,
