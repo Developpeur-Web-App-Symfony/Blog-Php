@@ -15,6 +15,7 @@ abstract class Controller
     const BANNED = 4;
     const VISITOR = 2;
     const USER = 3;
+    const AUTHOR = 5;
 
     const PATH_UPLOAD = '../public/media/article/';
     const LINK_FILENAME = '../media/article/';

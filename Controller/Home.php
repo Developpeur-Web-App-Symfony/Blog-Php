@@ -3,8 +3,10 @@
 namespace Controller;
 
 use Exception;
+use Framework\Controller;
 use Framework\Session;
 use Model\User;
+use Services\ValidatorContact;
 use Services\ValidatorUser;
 
 class Home extends \Framework\Controller
@@ -16,11 +18,34 @@ class Home extends \Framework\Controller
     public function index()
     {
         $repositoryArticle = new \Repository\Article();
-        $allArticle = $repositoryArticle->getAllArticles();
+        $allArticle = $repositoryArticle->getAllArticles(Controller::PUBLISH['PUBLISH']);
 
+        if ($this->request->existsParameter('contactForm')) {
+            if ($this->request->existsParameter('contactForm') == 'contact') {
+                $name =$this->request->getParameter('name');
+                $email =$this->request->getParameter('email');
+                $phone =$this->request->getParameter('phone');
+                $content =$this->request->getParameter('content');
+                $validatorContact = new ValidatorContact();
+                if ($validatorContact->formContactValidate($name,$email,$content)){
+                    $data = [
+                        'name' => $name,
+                        'email' => $email,
+                        'phone' => $phone,
+                        'content' => $content
+                    ];
+                    $this->sendEmail('contact', 'Formulaire de contact sur le site de JM Website',Controller::FROMEMAIL, $data);
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Votre message a bien été envoyé, nous reviendrons vers vous dans les plus brefs délais"]);
+                    header('Location: index');
+                    exit();
+                }
+
+            }
+        }
 
         $this->generateView([
-            'allArticle' => $allArticle,
+            'allArticle' => $allArticle ?? null,
+            'validator' => $validatorContact ?? null
         ]);
     }
 
@@ -29,9 +54,31 @@ class Home extends \Framework\Controller
      */
     public function contact()
     {
+        if ($this->request->existsParameter('contactForm')) {
+            if ($this->request->existsParameter('contactForm') == 'contact') {
+                $name =$this->request->getParameter('name');
+                $email =$this->request->getParameter('email');
+                $phone =$this->request->getParameter('phone');
+                $content =$this->request->getParameter('content');
+                $validatorContact = new ValidatorContact();
+                if ($validatorContact->formContactValidate($name,$email,$content)){
+                    $data = [
+                        'name' => $name,
+                        'email' => $email,
+                        'phone' => $phone,
+                        'content' => $content
+                    ];
+                    $this->sendEmail('contact', 'Formulaire de contact sur le site de JM Website',Controller::FROMEMAIL, $data);
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Votre message a bien été envoyé, nous vous reviendrons vers vous dans les plus brefs délais"]);
+                    header('Location: home');
+                    exit();
+                }
+
+            }
+        }
 
         $this->generateView([
-
+            'validator' => $validatorContact ?? null
         ]);
     }
 

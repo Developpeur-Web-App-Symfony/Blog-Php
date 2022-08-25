@@ -21,20 +21,17 @@ article > div > h1, article > div > .article-bottom{
 }
 
 figcaption{
-    opacity: 1;
-    max-height: 10em;
-    transition: max-height 0.5s;
     background: rgba(0,0,0,0.15);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
     padding: 10px;
-    width: 100%;
+    display: grid;
 }
 
 figcaption > h1,figcaption > span{
     color: white;
+}
+
+.exerpt-article, figcaption > h1{
+    text-align: center;
 }
 
 figcaption > span{
@@ -57,8 +54,15 @@ figcaption > span{
     padding: 10px 20px 10px 20px;
 }
 
+.detail-article > article > h2{
+    font-weight: 400;
+    font-style: italic;
+    color: #8f8e97;
+    text-align: center;
+}
+
 article >p, form{
-    padding: 10px;
+    padding: 20px;
 }
 
 form{
@@ -72,9 +76,10 @@ form{
     color: #4f4d5f;
 }
 
-.infos-article-top > span{
+.infos-article > p{
     font-size: 1.5rem;
     color: #8f8e97;
+    text-align: end;
 }
 
 form > div{
@@ -133,7 +138,7 @@ input[name="file"]{
     width: 100%;
 }
 
-label[for="category"]{
+label[for="category"], label[for="author"]{
     height: 100%;
 }
 

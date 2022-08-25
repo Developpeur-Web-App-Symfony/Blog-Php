@@ -18,26 +18,26 @@ ON ac.articles_id = a.id
 LEFT JOIN categories AS c 
 ON ac.categories_id = c.id 
 LEFT JOIN users AS u 
-        ON a.user_id = u.id
-        GROUP BY a.id';
+        ON a.user_id = u.id';
 
         if ($publish != null && $nbStart !== null or $nbEnd !== null) {
-            $sql .= " WHERE publish =:publish ORDER BY ID DESC LIMIT " . $nbStart . "," . $nbEnd;
-
+            $sql .= " WHERE a.publish =:publish ORDER BY a.created_at DESC LIMIT " . $nbStart . "," . $nbEnd;
             $req = $this->executeRequest($sql, array(
                 'publish' => $publish,
             ));
 
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         } elseif ($publish != null) {
-            $sql .= " WHERE publish =:publish ORDER BY ID DESC";
+            $sql .= " WHERE a.publish =:publish GROUP BY a.id ORDER BY a.created_at DESC ";
             $req = $this->executeRequest($sql, array(
                 'publish' => $publish,
             ));
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
+        } elseif ($publish === null && $nbStart === null or $nbEnd === null){
+            $sql .= " GROUP BY a.id ORDER BY a.created_at DESC";
+            $req = $this->executeRequest($sql);
+            return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         }
-
-
         $req = $this->executeRequest($sql);
         return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
     }
@@ -47,12 +47,15 @@ LEFT JOIN users AS u
      */
     public function getArticle($articleId)
     {
-        $sql = 'SELECT a.id, a.created_at as createdAt, a.last_modification as lastModification, a.user_id as userId, a.content, a.title, a.excerpt, a.publish, a.image_filename as imageFilename, a.image_alt as imageAlt,  u.username
-FROM articles AS a  
+        $sql = 'SELECT a.id, a.created_at as createdAt, a.last_modification as lastModification, a.user_id as userId, a.content, a.title, a.excerpt, a.publish, a.image_filename as imageFilename, a.image_alt as imageAlt, ac.articles_id,  u.username, GROUP_CONCAT(c.name) as name
+FROM articles_has_categories AS ac 
+RIGHT JOIN articles AS a 
+ON ac.articles_id = a.id 
 LEFT JOIN categories AS c 
-ON a.id = c.id 
+ON ac.categories_id = c.id 
 LEFT JOIN users AS u 
-        ON a.user_id = u.id WHERE a.id=:id';
+        ON a.user_id = u.id WHERE a.id=:id
+        GROUP BY a.id';
         $article = $this->executeRequest($sql, array(
             'id' => $articleId,
         ));

@@ -11,24 +11,31 @@
     <p>Nous sommes présent pour répondre à toutes vos questions et pouvons intervenir en cas de besoins spécifiques, si vous le souhaitez, n’hésitez plus, notre équipe est là pour vous</p>
 </section>
 <section class="info-contact">
-    <form class="contact-form" action="">
+    <form class="contact-form" method="post">
         <label for="name">
             <i class="fa fa-user"></i>
-            <input type="text" placeholder="Nom" name="name">
+            <input type="text" placeholder="Nom" name="name" value="{% if post.name is defined %}{{ post.name }}{% endif %}">
         </label>
+        {% if validator.getErrorsMsg.name is defined %}
+            <p class="text-danger">{{ validator.getErrorsMsg.name }}</p>
+        {% endif %}
         <label for="email">
             <i class="fa fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email">
+            <input type="email" placeholder="Email" name="email" value="{% if post.email is defined %}{{ post.email }}{% endif %}">
         </label>
+        {% if validator.getErrorsMsg.email is defined %}
+            <p class="text-danger">{{ validator.getErrorsMsg.email }}</p>
+        {% endif %}
         <label for="phone">
             <i class="fa fa-phone"></i>
-            <input type="tel" placeholder="Téléphone" name="phone">
+            <input type="tel" placeholder="Téléphone" name="phone" value="{% if post.phone is defined %}{{ post.phone }}{% endif %}">
         </label>
-        <label class="textarea-contact" for="message">
-            <textarea name="message" placeholder="Message"></textarea>
+        <label class="textarea-contact" for="content">
+            <textarea name="content" placeholder="Message"></textarea>
         </label>
         <div>
-            <button class="btn-form" type="submit">Envoyer le message</button>
+            <input type="hidden" name="contactForm" value="contact">
+            <input class="btn-form" type="submit" value="Envoyer le message">
         </div>
     </form>
     <div>

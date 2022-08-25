@@ -90,6 +90,26 @@ class User extends \Framework\Model
         }
     }
 
+    public function getUsers($role = null, $isValid = null)
+    {
+        $sql = 'SELECT u.id, u.username, u.role_id FROM users as u 
+    INNER JOIN roles as r on u.role_id = r.id';
+        if ($role !== null && $isValid !== null){
+            $sql .=' WHERE r.id=:role AND u.is_valid=:isValid';
+            $req = $this->executeRequest($sql, array(
+                'role' => $role,
+                'isValid' => $isValid
+            ));
+            return $req->fetchAll(PDO::FETCH_CLASS, \Model\User::class);
+        } elseif ($role !== null) {
+            $sql .= ' WHERE r.id=:role';
+        } elseif ($isValid !== null) {
+            $sql .= ' WHERE u.is_valid=:isValid';
+        }
+        $req = $this->executeRequest($sql);
+        return $req->fetchAll(PDO::FETCH_CLASS, \Model\User::class);
+    }
+
     public function getUserInBdd($valid = null)
     {
         $sql = 'SELECT id, token, username, email, password, created_at, role_id, is_valid FROM users WHERE email= :email';

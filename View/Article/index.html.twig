@@ -7,69 +7,26 @@
 {% block title %}{{ "Articles" }}{% endblock %}
 {% block main %}
 <section class="banner">
-        <img src="../media/banner.jpg" alt="ttt">
         <h1>ARTICLES</h1>
 </section>
 <section class="articles">
-    <nav class="nav-article">
-        <ul>
-            <li><a href="">Tout</a></li>
-            <li><a href="">Html</a></li>
-            <li><a href="">Jquery</a></li>
-            <li><a href="">Responsive</a></li>
-        </ul>
-    </nav>
     <div>
-        <a href="/article/articleDetail/1">
-            <figure>
+        {% for article in allArticle %}
+            <a href="/article/read{{ article.id }}">
+                <article>
+                    <figure>
+                        <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
+                        <figcaption>
+                            <h1>{{ article.title }}</h1>
+                            <span class="exerpt-article">{{ article.excerpt }}</span>
+                            <span class="category-title">Catégorie(s): {{ article.name }}</span>
+                            <span class="date-create">Modifié le: {{ article.lastModification|date("d/m/Y H:i") }}</span>
+                        </figcaption>
+                    </figure>
+                </article>
+            </a>
 
-                <img src="../media/article2.jpg"/>
-                <figcaption>
-                    <h1>Titre de l'article</h1>
-                    <span>Jour mois année</span>
-                </figcaption>
-            </figure>
-        </a>
-        <a href="">
-            <figure>
-
-                <img src="../media/article2.jpg"/>
-                <figcaption>
-                    <h1>Titre de l'article</h1>
-                    <span>Jour mois année</span>
-                </figcaption>
-            </figure>
-        </a>
-        <a href="">
-            <figure>
-
-                <img src="../media/article2.jpg"/>
-                <figcaption>
-                    <h1>Titre de l'article</h1>
-                    <span>Jour mois année</span>
-                </figcaption>
-            </figure>
-        </a>
-        <a href="">
-            <figure>
-
-                <img src="../media/article2.jpg"/>
-                <figcaption>
-                    <h1>Titre de l'article</h1>
-                    <span>Jour mois année</span>
-                </figcaption>
-            </figure>
-        </a>
-        <a href="">
-            <figure>
-
-                <img src="../media/article2.jpg"/>
-                <figcaption>
-                    <h1>Titre de l'article</h1>
-                    <span>Jour mois année</span>
-                </figcaption>
-            </figure>
-        </a>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}
