@@ -1,0 +1,25 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Tableau de bord" }}{% endblock %}
+{% block main %}
+    <div class="full-dashboard">
+        <section class="banner">
+            <h1>Tableau de bord</h1>
+        </section>
+        <div class="tile-dashboard">
+            <ul>
+                <li><a class="btn-form" href="/user/accountManagement">Mon compte</a></li>
+                <li><a class="btn-form" href="articleManagement">Articles / Catégories</a></li>
+                <li><a class="btn-form" href="/comment/commentManagement">Commentaires</a></li>
+                <li><a class="btn-form" href="/user/userManagement">Utilisateurs</a></li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+

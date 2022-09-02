@@ -1,0 +1,85 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block javascript %}<script src="js/slider.js"></script>{% endblock %}
+{% block title %}{{ "Développons l'avenir" }}{% endblock %}
+{% block main %}
+    <section class="img-home">
+        <img src="/media/background_home.jpeg" alt="ttt">
+        <div>
+            <h1>Solutions Web personnalisées à votre image</h1>
+        </div>
+    </section>
+    <section class="slider">
+        <img class="slide" src="/media/slide1.jpg" alt="slide">
+        <img class="slide" src="/media/slide2.jpg" alt="slide">
+        <img class="slide" src="/media/slide3.jpg" alt="slide">
+        <img class="slide" src="/media/slide4.jpg" alt="slide">
+        <img class="slide" src="/media/slide5.jpg" alt="slide">
+    </section>
+    <section>
+        {% for article in allArticle %}
+        <article>
+            <a href="/article/read/{{ article.id }}">
+                <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
+            </a>
+            <div>
+                <h1>{{ article.title }}</h1>
+                <div class="infos-article-top">
+                    <span><i class="fa fa-calendar"></i> {{ article.createdAt|date("d/m/Y H:i") }}</span>
+                    <span>par <b>{{ article.username }}</b></span>
+                </div>
+
+                <p class="exerpt-article">{{ article.excerpt }}</p>
+                <span class="category-title">{{ article.name }}</span>
+                <div class="article-bottom">
+                    <a href="/article/read/{{ article.id }}">Lire plus <i class="fa fa-arrow-right"></i></a>
+                    <div>
+                        <a href="https://www.facebook.com/pages/category/Product-Service/JM-Websites-370052016940987/"><i
+                                    class="fa-brands fa-facebook"></i></a>
+                        <a href=""><i class="fa-brands fa-instagram-square"></i></a>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+    <section class="contact-home">
+        <div>
+            <h2>Contacter nous</h2>
+            <form class="contact-form" method="post">
+                <label for="name">
+                    <i class="fa fa-user"></i>
+                    <input type="text" placeholder="Nom" name="name" value="{% if post.name is defined %}{{ post.name }}{% endif %}">
+                </label>
+                {% if validator.getErrorsMsg.name is defined %}
+                    <p class="text-danger">{{ validator.getErrorsMsg.name }}</p>
+                {% endif %}
+                <label for="email">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" placeholder="Email" name="email" value="{% if post.email is defined %}{{ post.email }}{% endif %}">
+                </label>
+                {% if validator.getErrorsMsg.email is defined %}
+                    <p class="text-danger">{{ validator.getErrorsMsg.email }}</p>
+                {% endif %}
+                <label for="phone">
+                    <i class="fa fa-phone"></i>
+                    <input type="tel" placeholder="Téléphone" name="phone" value="{% if post.phone is defined %}{{ post.phone }}{% endif %}">
+                </label>
+                <label class="textarea-contact" for="content">
+                    <textarea name="content" placeholder="Message"></textarea>
+                </label>
+                {% if validator.getErrorsMsg.content is defined %}
+                    <p class="text-danger">{{ validator.getErrorsMsg.content }}</p>
+                {% endif %}
+                <div>
+                    <input type="hidden" name="contactForm" value="contact">
+                    <input class="btn-form" type="submit" value="Envoyer le message">
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

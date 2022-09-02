@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="MatthieuJ">
+    <base href="{{ webRoot }}">
+    <title>{% block title %}{% endblock%}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;800&family=Noto+Sans:wght@200;400;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/normalizer.css">
+    <link rel="stylesheet" href="/css/gabarit_mobile.css">
+    {% block stylesheet %}{% endblock %}
+    <script src="https://kit.fontawesome.com/38412cb349.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    <nav>
+        <a href="/Home/index">
+            <span>JM Website</span>
+        </a>
+        <div class="follow-nav-logo">
+            <a href="https://www.facebook.com/pages/category/Product-Service/JM-Websites-370052016940987/"><i class="fa-brands fa-facebook"></i></a>
+            <a href=""><i class="fa-brands fa-instagram-square"></i></a>
+        </div>
+        <div class="nav-menu" role="navigation" aria-label="navi">
+            <button id="btn-nav-menu"><i class="fa-solid fa-bars" id="barIcon"></i>
+                <i class="fa fa-times" id="closeIcon"></i>
+            </button>
+            <ul id="nav-menu-list">
+                <li><a href="/home/">Accueil</a></li>
+                <li><a href="/article">Blog Post</a></li>
+                <li><a href="/home/contact">Contact</a></li>
+                {% if auth.roleLevel == 10 %}
+                    <li><a href="/home/register">Inscription</a></li>
+                    <li><a href="/home/signIn">Connexion</a></li>
+                {%  else %}
+                    <li><a href="/dashboard/index">Mon espace</a></li>
+                    <li><a href="/home/disconnected">Déconnexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main>
+{# Affichage des messages flash #}
+    {% if messageFlash.existAttribut('flash') %}
+        <p class="alert-message">{{ messageFlash.getAttribut('flash').alert }}</p>
+        {{ messageFlash.deleteAttribut('flash') }}
+    {% endif %}
+
+    {% block main %}
+    {% endblock %}
+</main>
+
+<footer>
+    <ul>
+        <li><a href="">Administration</a></li>
+        <li>Designed by Matthieu Junge</li>
+    </ul>
+</footer>
+
+<script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="/js/headerNav.js"></script>
+{% block javascript %}{% endblock %}
+</body>
+</html>
+

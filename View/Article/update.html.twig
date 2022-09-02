@@ -1,0 +1,99 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Modifier un article" }}{% endblock %}
+{% block main %}
+    <section class="banner">
+        <h1>Modification d'un article</h1>
+    </section>
+    <section class="create-article-form">
+        <form class="new-article-form" method="post" enctype="multipart/form-data">
+            <label for="title">
+                <i class="fa fa-heading"></i>
+                <input name="title" type="text" placeholder="Titre de l'article"
+                       value="{% if article.title is defined %}{{ article.title }}{% endif %}">
+            </label>
+            {% if validator.getErrorsMsg.title is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.title }}</p>
+            {% endif %}
+            <label for="category">
+                <i class="fa fa-list-alt"></i>
+                <select name="category[]" size="3" multiple>
+                    <optgroup label="Catégories">
+                        {% for category in allCategory %}
+                                <option value="{{ category.id }}" name="{{ category.name }}" {% for articleCategory in articleHasCategory %}{% if articleCategory.categoriesId == category.id %}selected{% endif %}{% endfor %}>
+                                    {{ category.name }}
+                                </option>
+                        {% endfor %}
+                    </optgroup>
+                </select>
+            </label>
+            {% if validator.getErrorsMsg.category is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.category }}</p>
+            {% endif %}
+
+            <label for="author">
+                <i class="fa fa-list-alt"></i>
+                <select name="author[]" size="3">
+                    <optgroup label="author">
+                        {% for user in listUsers %}
+                            <option value="{{ user.id }}" name="{{ user.username }}" {% if article.userId == user.id %}selected{% endif %}>
+                                {{ user.username }}
+                            </option>
+                        {% endfor %}
+                    </optgroup>
+                </select>
+            </label>
+            {% if validator.getErrorsMsg.author is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.author }}</p>
+            {% endif %}
+            <label for="file">
+                <i class="fa fa-image"></i>
+                <input name="file" type="file"
+                       value="{% if article.file is defined %}{{ article.file }}{% endif %}">
+            </label>
+            {% if validator.getErrorsMsg.file is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.file }}</p>
+            {% endif %}
+
+            {% if validatorUpload.getErrorsMsg.file is defined %}
+                <p class="text-danger">{{ validatorUpload.getErrorsMsg.file }}</p>
+            {% endif %}
+            <label for="alt">
+                <i class="fa fa-file-text-o"></i>
+                <input name="alt" type="text" placeholder="Description de l'image"
+                       value="{% if article.imageAlt is defined %}{{ article.imageAlt }}{% endif %}">
+            </label>
+            {% if validator.getErrorsMsg.imageAlt is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.imageAlt }}</p>
+            {% endif %}
+            <label for="content">
+                <i class="fa fa-file-text-o"></i>
+                <textarea name="content"
+                          placeholder="Contenu de l'article">{% if article.content is defined %}{{ article.content }}{% endif %}</textarea>
+            </label>
+            {% if validator.getErrorsMsg.content is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.content }}</p>
+            {% endif %}
+            <label for="excerpt">
+                <i class="fa fa-file-text-o"></i>
+                <textarea name="excerpt"
+                          placeholder="Extrait de l'article">{% if article.excerpt is defined %}{{ article.excerpt }}{% endif %}</textarea>
+            </label>
+            {% if validator.getErrorsMsg.excerpt is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.excerpt }}</p>
+            {% endif %}
+            <div>
+                <input type="hidden" name="saveArticle" value="save">
+                <input class="btn-form" name="updateArticle" type="submit" id="submit" value="Modifier l'article">
+                <input class="btn-form" type="submit" value="Brouillon"/>
+            </div>
+        </form>
+    </section>
+
+{% endblock %}
+
+

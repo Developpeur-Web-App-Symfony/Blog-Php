@@ -1,0 +1,45 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Mon compte" }}{% endblock %}
+{% block main %}
+    <div class="full-dashboard">
+        <section class="banner">
+            <h1>Tableau de bord</h1>
+        </section>
+        <div class="table">
+            <h2 class="text-center">Infos Utilisateurs</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col" class="text-center"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <a class="btn-form" role="button"
+                           href="dashboard/adminUpdateUser/">Modifier
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+
