@@ -157,16 +157,24 @@ class ValidatorUser extends Validator
 
     public function checkRoleRedirect($userRole){
         if ($userRole == Controller::ADMIN){
-            header('Location: /Dashboard/index');
+            header('Location: /dashboard/index');
             exit();
         }
         if ($userRole == Controller::USER){
-            header('Location: /Dashboard/user');
+            header('Location: /dashboard/user');
+            exit();
+        }
+        if ($userRole == Controller::AUTHOR){
+            header('Location: /dashboard/index');
+            exit();
+        }
+        if ($userRole == Controller::BANNED){
+            header('Location: /home/index');
             exit();
         } elseif ($userRole == Controller::VISITOR){
             $this->errors++;
             $this->errorsMsg['message'] = "Veuillez valider votre adresse email afin d'acceder a toutes les fonctionnalités";
-            header('Location: login');
+            header('Location: /home/login');
             exit();
         }
     }

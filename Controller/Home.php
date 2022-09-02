@@ -95,10 +95,10 @@ class Home extends \Framework\Controller
                 $validatorUser = new ValidatorUser($user);
                 if ($validatorUser->formLoginValidate()) {
                     $repositoryUser = new \Repository\User($user);
-                    $userBdd = $repositoryUser->getUserInBdd(self::IS_VALID['VALID']);
+                    $userBdd = $repositoryUser->getUserInBdd(Controller::IS_VALID['VALID']);
                     if ($userBdd) {
                         $user->hydrate($userBdd);
-                        $userRole = $user->getRoleId();
+                        $userRole = $user->getRoleLevel();
                         $validatorUser->roleBlocked($userRole);
 
                         if ($validatorUser->login()) {
@@ -179,8 +179,8 @@ class Home extends \Framework\Controller
                 $userBdd = $repositoryUser->getEmailAndTokenUserInBdd();
                 if ($userBdd) {
                     $user->hydrate($userBdd);
-                    $user->setValid(self::IS_VALID ['VALID']);
-                    $user->setRoleId(self::USER);
+                    $user->setValid(Controller::IS_VALID ['VALID']);
+                    $user->setRoleLevel(Controller::USER);
                     $repositoryUser->updateUser();
                     $this->request->getSession()->setAttribut('flash', ['alert' => "Votre compte est désormais activé, vous pouvez dès à présent vous connecter à l'aide de vos identifiants"]);
                     header('Location: home/signIn');
@@ -209,7 +209,7 @@ class Home extends \Framework\Controller
                 $validatorUser = new ValidatorUser($user);
                 if ($validatorUser->formForgotPasswordValidate()) {
                     $repositoryUser = new \Repository\User($user);
-                    $userBdd = $repositoryUser->getUserInBdd(self::IS_VALID['VALID']);
+                    $userBdd = $repositoryUser->getUserInBdd(Controller::IS_VALID['VALID']);
                     if ($userBdd) {
                         $user->hydrate($userBdd);
                         $user->generateToken();

@@ -11,14 +11,14 @@ abstract class Controller
 {
     const FROMEMAIL = 'blog-php@mattjunge.com';
 
-    const ADMIN = 1;
-    const BANNED = 4;
-    const VISITOR = 2;
-    const USER = 3;
-    const AUTHOR = 5;
+    const ADMIN = 99;
+    const BANNED = 0;
+    const VISITOR = 10;
+    const USER = 20;
+    const AUTHOR = 50;
 
-    const PATH_UPLOAD = '../public/media/article/';
-    const LINK_FILENAME = '../media/article/';
+    const PATH_UPLOAD = 'media/article/';
+    const LINK_FILENAME = '/media/article/';
 
     const ALLOWED = [
         "jpg" => "image/jpg",
@@ -99,10 +99,9 @@ abstract class Controller
 
         $controller = str_replace("Controller", "", $classController);
 
-
         //stripslashes :Retrait du \ avant le controleur pour les options
         $options = [
-            'style' => '../css/' . stripslashes($controller) . '/',
+            'style' => '/css/' . stripslashes($controller) . '/',
             'mediaTablet' => 'screen AND (min-width: 600px)',
             'mediaDesktop' => 'screen AND (min-width: 1024px)',
             'auth' => $this->request->getSession()->getAttribut('auth'),

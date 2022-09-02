@@ -11,7 +11,8 @@
     </section>
     <div class="detail-article">
         <article>
-            <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
+            <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}"
+                 alt="{{ article.imageAlt }}">
             <h2>{{ article.excerpt }}</h2>
             <p>{{ article.content }}</p>
             <div class="infos-article">
@@ -20,19 +21,29 @@
                 <p>Auteur <b>{{ article.username }}</b></p>
             </div>
         </article>
-        <form method="post" action="comment/post">
-            <input id="autor" name="autor" type="text" placeholder="Votre pseudo"
-                   required/>
-            <textarea id="txtComment" name="content" rows="4" placeholder="Votre commentaire" required></textarea>
-            <div>
-                <input type="hidden" name="commentForm" value="comment" />
-                <input class="btn-form" type="submit" value="Commenter" />
+        {% if (roleLevel >= constant('Framework\\Controller::USER')) %}
+            <form method="post">
+                <input id="autor" name="autor" type="text"
+                       required value="{{ user.username }}" readonly/>
+                <textarea id="txtComment" name="content" rows="4" placeholder="Votre commentaire" required></textarea>
+                <div>
+                    <input type="hidden" name="commentForm" value="comment"/>
+                    <input class="btn-form" type="submit" value="Commenter"/>
+                </div>
+            </form>
+        {% elseif roleLevel == constant('Framework\\Controller::BANNED') %}
+            <p>Vous n'avez pas la possibilité de poster un commentaire</p>
+        {% elseif roleLevel == constant('Framework\\Controller::VISITOR') %}
+            <p>Veuillez valider ou créer votre compte pour poster un commentaire</p>
+        {% endif %}
+        {% if comments is defined %}
+            {% for comment in comments %}
+            <div class="comment">
+                <p class="content-comment"><u>Commentaire :</u> {{ comment.content }}</p>
+                <p class="author-comment"><b>{{ comment.username }}</b></p>
             </div>
-        </form>
-        <div class="comment">
-            <p class="author-comment">MatthieuJ</p>
-            <p class="content-comment">Article très interessant, merci</p>
-        </div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
 

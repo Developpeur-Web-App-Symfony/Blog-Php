@@ -12,7 +12,7 @@
 <section class="articles">
     <div>
         {% for article in allArticle %}
-            <a href="/article/read{{ article.id }}">
+            <a href="/article/read/{{ article.id }}">
                 <article>
                     <figure>
                         <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">

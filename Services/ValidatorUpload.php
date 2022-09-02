@@ -3,6 +3,7 @@
 
 namespace Services;
 
+use Framework\Configuration;
 use Framework\Controller;
 use Framework\Request;
 use Model\User;
@@ -88,7 +89,7 @@ class ValidatorUpload extends Validator
         $fileTmp = $request->getParameter('file')['tmp_name'];
         $fileName = $request->getParameter('file')['name'];
         $filename = substr(md5(session_id().microtime()),-12);
-        move_uploaded_file($fileTmp,Controller::PATH_UPLOAD . $filename . "." . pathinfo($fileName, PATHINFO_EXTENSION));
+        move_uploaded_file($fileTmp, Controller::PATH_UPLOAD . $filename . "." . pathinfo($fileName, PATHINFO_EXTENSION));
         $this->article->setImageFilename($filename . "." . pathinfo($fileName, PATHINFO_EXTENSION));
     }
 

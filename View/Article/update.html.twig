@@ -47,8 +47,9 @@
                     </optgroup>
                 </select>
             </label>
-
-
+            {% if validator.getErrorsMsg.author is defined %}
+                <p class="text-danger">{{ validator.getErrorsMsg.author }}</p>
+            {% endif %}
             <label for="file">
                 <i class="fa fa-image"></i>
                 <input name="file" type="file"

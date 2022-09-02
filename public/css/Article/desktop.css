@@ -13,4 +13,6 @@
     transition: max-height 1.5s;
     opacity: 1;
     max-height: 100%;
+    margin: 0 15px;
+    width: calc(100% - 30px);
 }

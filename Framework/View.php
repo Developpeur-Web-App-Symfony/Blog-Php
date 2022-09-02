@@ -19,7 +19,7 @@ class View
 
 
         // Détermination du nom du fichier vue à partir de l'action et du constructeur
-        $file = "../View/";
+        $file = "/View/";
 
         if ($controller != "") {
             $file = $file . $controller . "/";
@@ -44,7 +44,7 @@ class View
 
         $webRoot = Configuration::get("webRoot", "/");
         // Génération du gabarit commun utilisant la partie spécifique
-        $view = $this->generateFile('../View/gabarit.html.twig',
+        $view = $this->generateFile('/View/gabarit.html.twig',
             array('title' => $this->title, 'styles' => $this->styles, 'script' => $this->script, 'content' => $content,
                 'webRoot' => $webRoot));
         // Renvoi de la vue générée au navigateur
@@ -94,7 +94,7 @@ class View
         // Génération du gabarit commun utilisant la partie spécifique
 
         // Renvoi de la vue générée au navigateur
-        return $this->generateFile('../View/Mails/gabarit.html.twig',
+        return $this->generateFile('/View/Mails/gabarit.html.twig',
             array('title' => $this->title, 'content' => $content,
                 'webRoot' => $webRoot));
     }

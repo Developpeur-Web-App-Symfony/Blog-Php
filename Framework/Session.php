@@ -14,7 +14,7 @@ class Session
         };
         if ($this->notExistAttribut('auth')) {
             $userAuth = new User();
-            $userAuth->setRoleId(Controller::VISITOR);
+            $userAuth->setRoleLevel(Controller::VISITOR);
             $this->setAttribut('auth',$userAuth);
         }
     }
