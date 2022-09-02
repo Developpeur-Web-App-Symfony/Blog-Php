@@ -17,7 +17,7 @@ class User extends \Framework\Model
     private mixed $password;
     private mixed $cPassword;
     private mixed $created_at;
-    private mixed $role_id;
+    private mixed $role_level;
 
     private mixed $is_valid;
     private mixed $token;
@@ -92,17 +92,17 @@ class User extends \Framework\Model
     /**
      * @return mixed
      */
-    public function getRoleId(): mixed
+    public function getRoleLevel(): mixed
     {
-        return $this->role_id;
+        return $this->role_level;
     }
 
     /**
-     * @param mixed $role_id
+     * @param mixed $role_level
      */
-    public function setRoleId(mixed $role_id): void
+    public function setRoleLevel(mixed $role_level): void
     {
-        $this->role_id = $role_id;
+        $this->role_level = $role_level;
     }
 
     public function getValid(): mixed
@@ -138,7 +138,7 @@ class User extends \Framework\Model
         $this->setCPassword($user->password);
         $this->setEmail($user->email);
         $this->setUsername($user->username);
-        $this->setRoleId($user->role_id);
+        $this->setRoleLevel($user->role_level);
         $this->setValid($user->is_valid);
         $this->setToken($user->token);
         $this->setCreatedAt($user->created_at);
@@ -157,7 +157,7 @@ class User extends \Framework\Model
     public function setDataNewUser(){
         $dateNow = new \DateTime();
         $this->setCreatedAt($dateNow->format('Y-m-d H:i:s'));
-        $this->setRoleId(Controller::VISITOR);
+        $this->setRoleLevel(Controller::VISITOR);
         $this->setValid(Controller::IS_VALID ['NO_VALID']);
         $this->generateToken();
     }

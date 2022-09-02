@@ -54,7 +54,7 @@ class Category extends \Framework\Controller
      */
     public function update()
     {
-        $categoryId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $categoryId = $this->request->getParameter('id');
         $category = new \Model\Category();
         $repositoryCategory = new \Repository\Category($category);
         $categorySelect = $repositoryCategory->getCategory($categoryId);
@@ -87,7 +87,7 @@ class Category extends \Framework\Controller
 
     public function delete()
     {
-        $categoryId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $categoryId = $this->request->getParameter('id');
         $category = new \Model\Category();
         $repositoryCategory = new \Repository\Category($category);
         $repositoryCategory->deleteCategory($categoryId);

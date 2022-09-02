@@ -8,22 +8,22 @@
 {% block title %}{{ "Développons l'avenir" }}{% endblock %}
 {% block main %}
     <section class="img-home">
-        <img src="../media/background_home.jpeg" alt="ttt">
+        <img src="/media/background_home.jpeg" alt="ttt">
         <div>
             <h1>Solutions Web personnalisées à votre image</h1>
         </div>
     </section>
     <section class="slider">
-        <img class="slide" src="../media/slide1.jpg" alt="slide">
-        <img class="slide" src="../media/slide2.jpg" alt="slide">
-        <img class="slide" src="../media/slide3.jpg" alt="slide">
-        <img class="slide" src="../media/slide4.jpg" alt="slide">
-        <img class="slide" src="../media/slide5.jpg" alt="slide">
+        <img class="slide" src="/media/slide1.jpg" alt="slide">
+        <img class="slide" src="/media/slide2.jpg" alt="slide">
+        <img class="slide" src="/media/slide3.jpg" alt="slide">
+        <img class="slide" src="/media/slide4.jpg" alt="slide">
+        <img class="slide" src="/media/slide5.jpg" alt="slide">
     </section>
     <section>
         {% for article in allArticle %}
         <article>
-            <a href="/article/read{{ article.id }}">
+            <a href="/article/read/{{ article.id }}">
                 <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
             </a>
             <div>
@@ -36,7 +36,7 @@
                 <p class="exerpt-article">{{ article.excerpt }}</p>
                 <span class="category-title">{{ article.name }}</span>
                 <div class="article-bottom">
-                    <a href="/article/read{{ article.id }}">Lire plus <i class="fa fa-arrow-right"></i></a>
+                    <a href="/article/read/{{ article.id }}">Lire plus <i class="fa fa-arrow-right"></i></a>
                     <div>
                         <a href="https://www.facebook.com/pages/category/Product-Service/JM-Websites-370052016940987/"><i
                                     class="fa-brands fa-facebook"></i></a>

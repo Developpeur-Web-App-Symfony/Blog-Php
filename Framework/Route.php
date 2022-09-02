@@ -11,7 +11,10 @@ class Route
     {
         try {
             // Fusion des paramètres GET et POST de la requête
-            $request = new Request(array_merge($_GET, $_POST, $_FILES));
+            $get = filter_input_array(INPUT_GET) ?? [];
+            $post = filter_input_array(INPUT_POST) ?? [];
+
+            $request = new Request(array_merge($get, $post, $_FILES));
 
             $controller = $this->createController($request);
             $action = $this->createAction($request);

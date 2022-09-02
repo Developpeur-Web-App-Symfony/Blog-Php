@@ -1,13 +1,15 @@
 <?php
+
 namespace Controller;
 
 use Exception;
 use Framework\Controller;
-use Model\ArticleAsCategory;
+use Framework\Session;
 use Model\User;
 use Repository\ArticleHasCategory;
 use Repository\Category;
 use Services\ValidatorAddArticle;
+use Services\ValidatorAddComment;
 use Services\ValidatorUpload;
 
 class Article extends \Framework\Controller
@@ -31,15 +33,44 @@ class Article extends \Framework\Controller
      */
     public function read()
     {
-        $articleId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+        $articleId = $this->request->getParameter('id');
         $article = new \Repository\Article();
         $articleDetails = $article->getArticle($articleId);
+        $comment = new \Model\Comment();
+        $repositoryComment = new \Repository\Comment($comment);
+        $commentBdd = $repositoryComment->getCommentsArticle($articleId);
 
-        // Ajout de la fonction de commentaire à faire
+        $roleLevel = Session::getSession()->getRoleLevel();
 
-
+        if ($roleLevel >= Controller::USER) {
+            $userId = Session::getSession()->getId();
+            $user = new User();
+            $userRepository = new \Repository\User($user);
+            $userBdd = $userRepository->getUser($userId);
+            if ($this->request->existsParameter('commentForm')) {
+                if ($this->request->existsParameter('commentForm') == 'comment') {
+                    $comment->setUserId($userId);
+                    $comment->setContent($this->request->getParameter('content'));
+                    $validatorComment = new ValidatorAddComment($comment);
+                    if ($validatorComment->formAddCommentValidate()) {
+                        $dateComment = new \DateTime();
+                        $comment->setCreatedAt($dateComment->format('Y-m-d H:i:s'));
+                        $comment->setArticleId($articleId);
+                        $comment->setStatus(Controller::IS_VALID['NO_VALID']);
+                        $repositoryComment->save();
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Votre commentaire à bien été poster, il sera publié après validation"]);
+                        header("Location: /article/read/$articleId");
+                        exit();
+                    }
+                }
+            }
+        }
         $this->generateView([
-            'article' => $articleDetails,
+            'article' => $articleDetails ?? null,
+            'user' => $userBdd ?? null,
+            'roleLevel' => $roleLevel,
+            'comments' => $commentBdd ?? null
         ]);
     }
 
@@ -50,7 +81,7 @@ class Article extends \Framework\Controller
     {
         $category = new \Model\Category();
         $repositoryCategory = new Category($category);
-        $allCategory =$repositoryCategory->getAllCategory();
+        $allCategory = $repositoryCategory->getAllCategory();
 
         if ($this->request->existsParameter('saveArticle')) {
             if ($this->request->existsParameter('saveArticle') == 'save') {
@@ -68,7 +99,7 @@ class Article extends \Framework\Controller
                 if ($validator->formAddArticleValidate()) {
                     if ($this->request->getParameter('publishArticle')) {
                         $article->setPublish(\Framework\Controller::PUBLISH['PUBLISH']);
-                    } else{
+                    } else {
                         $article->setPublish(\Framework\Controller::PUBLISH['DRAFT']);
                     }
                     $repositoryArticle = new \Repository\Article();
@@ -84,7 +115,7 @@ class Article extends \Framework\Controller
                                 }
                             }
                         }
-                    } else{
+                    } else {
                         $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
                         $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
                         $repositoryArticle->save($article);
@@ -116,12 +147,12 @@ class Article extends \Framework\Controller
      */
     public function update()
     {
-        $articleId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $articleId = $this->request->getParameter('id');
         $repositoryArticle = new \Repository\Article();
         $article = $repositoryArticle->getArticle($articleId);
         $category = new \Model\Category();
         $repositoryCategory = new Category($category);
-        $allCategory =$repositoryCategory->getAllCategory();
+        $allCategory = $repositoryCategory->getAllCategory();
         $repositoryArticleHasCategory = new \Repository\ArticleHasCategory();
         $articleHasCategoryList = $repositoryArticleHasCategory->getCategoriesHasArticle($articleId);
         $user = new User();
@@ -131,9 +162,6 @@ class Article extends \Framework\Controller
         if ($this->request->existsParameter('saveArticle')) {
             if ($this->request->existsParameter('saveArticle') == 'save') {
                 $article = new \Model\Article();
-                $article->setId($articleId);
-                $userId = implode("",$this->request->getParameter('author'));
-                $article->setUserId($userId);
                 $newModification = new \DateTime();
                 $article->setLastModification($newModification->format('Y-m-d H:i:s'));
                 $article->setTitle($this->request->getParameter('title'));
@@ -143,18 +171,20 @@ class Article extends \Framework\Controller
                 $article->setExcerpt($this->request->getParameter('excerpt'));
                 $article->setImageFilename($this->request->getParameter('file')['name']);
                 $article->setImageAlt($this->request->getParameter('alt'));
+                $article->setId($articleId);
+                $userId = implode("", $this->request->getParameter('author'));
+                $article->setUserId($userId);
                 $validator = new ValidatorAddArticle($article, $category);
                 $validatorUpload = new ValidatorUpload($article);
-                if ($validator->formAddArticleValidate()) {
+                if ($validator->formAddArticleValidate() && $validator->checkAuthorSelected()) {
                     if ($this->request->getParameter('updateArticle')) {
                         $article->setPublish(\Framework\Controller::PUBLISH['PUBLISH']);
-                    } else{
+                    } else {
                         $article->setPublish(\Framework\Controller::PUBLISH['DRAFT']);
                     }
-                    $categoryIdInBdd =[];
-                    foreach ($articleHasCategoryList as $item)
-                    {
-                        $categoryIdInBdd[] =$item->getCategoriesId();
+                    $categoryIdInBdd = [];
+                    foreach ($articleHasCategoryList as $item) {
+                        $categoryIdInBdd[] = $item->getCategoriesId();
                     }
                     if ($validator->checkImagePresent()) {
                         if ($validator->checkImageUpload()) {
@@ -163,15 +193,15 @@ class Article extends \Framework\Controller
                                     $validatorUpload->uploadFile();
                                     $repositoryArticle->update($article);
                                     //Suppression des associations de categories aux articles avant enregistrement des nouvelles
-                                    $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd,$articleId);
-                                    $repositoryArticleHasCategory->save($categoryList,$articleId);
+                                    $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd, $articleId);
+                                    $repositoryArticleHasCategory->save($categoryList, $articleId);
                                     $this->request->getSession()->setAttribut('flash', ['alert' => "Article modifier avec succès"]);
                                     header('Location: /dashboard/articleManagement');
                                     exit();
                                 }
                             }
                         }
-                    } else{
+                    } else {
                         $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
                         $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
 
@@ -179,12 +209,8 @@ class Article extends \Framework\Controller
 
                         //                    ENREGISTREMENT DE LA CATEGORIE EN BDD
 //Suppression des associations de categories aux articles avant enregistrement des nouvelles
-                        $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd,$articleId);
-                        $repositoryArticleHasCategory->save($categoryList,$articleId);
-
-
-                        //$repositoryArticleHasCategory->updateArticleCategory($categoryId, $articleId);
-
+                        $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd, $articleId);
+                        $repositoryArticleHasCategory->save($categoryList, $articleId);
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Article modifier avec succès"]);
                         header('Location: /dashboard/articleManagement');
                         exit();
@@ -193,8 +219,6 @@ class Article extends \Framework\Controller
                 }
             }
         }
-
-
         $this->generateView([
             'article' => $article,
             'validator' => $validator ?? null,
@@ -207,8 +231,7 @@ class Article extends \Framework\Controller
 
     public function delete()
     {
-        $articleId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        $article = new \Model\Article();
+        $articleId = $this->request->getParameter('id');
         $repositoryArticle = new \Repository\Article();
         $repositoryArticle->deleteArticle($articleId);
         $this->request->getSession()->setAttribut('flash', ['alert' => "Article supprimer avec succès"]);

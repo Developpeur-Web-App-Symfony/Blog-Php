@@ -51,6 +51,14 @@ class ValidatorAddArticle extends Validator
         }
     }
 
+    private function checkAuthor()
+    {
+        if ($this->isEmpty($this->article->getUserId())) {
+            $this->errors++;
+            $this->errorsMsg['author'] = "Veuillez sélectionner un auteur";
+        }
+    }
+
     public function checkImagePresent(): bool
     {
         if ($this->article->getImageFilename() !== '') {
@@ -104,6 +112,16 @@ class ValidatorAddArticle extends Validator
         $this->checkCategory();
         $this->checkContent();
         $this->checkExcerpt();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function checkAuthorSelected(): bool
+    {
+        $this->checkAuthor();
         if ($this->errors !== 0) {
             return false;
         } else {

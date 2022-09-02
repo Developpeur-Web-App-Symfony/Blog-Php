@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;800&family=Noto+Sans:wght@200;400;500;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/normalizer.css">
-    <link rel="stylesheet" href="../css/gabarit_mobile.css">
+    <link rel="stylesheet" href="/css/normalizer.css">
+    <link rel="stylesheet" href="/css/gabarit_mobile.css">
     {% block stylesheet %}{% endblock %}
     <script src="https://kit.fontawesome.com/38412cb349.js" crossorigin="anonymous"></script>
 </head>
@@ -33,7 +33,7 @@
                 <li><a href="/home/">Accueil</a></li>
                 <li><a href="/article">Blog Post</a></li>
                 <li><a href="/home/contact">Contact</a></li>
-                {% if auth.roleId == 2 %}
+                {% if auth.roleLevel == 10 %}
                     <li><a href="/home/register">Inscription</a></li>
                     <li><a href="/home/signIn">Connexion</a></li>
                 {%  else %}
@@ -67,7 +67,7 @@
         src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
-<script src="../js/headerNav.js"></script>
+<script src="/js/headerNav.js"></script>
 {% block javascript %}{% endblock %}
 </body>
 </html>
