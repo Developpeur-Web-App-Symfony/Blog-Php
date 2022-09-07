@@ -12,10 +12,7 @@ class Category extends \Framework\Controller
      */
     public function index()
     {
-
-
         $this->generateView([
-
         ]);
     }
 
@@ -38,7 +35,7 @@ class Category extends \Framework\Controller
                         header('Location: /dashboard/articleManagement');
                     } else {
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Nom de catégorie déjà existant"]);
-                        header('Location: create');
+                        header('Location: /category/create');
                     }
                     exit();
                 }
@@ -72,7 +69,7 @@ class Category extends \Framework\Controller
                         header('Location: /dashboard/articleManagement');
                     } else {
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Nom de catégorie déjà existant"]);
-                        header("Location: update$categoryId");
+                        header("Location: /category/update/$categoryId");
                     }
                     exit();
                 }

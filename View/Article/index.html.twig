@@ -20,12 +20,13 @@
                             <h1>{{ article.title }}</h1>
                             <span class="exerpt-article">{{ article.excerpt }}</span>
                             <span class="category-title">Catégorie(s): {{ article.name }}</span>
-                            <span class="date-create">Modifié le: {{ article.lastModification|date("d/m/Y H:i") }}</span>
+                            <span class="date-create">Modifié le: {{ article.updatedAt|date("d/m/Y H:i") }}</span>
                         </figcaption>
                     </figure>
                 </article>
             </a>
-
+        {% else %}
+            <h2>Aucun article</h2>
         {% endfor %}
     </div>
 </section>

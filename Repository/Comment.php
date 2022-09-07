@@ -39,17 +39,28 @@ class Comment extends \Framework\Model
 
     public function getAllComments(): array
     {
-        $sql = 'SELECT id, created_at, content, status, article_id, user_id FROM comments';
+        $sql = 'SELECT id, created_at, content, status, article_id, user_id FROM comments WHERE status=:status';
 
-        $req = $this->executeRequest($sql);
+        $req = $this->executeRequest($sql, array(
+            'status'=> $this->comment->getStatus(),
+        ));
         return $req->fetchAll(PDO::FETCH_CLASS, \Model\Comment::class);
     }
 
-    public function deleteComment($commentId)
+    public function updateComment()
+    {
+        $sql = 'UPDATE comments SET status=:status WHERE id =:id';
+        $req = $this->executeRequest($sql, array(
+            'id' => $this->comment->getId(),
+            'status' => $this->comment->getStatus()
+        ));
+    }
+
+    public function deleteComment()
     {
         $sql = 'DELETE FROM comments WHERE id =:id';
         $req = $this->executeRequest($sql, array(
-            'id' => $commentId,
+            'id' => $this->comment->getId(),
         ));
     }
 }

@@ -21,7 +21,7 @@ class Article extends \Framework\Controller
     public function index()
     {
         $repositoryArticle = new \Repository\Article();
-        $allArticle = $repositoryArticle->getAllArticles();
+        $allArticle = $repositoryArticle->getAllArticles(Controller::PUBLISH['PUBLISH']);
 
         $this->generateView([
             'allArticle' => $allArticle ?? null,
@@ -163,7 +163,7 @@ class Article extends \Framework\Controller
             if ($this->request->existsParameter('saveArticle') == 'save') {
                 $article = new \Model\Article();
                 $newModification = new \DateTime();
-                $article->setLastModification($newModification->format('Y-m-d H:i:s'));
+                $article->setUpdatedAt($newModification->format('Y-m-d H:i:s'));
                 $article->setTitle($this->request->getParameter('title'));
                 $categoryList = $this->request->getParameter('category');
                 $category->setId($categoryList);
