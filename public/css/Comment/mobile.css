@@ -1,0 +1,22 @@
+.comment-list{
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.comment-list > ul{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+ul > .comment-list{
+    box-shadow: 2px 2px 3px 3px #4f4d5f;
+    width: 95%;
+    padding: 5px;
+    border-radius: 40px;
+}
+
+.comment-infos{
+    margin-top: 10px;
+}

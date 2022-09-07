@@ -1,0 +1,39 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Gestion des commentaires" }}{% endblock %}
+{% block main %}
+    <div>
+        <section class="banner">
+            <h1>Commentaires en attente</h1>
+        </section>
+        <div class="comment-list">
+            <ul>
+                {% for comment in allComments %}
+                    <li class="comment-list">{{ comment.content }}
+                        <a class="btn-form-category" role="button" href="/comment/delete/{{ comment.id }}">
+                            <i class="fa fa-times"></i>
+                        </a>
+                        <a class="btn-form-category" role="button" href="/comment/valid/{{ comment.id }}">
+                            <i class="fas fa-check"></i>
+                        </a>
+
+                    </li>
+                    <li class="comment-infos">
+                        <a class="btn-form-category" href="/article/read/{{ comment.article_id }}">Voir l'article</a>
+                        <a class="btn-form-category" href="/user/profile/{{ comment.user_id }}">Profil de
+                            l'utilisateur</a>
+                    </li>
+                {% else %}
+                    <li>Aucun commentaire en attente</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+
