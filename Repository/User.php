@@ -22,7 +22,26 @@ class User extends \Framework\Model
         $sql = 'SELECT email FROM users WHERE email=:email';
         $req = $this->executeRequest($sql, array(
             'email' => $this->user->getEmail()));
+        return $req->rowCount();
+    }
 
+    public function checkUsernameInBdd(): int
+    {
+        $sql = 'SELECT username FROM users WHERE username=:username AND id!=:id';
+        $req = $this->executeRequest($sql, array(
+            'username' => $this->user->getUsername(),
+            'id' => $this->user->getId()));
+
+        return $req->rowCount();
+    }
+
+    public function checkOtherMailInBdd(): int
+    {
+        $sql = 'SELECT email FROM users WHERE email=:email AND id!=:id';
+        $req = $this->executeRequest($sql, array(
+            'email' => $this->user->getEmail(),
+            'id' => $this->user->getId(),
+        ));
         return $req->rowCount();
     }
 
@@ -64,6 +83,17 @@ class User extends \Framework\Model
         ));
     }
 
+    public function updateAccountUser()
+    {
+        $sql = 'UPDATE users SET username=:username, role_level=:role_level, email=:email WHERE id=:id';
+        $updateUser = $this->executeRequest($sql, array(
+            'id' => $this->user->getId(),
+            'email' => $this->user->getEmail(),
+            'username' => $this->user->getUsername(),
+            'role_level' => $this->user->getRoleLevel(),
+        ));
+    }
+
     public function updatePassword()
     {
         $sql = 'UPDATE users SET password=:password, token=:token WHERE email=:email';
@@ -83,7 +113,7 @@ class User extends \Framework\Model
         ));
 
         if ($user->rowCount() == 1) {
-            $user->setFetchMode(PDO::FETCH_OBJ);
+            $user->setFetchMode(PDO::FETCH_CLASS, \Model\User::class);
             return $user->fetch();
         } else {
             throw new \Exception("Aucun utilisateur ne correspond à l'identifiant '$userId'");
@@ -93,7 +123,7 @@ class User extends \Framework\Model
     public function getUsers($role = null, $isValid = null)
     {
         $sql = 'SELECT u.id, u.username, u.role_level FROM users as u 
-    INNER JOIN roles as r on u.role_level = r.id';
+    INNER JOIN roles as r on u.role_level = r.level';
         if ($role !== null && $isValid !== null){
             $sql .=' WHERE r.level=:role_level AND u.is_valid=:isValid';
             $req = $this->executeRequest($sql, array(
@@ -106,6 +136,15 @@ class User extends \Framework\Model
         } elseif ($isValid !== null) {
             $sql .= ' WHERE u.is_valid=:isValid';
         }
+        $req = $this->executeRequest($sql);
+        return $req->fetchAll(PDO::FETCH_CLASS, \Model\User::class);
+    }
+
+    public function getAllUsers(): array
+    {
+        $sql = 'SELECT u.id, u.username, u.email,u.created_at,u.is_valid, u.role_level, r.slug FROM users as u 
+    INNER JOIN roles as r on u.role_level = r.level';
+
         $req = $this->executeRequest($sql);
         return $req->fetchAll(PDO::FETCH_CLASS, \Model\User::class);
     }

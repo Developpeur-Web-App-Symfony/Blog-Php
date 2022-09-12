@@ -21,9 +21,6 @@ class ValidatorUser extends Validator
         $this->user = $user;
     }
 
-    /**
-     * @return array
-     */
     public function getErrorsMsg(): array
     {
         return $this->errorsMsg;
@@ -55,6 +52,19 @@ class ValidatorUser extends Validator
         }
     }
 
+    private function checkRole()
+    {
+        if ($this->isEmpty($this->user->getRoleLevel())) {
+            $this->errors++;
+            $this->errorsMsg['role'] = "Veuillez sélectionner au minimum une categorie";
+        }
+
+        if ($this->isNotAnEmail($this->user->getRoleLevel())) {
+            $this->errors++;
+            $this->errorsMsg['email'] = "Email non valide";
+        }
+    }
+
     private function checkPassword()
     {
         if ($this->isEmpty($this->user->getPassword())) {
@@ -73,6 +83,29 @@ class ValidatorUser extends Validator
         $this->checkUsername();
         $this->checkEmail();
         $this->checkPassword();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function formUpdateValidateAdmin(): bool
+    {
+        $this->checkUsername();
+        $this->checkEmail();
+        $this->checkRole();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function formUpdateValidateUser(): bool
+    {
+        $this->checkUsername();
+        $this->checkEmail();
         if ($this->errors !== 0) {
             return false;
         } else {
@@ -178,10 +211,29 @@ class ValidatorUser extends Validator
             exit();
         }
     }
+
     public function registerValidate(): bool
     {
         $repoUser = new \Repository\User($this->user);
         if ($repoUser->checkEmailInBdd() === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function mailNotExistInBdd(): bool
+    {
+        $repoUser = new \Repository\User($this->user);
+        if ($repoUser->checkOtherMailInBdd() === 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function usernameNotExistInBdd(): bool
+    {
+        $repoUser = new \Repository\User($this->user);
+        if ($repoUser->checkUsernameInBdd() === 0){
             return true;
         }
         return false;
