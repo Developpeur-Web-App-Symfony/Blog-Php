@@ -58,11 +58,6 @@ class ValidatorUser extends Validator
             $this->errors++;
             $this->errorsMsg['role'] = "Veuillez sélectionner au minimum une categorie";
         }
-
-        if ($this->isNotAnEmail($this->user->getRoleLevel())) {
-            $this->errors++;
-            $this->errorsMsg['email'] = "Email non valide";
-        }
     }
 
     private function checkPassword()
@@ -194,7 +189,7 @@ class ValidatorUser extends Validator
             exit();
         }
         if ($userRole == Controller::USER){
-            header('Location: /dashboard/user');
+            header('Location: /home/index');
             exit();
         }
         if ($userRole == Controller::AUTHOR){

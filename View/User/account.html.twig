@@ -17,7 +17,17 @@
                     <img src="/media/icons-utilisateur.png" alt="logo">
                 </div>
                 <div>
-                    <p>{% if user.valid == 1 %}{{ "Compte activé" }}{% else %}{{ "En cours d'activation" }}{% endif %}</p>
+                    <p>{% if user.valid == 1 %}
+                            {{ "Compte activé" }}
+                        {% else %}
+                            {{ "En cours d'activation" }}
+                        {% endif %} -
+                        {% for role in allRoles %}
+                        {% if user.roleLevel == role.level %}
+                            {{ role.slug }}
+                        {% endif %}
+                        {% endfor %}
+                    </p>
                     <p>Créer le : {{ user.createdAt|date("d/m/Y H:i") }}</p>
                 </div>
                 <label for="username">
@@ -58,7 +68,9 @@
                     <input type="hidden" name="userForm" value="update">
                     <input class="btn-form" type="submit" id="submit" value="Mettre à jour">
                 </div>
-                <a class="btn-form" href="/home/signIn">Modifier le mot de passe</a>
+                <div>
+                    <a class="btn-form" href="/home/signIn">Modifier le mot de passe</a>
+                </div>
             </form>
         </section>
     </div>

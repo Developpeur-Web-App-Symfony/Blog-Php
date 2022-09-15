@@ -2,6 +2,7 @@
 namespace Controller;
 
 use Exception;
+use Framework\Session;
 use Repository\Category;
 
 class Dashboard extends \Framework\Controller
@@ -12,16 +13,12 @@ class Dashboard extends \Framework\Controller
      */
     public function index()
     {
-        $this->generateView([
-        ]);
-    }
+        $user = new \Model\User();
+        $userRepository = new \Repository\User($user);
+        $userBdd = $userRepository->getUser(Session::getSession()->getId());
 
-    /**
-     * @throws Exception
-     */
-    public function accountManagement()
-    {
         $this->generateView([
+            'user' => $userBdd
         ]);
     }
 
@@ -43,21 +40,4 @@ class Dashboard extends \Framework\Controller
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function commentManagement()
-    {
-        $this->generateView([
-        ]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function userManagement()
-    {
-        $this->generateView([
-        ]);
-    }
 }

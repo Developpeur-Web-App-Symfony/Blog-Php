@@ -83,7 +83,7 @@ class User extends \Framework\Model
         ));
     }
 
-    public function updateAccountUser()
+    public function updateAccountUser(): bool
     {
         $sql = 'UPDATE users SET username=:username, role_level=:role_level, email=:email WHERE id=:id';
         $updateUser = $this->executeRequest($sql, array(
@@ -92,6 +92,7 @@ class User extends \Framework\Model
             'username' => $this->user->getUsername(),
             'role_level' => $this->user->getRoleLevel(),
         ));
+        return true;
     }
 
     public function updatePassword()

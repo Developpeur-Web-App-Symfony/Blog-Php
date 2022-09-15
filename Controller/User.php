@@ -4,6 +4,7 @@ namespace Controller;
 
 use Exception;
 use Framework\Controller;
+use Framework\Session;
 use Services\ValidatorUser;
 
 class User extends \Framework\Controller
@@ -54,8 +55,19 @@ class User extends \Framework\Controller
                     if ($validatorUser->formUpdateValidateAdmin()){
                         if ($validatorUser->mailNotExistInBdd()
                         && $validatorUser->usernameNotExistInBdd()){
-                            $repositoryUser->updateAccountUser();
-                            $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès !"]);
+                            $data = [
+                                'username' => $user->getUsername(),
+                                'email' => $user->getEmail(),
+                            ];
+                            if($repositoryUser->updateAccountUser()) {
+                                $this->sendEmail('updateUser', 'Modification du compte sur le site de JM Website', $user->getEmail(), $data);
+                                $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès"]);
+                                header("Location: /user/account/$userId");
+                                exit();
+                            }
+                        }
+                        else{
+                            $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
                             header("Location: /user/account/$userId");
                             exit();
                         }
@@ -66,11 +78,16 @@ class User extends \Framework\Controller
                         if ($validatorUser->mailNotExistInBdd()
                             && $validatorUser->usernameNotExistInBdd()){
                             $user->setRoleLevel($userBdd->getRoleLevel());
-
-                            $repositoryUser->updateAccountUser();
-                            $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès !"]);
-                            header("Location: /user/account/$userId");
-                            exit();
+                            $data = [
+                                'username' => $user->getUsername(),
+                                'email' => $user->getEmail(),
+                            ];
+                            if($repositoryUser->updateAccountUser()) {
+                                $this->sendEmail('updateUser', 'Modification du compte sur le site de JM Website', $user->getEmail(), $data);
+                                $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès"]);
+                                header("Location: /user/account/$userId");
+                                exit();
+                            }
                         } else{
                             $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
                             header("Location: /user/account/$userId");
