@@ -1,0 +1,9 @@
+{% extends "Mails/gabarit.html.twig" %}
+{% block title %}{{ "Modification du compte" }}{% endblock %}
+{% block main %}
+<div style="border: 10px solid #2A374E; padding: 10px">
+    <p>Nom d'utilisateur : {{ username }}</p>
+    <p>Adresse mail : {{ email }}</p>
+    <p>Voici les modifications apportées à votre compte sur le site de JM Website</p><br/>
+</div>
+{% endblock %}
