@@ -107,6 +107,40 @@ class User extends \Framework\Controller
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
+    public function updatePassword()
+    {
+        $user = new \Model\User();
+        $repositoryUser = new \Repository\User($user);
+        $userId = $this->request->getParameter('id');
+        $userBdd = $repositoryUser->getUser($userId);
+        if ($this->request->existsParameter('userForm')) {
+            if ($this->request->existsParameter('userForm') == 'update') {
+                $user->setpassword($this->request->getParameter('password'));
+                $user->setCPassword($this->request->getParameter('cPassword'));
+                $user->setId($userId);
+                $validatorUser = new ValidatorUser($user);
+                if ($validatorUser->formNewPasswordValidate()){
+                    $user->passwordHash();
+                    $user->setEmail($userBdd->getEmail());
+                    $repositoryUser->updateNewPassword();
+                    $this->sendEmail('newPassword', 'Modification de votre compte sur le site JMWebsite', $user->getEmail());
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Vous pouvez dès à présent vous connecter avec votre nouveau mot de passe"]);
+                    header("Location: /user/account/$userId");
+                    exit();
+                }
+            }
+        }
+
+
+        $this->generateView([
+            'user' => $userBdd ?? null,
+            'validator' => $validatorUser ?? null
+        ]);
+    }
+
     public function delete()
     {
         $comment = new \Model\Comment();

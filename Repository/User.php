@@ -8,8 +8,6 @@ use \PDO;
 
 class User extends \Framework\Model
 {
-    /** AJOUTER LES PDO::FETCH_CLASS, \Model\User::class */
-
     private object $user;
 
     public function __construct($user)
@@ -56,7 +54,7 @@ class User extends \Framework\Model
             'email' => $email,
         ));
         if ($user->rowCount() === 1) {
-            $userdata = $user->setFetchMode(PDO::FETCH_OBJ);
+            $user->setFetchMode(PDO::FETCH_CLASS, \Model\User::class);
             return $user->fetch();
         } else {
             throw new Exception("Aucun utilisateur ne correspond à l'adresse email '$email'");
@@ -102,6 +100,15 @@ class User extends \Framework\Model
             'email' => $this->user->getEmail(),
             'password' => $this->user->getPassword(),
             'token' => $this->user->getToken()
+        ));
+    }
+
+    public function updateNewPassword()
+    {
+        $sql = 'UPDATE users SET password=:password WHERE email=:email';
+        $updateUser = $this->executeRequest($sql, array(
+            'email' => $this->user->getEmail(),
+            'password' => $this->user->getPassword()
         ));
     }
 
@@ -154,19 +161,19 @@ class User extends \Framework\Model
     {
         $sql = 'SELECT id, token, username, email, password, created_at, role_level, is_valid FROM users WHERE email= :email';
         if ($valid !== null) {
-
             $sql .= ' AND is_valid = :is_valid';
             $req = $this->executeRequest($sql, array(
                 'email' => $this->user->getEmail(),
                 'is_valid' => $valid,
             ));
-
-            return $req->fetch(PDO::FETCH_OBJ);
+            $req->setFetchMode(PDO::FETCH_CLASS, \Model\User::class);
+            return $req->fetch();
         }
         $req = $this->executeRequest($sql, array(
             'email' => $this->user->getEmail(),
         ));
-        return $req->fetch(PDO::FETCH_OBJ);
+        $req->setFetchMode(PDO::FETCH_CLASS, \Model\User::class);
+        return $req->fetch();
     }
 
     public function save(): bool
