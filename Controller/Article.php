@@ -33,7 +33,6 @@ class Article extends \Framework\Controller
      */
     public function read()
     {
-
         $articleId = $this->request->getParameter('id');
         $article = new \Repository\Article();
         $articleDetails = $article->getArticle($articleId);
@@ -79,6 +78,11 @@ class Article extends \Framework\Controller
      */
     public function create()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
+            header("Location: /home/index");
+            exit();
+        }
         $category = new \Model\Category();
         $repositoryCategory = new Category($category);
         $allCategory = $repositoryCategory->getAllCategory();
@@ -128,11 +132,9 @@ class Article extends \Framework\Controller
                         header('Location: /dashboard/articleManagement');
                         exit();
                     }
-
                 }
             }
         }
-
         $this->generateView([
             'allCategory' => $allCategory,
             'validator' => $validator ?? null,
@@ -147,6 +149,11 @@ class Article extends \Framework\Controller
      */
     public function update()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
+            header("Location: /home/index");
+            exit();
+        }
         $articleId = $this->request->getParameter('id');
         $repositoryArticle = new \Repository\Article();
         $article = $repositoryArticle->getArticle($articleId);
@@ -231,6 +238,11 @@ class Article extends \Framework\Controller
 
     public function delete()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
+            header("Location: /home/index");
+            exit();
+        }
         $articleId = $this->request->getParameter('id');
         $repositoryArticle = new \Repository\Article();
         $repositoryArticle->deleteArticle($articleId);

@@ -23,6 +23,11 @@ class User extends \Framework\Controller
      */
     public function userManagement()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::ADMIN) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page"]);
+            header("Location: /home/index");
+            exit();
+        }
         $user = new \Model\User();
         $repositoryUser = new \Repository\User($user);
         $allUser = $repositoryUser->getAllUsers();
@@ -99,7 +104,6 @@ class User extends \Framework\Controller
                 }
             }
         }
-
         $this->generateView([
             'user' => $userBdd ?? null,
             'allRoles' => $allRoles ?? null,
@@ -139,17 +143,5 @@ class User extends \Framework\Controller
             'user' => $userBdd ?? null,
             'validator' => $validatorUser ?? null
         ]);
-    }
-
-    public function delete()
-    {
-        $comment = new \Model\Comment();
-        $commentId = $this->request->getParameter('id');
-        $comment->setId($commentId);
-        $repositoryComment = new \Repository\Comment($comment);
-        $repositoryComment->deleteComment();
-        $this->request->getSession()->setAttribut('flash', ['alert' => "Commentaire supprimer avec succès"]);
-        header('Location: /comment/commentManagement');
-        exit;
     }
 }
