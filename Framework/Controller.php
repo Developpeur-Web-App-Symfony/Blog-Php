@@ -123,8 +123,8 @@ abstract class Controller
         $mail->isSMTP();
         $mail->Host = Configuration::get('mailtransport');
         $mail->Port = Configuration::get('mailport');
-        $mail->SMTPAuth = true;
-        $mail->SMTPAutoTLS = true;
+        $mail->SMTPAuth = false;
+        $mail->SMTPAutoTLS = false;
         $mail->CharSet = 'UTF-8';
 
         $mail->SMTPSecure = Configuration::get('mailsecurity');
@@ -140,10 +140,11 @@ abstract class Controller
         $mail->Body = $body;
 
         if($mail->send()){
-            echo 'Message envoyer';
+            return true;
         }else{
             echo "Le mail n'a pas était envoyé ";
             echo 'Mailer Error: ' . $mail->ErrorInfo;
+            return  false;
         }
     }
 }

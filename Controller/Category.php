@@ -2,11 +2,12 @@
 namespace Controller;
 
 use Exception;
+use Framework\Controller;
+use Framework\Session;
 use Services\ValidatorAddCategory;
 
 class Category extends \Framework\Controller
 {
-
     /**
      * @throws Exception
      */
@@ -21,6 +22,11 @@ class Category extends \Framework\Controller
      */
     public function create()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
+            header("Location: /home/index");
+            exit();
+        }
         if ($this->request->existsParameter('saveCategory')) {
             if ($this->request->existsParameter('saveCategory') == 'save') {
                 $category = new \Model\Category();
@@ -51,6 +57,11 @@ class Category extends \Framework\Controller
      */
     public function update()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
+            header("Location: /home/index");
+            exit();
+        }
         $categoryId = $this->request->getParameter('id');
         $category = new \Model\Category();
         $repositoryCategory = new \Repository\Category($category);
@@ -84,6 +95,11 @@ class Category extends \Framework\Controller
 
     public function delete()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
+            header("Location: /home/index");
+            exit();
+        }
         $categoryId = $this->request->getParameter('id');
         $category = new \Model\Category();
         $repositoryCategory = new \Repository\Category($category);
