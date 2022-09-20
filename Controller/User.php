@@ -42,7 +42,7 @@ class User extends \Framework\Controller
      */
     public function account()
     {
-        if (intval(Session::getSession()->getRoleLevel()) <= Controller::VISITOR) {
+        if (intval(Session::getSession()->getRoleLevel()) == Controller::VISITOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page, veuillez vous connecter"]);
             header("Location: /home/index");
             exit();
@@ -121,7 +121,7 @@ class User extends \Framework\Controller
      */
     public function updatePassword()
     {
-        if (intval(Session::getSession()->getRoleLevel()) <= Controller::VISITOR) {
+        if (intval(Session::getSession()->getRoleLevel()) == Controller::VISITOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page, veuillez vous connecter"]);
             header("Location: /home/index");
             exit();

@@ -179,11 +179,15 @@ class Article extends \Framework\Controller
                 $article->setImageFilename($this->request->getParameter('file')['name']);
                 $article->setImageAlt($this->request->getParameter('alt'));
                 $article->setId($articleId);
-                $userId = implode("", $this->request->getParameter('author'));
+                if($this->request->getParameter('author') === null){
+                    $userId = Session::getSession()->getId();
+                } else{
+                    $userId = implode("", $this->request->getParameter('author'));
+                }
                 $article->setUserId($userId);
                 $validator = new ValidatorAddArticle($article, $category);
                 $validatorUpload = new ValidatorUpload($article);
-                if ($validator->formAddArticleValidate() && $validator->checkAuthorSelected()) {
+                if ($validator->formAddArticleValidate()) {
                     if ($this->request->getParameter('updateArticle')) {
                         $article->setPublish(\Framework\Controller::PUBLISH['PUBLISH']);
                     } else {
@@ -211,11 +215,10 @@ class Article extends \Framework\Controller
                     } else {
                         $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
                         $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
-
                         $repositoryArticle->update($article);
 
                         //                    ENREGISTREMENT DE LA CATEGORIE EN BDD
-//Suppression des associations de categories aux articles avant enregistrement des nouvelles
+                        //Suppression des associations de categories aux articles avant enregistrement des nouvelles
                         $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd, $articleId);
                         $repositoryArticleHasCategory->save($categoryList, $articleId);
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Article modifier avec succès"]);

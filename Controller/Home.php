@@ -104,8 +104,6 @@ class Home extends \Framework\Controller
                     if ($userBdd) {
                         $user->hydrate($userBdd);
                         $userRole = $user->getRoleLevel();
-                        $validatorUser->roleBlocked($userRole);
-
                         if ($validatorUser->login()) {
                             $sessionAuth = new Session();
                             $sessionAuth->setAttribut('auth', $user);
@@ -114,7 +112,7 @@ class Home extends \Framework\Controller
                             $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect"]);
                         }
                     } else {
-                        $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect"]);
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect ou compte désactivé"]);
                     }
                 }
             }

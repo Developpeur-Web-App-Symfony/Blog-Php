@@ -76,12 +76,6 @@ class View
         }
     }
 
-    // Nettoie une valeur insérée dans une page HTML
-    private function clean($value): string
-    {
-        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
-    }
-
     public function generateMail($data): bool|string
     {
         // Génération de la partie spécifique de la vue

@@ -14,7 +14,7 @@ class Dashboard extends \Framework\Controller
      */
     public function index()
     {
-        if (intval(Session::getSession()->getRoleLevel()) <= Controller::VISITOR) {
+        if (intval(Session::getSession()->getRoleLevel()) == Controller::VISITOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page, veuillez vous authentifier"]);
             header("Location: /home/index");
             exit();

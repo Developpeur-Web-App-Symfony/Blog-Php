@@ -14,7 +14,7 @@
             <ul>
                 {% for comment in allComments %}
                     <li class="comment-list">{{ comment.content }}
-                        <a class="btn-form-category" role="button" href="/comment/delete/{{ comment.id }}">
+                        <a class="btn-form-category" role="button" onclick="return confirm('Etes-vous sûr ?');" href="/comment/delete/{{ comment.id }}">
                             <i class="fa fa-times"></i>
                         </a>
                         <a class="btn-form-category" role="button" href="/comment/valid/{{ comment.id }}">

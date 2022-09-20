@@ -21,20 +21,20 @@ LEFT JOIN users AS u
         ON a.user_id = u.id';
 
         if ($publish != null && $nbStart !== null or $nbEnd !== null) {
-            $sql .= " WHERE a.publish =:publish ORDER BY a.created_at DESC LIMIT " . $nbStart . "," . $nbEnd;
+            $sql .= " WHERE a.publish =:publish ORDER BY a.updated_at DESC LIMIT " . $nbStart . "," . $nbEnd;
             $req = $this->executeRequest($sql, array(
                 'publish' => $publish,
             ));
 
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         } elseif ($publish != null) {
-            $sql .= " WHERE a.publish =:publish GROUP BY a.id ORDER BY a.created_at DESC ";
+            $sql .= " WHERE a.publish =:publish GROUP BY a.id ORDER BY a.updated_at DESC ";
             $req = $this->executeRequest($sql, array(
                 'publish' => $publish,
             ));
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         } elseif ($publish === null && $nbStart === null or $nbEnd === null){
-            $sql .= " GROUP BY a.id ORDER BY a.created_at DESC";
+            $sql .= " GROUP BY a.id ORDER BY a.updated_at DESC";
             $req = $this->executeRequest($sql);
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         }
@@ -107,7 +107,7 @@ LEFT JOIN users AS u
 
     public function update($article)
     {
-        $sql = "UPDATE articles SET updated_at=:updatedAt, content=:content, title=:title, publish=:publish, excerpt=:excerpt, image_filename=:image_filename, image_alt=:image_alt, user_id=:user_id WHERE id=:id";
+        $sql = "UPDATE articles SET updated_at=:updated_at, content=:content, title=:title, publish=:publish, excerpt=:excerpt, image_filename=:image_filename, image_alt=:image_alt, user_id=:user_id WHERE id=:id";
 
         $req = $this->executeRequest($sql, array(
             'id' => $article->getId(),
@@ -120,5 +120,6 @@ LEFT JOIN users AS u
             'image_alt' => $article->getImageAlt(),
             'user_id' => $article->getUserId(),
         ));
+
     }
 }
