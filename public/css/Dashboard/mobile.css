@@ -28,8 +28,11 @@
 }
 
 ul > .category-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 10px;
     box-shadow: 2px 2px 3px 3px #4f4d5f;
-    width: 50%;
     padding: 5px;
     border-radius: 40px;
 }

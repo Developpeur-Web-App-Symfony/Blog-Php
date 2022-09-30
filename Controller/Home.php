@@ -21,7 +21,7 @@ class Home extends \Framework\Controller
         $allArticle = $repositoryArticle->getAllArticles(Controller::PUBLISH['PUBLISH']);
 
         if ($this->request->existsParameter('contactForm')) {
-            if ($this->request->existsParameter('contactForm') == 'contact') {
+            if ($this->request->getParameter('contactForm') == 'contact') {
                 $name = $this->request->getParameter('name');
                 $email = $this->request->getParameter('email');
                 $phone = $this->request->getParameter('phone');
@@ -42,7 +42,6 @@ class Home extends \Framework\Controller
 
             }
         }
-
         $this->generateView([
             'allArticle' => $allArticle ?? null,
             'validator' => $validatorContact ?? null
@@ -55,7 +54,7 @@ class Home extends \Framework\Controller
     public function contact()
     {
         if ($this->request->existsParameter('contactForm')) {
-            if ($this->request->existsParameter('contactForm') == 'contact') {
+            if ($this->request->getParameter('contactForm') == 'contact') {
                 $name = $this->request->getParameter('name');
                 $email = $this->request->getParameter('email');
                 $phone = $this->request->getParameter('phone');
@@ -93,7 +92,7 @@ class Home extends \Framework\Controller
             exit();
         }
         if ($this->request->existsParameter('loginForm')) {
-            if ($this->request->existsParameter('loginForm') == 'login') {
+            if ($this->request->getParameter('loginForm') == 'login') {
                 $user = new User();
                 $user->setEmail($this->request->getParameter('email'));
                 $user->setPassword($this->request->getParameter('password'));
@@ -215,7 +214,7 @@ class Home extends \Framework\Controller
     public function forgotPassword()
     {
         if ($this->request->existsParameter('forgotPasswordForm')) {
-            if ($this->request->existsParameter('forgotPasswordForm') == 'forgotPassword') {
+            if ($this->request->getParameter('forgotPasswordForm') == 'forgotPassword') {
                 $user = new User();
                 $user->setEmail($this->request->getParameter('email'));
                 $validatorUser = new ValidatorUser($user);

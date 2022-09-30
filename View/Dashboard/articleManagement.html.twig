@@ -17,12 +17,14 @@
                 <ul>
                     {% for category in allCategory %}
                         <li class="category-list">{{ category.name }}
-                            <a class="btn-form-category" role="button" onclick="return confirm('Etes-vous sûr ?');" href="/category/delete/{{ category.id }}">
-                                <i class="fa fa-times"></i>
-                            </a>
                             <a class="btn-form-category" role="button" href="/category/update/{{ category.id }}">
                                 <i class="fas fa-edit"></i>
                             </a>
+                            <form method="post" action="/category/delete">
+                                <input type="hidden" name="categoryId" value="{{ category.id }}">
+                                <input type="hidden" name="token" value="{{ token }}">
+                                <button class="btn-form-category"><i class="fa fa-times"></i></button>
+                            </form>
                         </li>
                     {% else %}
                         <li>Aucune catégorie créer</li>
@@ -48,7 +50,11 @@
                 </span>
                 <div class="management-article">
                     <a class="btn-form" href="/article/update/{{ article.id }}">Modifier</a>
-                    <a class="btn-form" onclick="return confirm('Etes-vous sûr ?');" href="/article/delete/{{ article.id }}">Supprimer</a>
+                    <form method="post" action="/article/delete">
+                        <input type="hidden" name="deleteArticleId" value="{{ article.id }}">
+                        <input type="hidden" name="articleToken" value="{{ token }}">
+                        <button class="btn-form">Supprimer</button>
+                    </form>
                 </div>
             </article>
             {% endfor %}

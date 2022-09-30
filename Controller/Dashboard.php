@@ -45,9 +45,12 @@ class Dashboard extends \Framework\Controller
         $repositoryArticle = new \Repository\Article();
         $allArticle = $repositoryArticle->getAllArticles();
 
+        $token = Session::getSession()->getToken();
+
         $this->generateView([
             'allCategory' => $allCategory ?? null,
             'allArticle' => $allArticle ?? null,
+            'token' => $token,
         ]);
     }
 

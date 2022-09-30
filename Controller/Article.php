@@ -48,7 +48,7 @@ class Article extends \Framework\Controller
             $userRepository = new \Repository\User($user);
             $userBdd = $userRepository->getUser($userId);
             if ($this->request->existsParameter('commentForm')) {
-                if ($this->request->existsParameter('commentForm') == 'comment') {
+                if ($this->request->getParameter('commentForm') == 'comment') {
                     $comment->setUserId($userId);
                     $comment->setContent($this->request->getParameter('content'));
                     $validatorComment = new ValidatorAddComment($comment);
@@ -88,7 +88,7 @@ class Article extends \Framework\Controller
         $allCategory = $repositoryCategory->getAllCategory();
 
         if ($this->request->existsParameter('saveArticle')) {
-            if ($this->request->existsParameter('saveArticle') == 'save') {
+            if ($this->request->getParameter('saveArticle') == 'save') {
                 $article = new \Model\Article();
                 $userid = $this->request->getSession()->getSession()->getId();
                 $article->setUserId($userid);
@@ -167,7 +167,7 @@ class Article extends \Framework\Controller
         $listUsers = $repositoryUser->getUsers(Controller::AUTHOR, Controller::IS_VALID['VALID']);
 
         if ($this->request->existsParameter('saveArticle')) {
-            if ($this->request->existsParameter('saveArticle') == 'save') {
+            if ($this->request->getParameter('saveArticle') == 'save') {
                 $article = new \Model\Article();
                 $newModification = new \DateTime();
                 $article->setUpdatedAt($newModification->format('Y-m-d H:i:s'));
@@ -246,12 +246,22 @@ class Article extends \Framework\Controller
             header("Location: /home/index");
             exit();
         }
-        $articleId = $this->request->getParameter('id');
-        $repositoryArticle = new \Repository\Article();
-        $repositoryArticle->deleteArticle($articleId);
-        $this->request->getSession()->setAttribut('flash', ['alert' => "Article supprimer avec succès"]);
-        header('Location: /dashboard/articleManagement');
-        exit;
+        $tokenUser = Session::getSession()->getToken();
+
+        if ($this->request->existsParameter('deleteArticleId') && $this->request->existsParameter('articleToken')) {
+            if ($this->request->getParameter('articleToken') == $tokenUser) {
+                $articleId = $this->request->getParameter('deleteArticleId');
+                $repositoryArticle = new \Repository\Article();
+                $repositoryArticle->deleteArticle($articleId);
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Article supprimer avec succès"]);
+                header('Location: /dashboard/articleManagement');
+                exit;
+            } else {
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
+                header('Location: /dashboard/articleManagement');
+                exit;
+            }
+        }
 
     }
 

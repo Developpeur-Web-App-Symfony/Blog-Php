@@ -54,7 +54,7 @@ class User extends \Framework\Controller
         $repositoryRole = new \Repository\Role();
         $allRoles = $repositoryRole->getAllRoles();
         if ($this->request->existsParameter('userForm')) {
-            if ($this->request->existsParameter('userForm') == 'update') {
+            if ($this->request->getParameter('userForm') == 'update') {
                 $user->setUsername($this->request->getParameter('username'));
                 $user->setEmail($this->request->getParameter('email'));
                 $user->setId($userId);
@@ -131,7 +131,7 @@ class User extends \Framework\Controller
         $userId = $this->request->getParameter('id');
         $userBdd = $repositoryUser->getUser($userId);
         if ($this->request->existsParameter('userForm')) {
-            if ($this->request->existsParameter('userForm') == 'update') {
+            if ($this->request->getParameter('userForm') == 'update') {
                 $user->setpassword($this->request->getParameter('password'));
                 $user->setCPassword($this->request->getParameter('cPassword'));
                 $user->setId($userId);

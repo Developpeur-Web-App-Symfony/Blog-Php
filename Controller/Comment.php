@@ -31,8 +31,11 @@ class Comment extends \Framework\Controller
         $repositoryComment = new \Repository\Comment($comment);
         $allComment = $repositoryComment->getAllComments();
 
+        $token = Session::getSession()->getToken();
+
         $this->generateView([
-            'allComments' => $allComment ?? null
+            'allComments' => $allComment ?? null,
+            'token' => $token,
         ]);
     }
 
@@ -61,13 +64,22 @@ class Comment extends \Framework\Controller
             header("Location: /home/index");
             exit();
         }
-        $comment = new \Model\Comment();
-        $commentId = $this->request->getParameter('id');
-        $comment->setId($commentId);
-        $repositoryComment = new \Repository\Comment($comment);
-        $repositoryComment->deleteComment();
-        $this->request->getSession()->setAttribut('flash', ['alert' => "Commentaire supprimer avec succès"]);
-        header('Location: /comment/commentManagement');
-        exit;
+        $tokenUser = Session::getSession()->getToken();
+        if ($this->request->existsParameter('deleteCommentId') && $this->request->existsParameter('commentToken')) {
+            if ($this->request->getParameter('commentToken') == $tokenUser) {
+                $comment = new \Model\Comment();
+                $commentId = $this->request->getParameter('deleteCommentId');
+                $comment->setId($commentId);
+                $repositoryComment = new \Repository\Comment($comment);
+                $repositoryComment->deleteComment();
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Commentaire supprimer avec succès"]);
+                header('Location: /comment/commentManagement');
+                exit;
+            } else {
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
+                header('Location: /comment/commentManagement');
+                exit;
+            }
+        }
     }
 }

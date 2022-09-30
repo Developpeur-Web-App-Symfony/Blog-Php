@@ -28,7 +28,7 @@ class Category extends \Framework\Controller
             exit();
         }
         if ($this->request->existsParameter('saveCategory')) {
-            if ($this->request->existsParameter('saveCategory') == 'save') {
+            if ($this->request->getParameter('saveCategory') == 'save') {
                 $category = new \Model\Category();
                 $category->setName($this->request->getParameter('name'));
                 $validator = new ValidatorAddCategory($category);
@@ -67,11 +67,10 @@ class Category extends \Framework\Controller
         $repositoryCategory = new \Repository\Category($category);
         $categorySelect = $repositoryCategory->getCategory($categoryId);
         if ($this->request->existsParameter('saveCategory')) {
-            if ($this->request->existsParameter('saveCategory') == 'save') {
+            if ($this->request->getParameter('saveCategory') == 'save') {
                 $category->setId($categoryId);
                 $category->setName($this->request->getParameter('name'));
                 $validator = new ValidatorAddCategory($category);
-
                 if ($validator->formAddCategoryValidate()) {
                     if ($validator->categoryNameValidate())
                     {
@@ -100,13 +99,22 @@ class Category extends \Framework\Controller
             header("Location: /home/index");
             exit();
         }
-        $categoryId = $this->request->getParameter('id');
-        $category = new \Model\Category();
-        $repositoryCategory = new \Repository\Category($category);
-        $repositoryCategory->deleteCategory($categoryId);
-        $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie supprimer avec succès"]);
-        header('Location: /dashboard/articleManagement');
-        exit;
+        $tokenUser = Session::getSession()->getToken();
+        if ($this->request->existsParameter('categoryId') && $this->request->existsParameter('token')) {
+            if ($this->request->getParameter('token') == $tokenUser) {
+                $categoryId = $this->request->getParameter('categoryId');
+                $category = new \Model\Category();
+                $repositoryCategory = new \Repository\Category($category);
+                $repositoryCategory->deleteCategory($categoryId);
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie supprimer avec succès"]);
+                header('Location: /dashboard/articleManagement');
+                exit;
+            } else {
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
+                header('Location: /dashboard/articleManagement');
+                exit;
+            }
+        }
     }
 
 }
