@@ -4,6 +4,7 @@
 namespace Services;
 
 use Framework\Controller;
+use Framework\Session;
 use Model\User;
 use Services\Validator;
 
@@ -232,5 +233,28 @@ class ValidatorUser extends Validator
             return true;
         }
         return false;
+    }
+
+    public function getIpAdressUser()
+    {
+        // si l'ip provient du partage Internet
+        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
+            $this->user->setIp($_SERVER['HTTP_CLIENT_IP']);
+            //si l'ip vient du proxy
+        } elseif (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+            $this->user->setIp($_SERVER['HTTP_X_FORWARDED_FOR']);
+            //si l'ip provient de l'adresse distante
+        } else {
+            $this->user->setIp($_SERVER['REMOTE_ADDR']);
+        }
+        return $this->user->getIp();
+    }
+
+    public function checkIpUserIsIdentic() {
+        if ($this->isNotIdentic($this->user->getIp(),$this->getIpAdressUser())) {
+            header('Location: /home/disconnected');
+            return false;
+        }
+        return true;
     }
 }

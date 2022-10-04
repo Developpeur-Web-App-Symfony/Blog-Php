@@ -101,10 +101,13 @@ class Home extends \Framework\Controller
                     $repositoryUser = new \Repository\User($user);
                     $userBdd = $repositoryUser->getUserInBdd(Controller::IS_VALID['VALID']);
                     if ($userBdd) {
+                        $validatorUser->getIpAdressUser();
                         $user->hydrate($userBdd);
                         $userRole = $user->getRoleLevel();
                         if ($validatorUser->login()) {
+                            $repositoryUser->updateIpUser();
                             $sessionAuth = new Session();
+                            $user->setCPassword(null);
                             $sessionAuth->setAttribut('auth', $user);
                             $validatorUser->checkRoleRedirect($userRole);
                         } else {

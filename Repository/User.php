@@ -114,7 +114,7 @@ class User extends \Framework\Model
 
     public function getUser($userId)
     {
-        $sql = 'SELECT id as id, created_at as createdAt, role_level as role_level, is_valid as is_valid, username as username, email as email, password as password, token as token FROM users WHERE id=:id';
+        $sql = 'SELECT id as id, created_at as createdAt, role_level as role_level, is_valid as is_valid, username as username, email as email, password as password, token as token, ip as ip FROM users WHERE id=:id';
 
         $user = $this->executeRequest($sql, array(
             'id' => $userId,
@@ -178,7 +178,7 @@ class User extends \Framework\Model
 
     public function save(): bool
     {
-        $sql = "INSERT INTO users(username, email, password, role_level, is_valid, created_at, token) VALUES(:username, :email, :password, :role_level, :is_valid, :createdAt, :token)";
+        $sql = "INSERT INTO users(username, email, password, role_level, is_valid, created_at, token, ip) VALUES(:username, :email, :password, :role_level, :is_valid, :createdAt, :token, :ip)";
 
         $req = $this->executeRequest($sql, array(
             'username' => $this->user->getUsername(),
@@ -188,7 +188,28 @@ class User extends \Framework\Model
             'is_valid' => $this->user->getValid(),
             'createdAt' => $this->user->getCreatedAt(),
             'token' => $this->user->getToken(),
+            'ip' => $this->user->getIp()
         ));
         return true;
+    }
+
+    public function updateIpUser()
+    {
+        $sql = 'UPDATE users SET ip=:ip WHERE email=:email';
+
+        $updateUser = $this->executeRequest($sql, array(
+            'email' => $this->user->getEmail(),
+            'ip' => $this->user->getIp()
+        ));
+    }
+
+    public function getIpUser() {
+        $sql = 'SELECT ip FROM users WHERE id= :id';
+
+        $req = $this->executeRequest($sql, array(
+            'id' => $this->user->getId(),
+        ));
+        $req->setFetchMode(PDO::FETCH_CLASS, \Model\User::class);
+        return $req->fetch();
     }
 }
