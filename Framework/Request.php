@@ -37,12 +37,19 @@ class Request
     }
 
     // Nettoie une valeur insérée dans une page HTML
-    public function clean($values): array
-    {
-        $cleanValues = array();
-        foreach ($values as $param => $value) {
-            $cleanValues[$param] = htmlspecialchars($value);
+    public function clean($data) {
+        if (is_array($data)) {
+            foreach ( $data as $key => $value ) {
+                $data[htmlspecialchars($key)] = $this->clean($value);
+            }
+        } else if (is_object($data)) {
+            $values = get_class_vars(get_class($data));
+            foreach ( $values as $key => $value ) {
+                $data->{htmlspecialchars($key)} = $this->clean($value);
+            }
+        } else {
+            $data = htmlspecialchars($data);
         }
-        return $cleanValues;
+        return $data;
     }
 }

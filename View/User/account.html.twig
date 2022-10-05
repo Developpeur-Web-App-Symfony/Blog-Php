@@ -46,7 +46,7 @@
                 {% if validator.getErrorsMsg.email is defined %}
                     <p class="text-danger">{{ validator.getErrorsMsg.email }}</p>
                 {% endif %}
-                {% if user.roleLevel == constant('Framework\\Controller::ADMIN') %}
+                {% if userCurrent.roleLevel == constant('Framework\\Controller::ADMIN') %}
                     <label for="role">
                         <i class="fa fa-list-alt"></i>
                         <select name="role[]" size="3">

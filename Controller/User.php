@@ -47,10 +47,12 @@ class User extends \Framework\Controller
             header("Location: /home/index");
             exit();
         }
+
         $user = new \Model\User();
         $repositoryUser = new \Repository\User($user);
         $userId = $this->request->getParameter('id');
         $userBdd = $repositoryUser->getUser($userId);
+        $userCurrent = $repositoryUser->getUser(Session::getSession()->getId());
         $repositoryRole = new \Repository\Role();
         $allRoles = $repositoryRole->getAllRoles();
         if ($this->request->existsParameter('userForm')) {
@@ -60,7 +62,9 @@ class User extends \Framework\Controller
                 $user->setId($userId);
                 $validatorUser = new ValidatorUser($user);
                 if ($this->request->getParameter('role') !== null){
+
                     $role = implode("", $this->request->getParameter('role'));
+
                     $user->setRoleLevel($role);
                     if ($validatorUser->formUpdateValidateAdmin()){
                         if ($validatorUser->mailNotExistInBdd()
@@ -111,6 +115,7 @@ class User extends \Framework\Controller
         }
         $this->generateView([
             'user' => $userBdd ?? null,
+            'userCurrent' => $userCurrent,
             'allRoles' => $allRoles ?? null,
             'validator' => $validatorUser ?? null
         ]);
