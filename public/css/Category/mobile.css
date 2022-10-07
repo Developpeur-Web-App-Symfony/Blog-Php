@@ -1,21 +1,21 @@
-.create-category-form{
+.create-category-form {
     padding: 30px 15px 30px 15px;
 }
 
-.new-category-form > label{
+.new-category-form > label {
     position: relative;
     height: 40px;
     display: flex;
 }
 
-.new-category-form{
+.new-category-form {
     display: grid;
     text-align: center;
     grid-gap: 35px;
     border-radius: 20px;
 }
 
-.fa-heading, .fa-image, .fa-file-text-o, .fa-list-alt{
+.fa-heading, .fa-image, .fa-file-text-o, .fa-list-alt {
     position: absolute;
     height: 40px;
     top: 0;
@@ -25,13 +25,13 @@
     font-family: 'Noto Sans', sans-serif;
 }
 
-.new-category-form > label > input{
+.new-category-form > label > input {
     border: none;
     border-bottom: 2px solid #f1f1f1;
     padding-left: 30px;
     width: 100%;
 }
 
-.new-category-form > div > .btn-form{
+.new-category-form > div > .btn-form {
     margin: 10px;
 }

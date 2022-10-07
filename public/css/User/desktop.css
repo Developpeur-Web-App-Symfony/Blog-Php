@@ -1,21 +1,21 @@
-.user-list{
+.user-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     justify-content: center;
 }
 
-.user-infos-management{
+.user-infos-management {
     display: flex;
     padding: 20px;
     justify-content: space-around;
 }
 
-.icon-user > .fa-user{
+.icon-user > .fa-user {
     position: static;
     font-size: 5.5rem;
 }
 
-.fa-edit{
+.fa-edit {
     font-size: 3.5rem;
 }

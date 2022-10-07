@@ -107,18 +107,9 @@ class Article extends \Framework\Controller
                         $article->setPublish(\Framework\Controller::PUBLISH['DRAFT']);
                     }
                     $repositoryArticle = new \Repository\Article();
-                    if ($validator->checkImagePresent()) {
-                        if ($validator->checkImageUpload()) {
-                            if ($validatorUpload->checkErrorFile()) {
-                                if ($validatorUpload->formUploadValidate()) {
-                                    $validatorUpload->uploadFile();
-                                    $repositoryArticle->save($article);
-                                    $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
-                                    header('Location: /dashboard/articleManagement');
-                                    exit();
-                                }
-                            }
-                        }
+                    if ($validator->checkImagePresent() && $validator->checkImageUpload() && $validatorUpload->checkErrorFile() && $validatorUpload->formUploadValidate()) {
+                        $validatorUpload->uploadFile();
+                        $repositoryArticle->save($article);
                     } else {
                         $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
                         $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
@@ -128,10 +119,10 @@ class Article extends \Framework\Controller
                         $repositoryArticleHasCategory = new ArticleHasCategory();
                         $categoryId = $category->getId();
                         $repositoryArticleHasCategory->save($categoryId, $articleId);
-                        $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
-                        header('Location: /dashboard/articleManagement');
-                        exit();
                     }
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
+                    header('Location: /dashboard/articleManagement');
+                    exit();
                 }
             }
         }
@@ -197,35 +188,20 @@ class Article extends \Framework\Controller
                     foreach ($articleHasCategoryList as $item) {
                         $categoryIdInBdd[] = $item->getCategoriesId();
                     }
-                    if ($validator->checkImagePresent()) {
-                        if ($validator->checkImageUpload()) {
-                            if ($validatorUpload->checkErrorFile()) {
-                                if ($validatorUpload->formUploadValidate()) {
-                                    $validatorUpload->uploadFile();
-                                    $repositoryArticle->update($article);
-                                    //Suppression des associations de categories aux articles avant enregistrement des nouvelles
-                                    $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd, $articleId);
-                                    $repositoryArticleHasCategory->save($categoryList, $articleId);
-                                    $this->request->getSession()->setAttribut('flash', ['alert' => "Article modifier avec succès"]);
-                                    header('Location: /dashboard/articleManagement');
-                                    exit();
-                                }
-                            }
-                        }
+                    if ($validator->checkImagePresent() && $validator->checkImageUpload() && $validatorUpload->checkErrorFile() && $validatorUpload->formUploadValidate()) {
+                        $validatorUpload->uploadFile();
                     } else {
                         $article->setImageFilename(\Framework\Controller::IMAGE_DEFAULT['NAME']);
                         $article->setImageAlt(\Framework\Controller::IMAGE_DEFAULT['ALT']);
-                        $repositoryArticle->update($article);
-
-                        //                    ENREGISTREMENT DE LA CATEGORIE EN BDD
-                        //Suppression des associations de categories aux articles avant enregistrement des nouvelles
-                        $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd, $articleId);
-                        $repositoryArticleHasCategory->save($categoryList, $articleId);
-                        $this->request->getSession()->setAttribut('flash', ['alert' => "Article modifier avec succès"]);
-                        header('Location: /dashboard/articleManagement');
-                        exit();
                     }
-
+                    $repositoryArticle->update($article);
+                    //                    ENREGISTREMENT DE LA CATEGORIE EN BDD
+                    //Suppression des associations de categories aux articles avant enregistrement des nouvelles
+                    $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd, $articleId);
+                    $repositoryArticleHasCategory->save($categoryList, $articleId);
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Article modifier avec succès"]);
+                    header('Location: /dashboard/articleManagement');
+                    exit();
                 }
             }
         }
@@ -254,13 +230,11 @@ class Article extends \Framework\Controller
                 $repositoryArticle = new \Repository\Article();
                 $repositoryArticle->deleteArticle($articleId);
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Article supprimer avec succès"]);
-                header('Location: /dashboard/articleManagement');
-                exit;
             } else {
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
-                header('Location: /dashboard/articleManagement');
-                exit;
             }
+            header('Location: /dashboard/articleManagement');
+            exit;
         }
 
     }

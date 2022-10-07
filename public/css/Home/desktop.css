@@ -1,22 +1,22 @@
-.img-home > img{
+.img-home > img {
     max-height: 850px;
 }
 
-.contact-home{
+.contact-home {
     position: absolute;
     top: 3%;
     right: 0;
     margin-top: 80px;
-    background-color: rgba(239,239,239,0.8);
+    background-color: rgba(239, 239, 239, 0.8);
     width: 50%;
     border-radius: 10px;
 }
 
-.textarea-contact > textarea{
+.textarea-contact > textarea {
     max-width: 480px;
 }
 
-.contact-home > div{
+.contact-home > div {
     margin-top: 0;
     padding: 15px;
 }
@@ -25,32 +25,32 @@
     max-height: 600px;
 }
 
-article > a > img{
+article > a > img {
     max-height: 700px;
 }
 
-article{
+article {
     max-height: 60%;
     width: 69%;
 }
 
-.article-home{
+.article-home {
     display: flex;
     text-align: center;
     flex-direction: column;
     align-items: center;
 }
 
-article > div{
+article > div {
     margin-top: 0;
-    background-color: rgba(239,239,239,0.8);
+    background-color: rgba(239, 239, 239, 0.8);
     padding: 30px 15px 15px 15px;
 }
 
-main{
+main {
     padding-bottom: 200px;
 }
 
-footer{
+footer {
     height: 160px;
 }

@@ -44,7 +44,7 @@ class Category extends \Framework\Model
     public function deleteCategory($categoryId)
     {
         $sql = 'DELETE FROM categories WHERE id =:id';
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $categoryId,
         ));
     }
@@ -63,7 +63,7 @@ class Category extends \Framework\Model
     {
         $sql = 'UPDATE categories SET name=:name WHERE id=:id';
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $this->category->getId(),
             'name' => $this->category->getName(),
         ));
@@ -73,7 +73,7 @@ class Category extends \Framework\Model
     {
         $sql = "INSERT INTO categories(name) VALUES(:name)";
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'name' => $this->category->getName(),
         ));
     }

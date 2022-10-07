@@ -64,7 +64,7 @@ class User extends \Framework\Model
     public function updateToken()
     {
         $sql = 'UPDATE users SET token=:token WHERE email=:email';
-        $updateUser = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'email' => $this->user->getEmail(),
             'token' => $this->user->getToken()
         ));
@@ -73,7 +73,7 @@ class User extends \Framework\Model
     public function updateUser()
     {
         $sql = 'UPDATE users SET role_level=:role_level, is_valid=:is_valid, email=:email WHERE id=:id';
-        $updateUser = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $this->user->getId(),
             'email' => $this->user->getEmail(),
             'role_level' => $this->user->getRoleLevel(),
@@ -84,7 +84,7 @@ class User extends \Framework\Model
     public function updateAccountUser(): bool
     {
         $sql = 'UPDATE users SET username=:username, role_level=:role_level, email=:email WHERE id=:id';
-        $updateUser = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $this->user->getId(),
             'email' => $this->user->getEmail(),
             'username' => $this->user->getUsername(),
@@ -96,7 +96,7 @@ class User extends \Framework\Model
     public function updatePassword()
     {
         $sql = 'UPDATE users SET password=:password, token=:token WHERE email=:email';
-        $updateUser = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'email' => $this->user->getEmail(),
             'password' => $this->user->getPassword(),
             'token' => $this->user->getToken()
@@ -106,7 +106,7 @@ class User extends \Framework\Model
     public function updateNewPassword()
     {
         $sql = 'UPDATE users SET password=:password WHERE email=:email';
-        $updateUser = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'email' => $this->user->getEmail(),
             'password' => $this->user->getPassword()
         ));
@@ -180,7 +180,7 @@ class User extends \Framework\Model
     {
         $sql = "INSERT INTO users(username, email, password, role_level, is_valid, created_at, token, ip) VALUES(:username, :email, :password, :role_level, :is_valid, :createdAt, :token, :ip)";
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'username' => $this->user->getUsername(),
             'email' => $this->user->getEmail(),
             'password' => $this->user->getPassword(),
@@ -197,7 +197,7 @@ class User extends \Framework\Model
     {
         $sql = 'UPDATE users SET ip=:ip WHERE email=:email';
 
-        $updateUser = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'email' => $this->user->getEmail(),
             'ip' => $this->user->getIp()
         ));

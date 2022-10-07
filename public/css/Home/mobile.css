@@ -1,68 +1,69 @@
 /* HOMEPAGE */
 
-.img-home{
+.img-home {
     display: grid;
     grid-template-rows: auto auto;
 }
 
-.img-home > div{
+.img-home > div {
     padding: 30px 15px 30px;
     background-color: #ffffff;
     display: grid;
     grid-gap: 25px;
 }
 
-.img-home > div > h1{
+.img-home > div > h1 {
     font-weight: 400;
 }
 
-.slider > img{
+.slider > img {
     max-height: 229px;
 }
 
-.slide{
+.slide {
     display: none;
 }
 
-article > a > img{
+article > a > img {
     transition: 300ms;
 }
 
-article > a > img:hover{
+article > a > img:hover {
     filter: grayscale(1);
     box-shadow: 0 0 10px;
 }
 
-article > div{
+article > div {
     margin-top: 30px;
     color: #4f4d5fbf;
 }
 
-article > div > h1{
+article > div > h1 {
     font-weight: 500;
     color: #4f4d5f;
 }
 
-.article-bottom{
+.article-bottom {
     display: flex;
     justify-content: space-around;
     padding-top: 25px;
 }
 
-.exerpt-article{
+.exerpt-article {
     padding: 25px 0 25px 0;
 }
 
-.infos-article-top{
+.infos-article-top {
     display: flex;
     justify-content: space-between;
 }
 
-.infos-article-top > span{
+.infos-article-top > span {
     padding-top: 10px;
     font-size: 1.5rem;
 }
-.article-bottom > a{
+
+.article-bottom > a {
     text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 600;
@@ -70,65 +71,66 @@ article > div > h1{
     align-items: center;
 }
 
-.article-bottom > a > i{
+.article-bottom > a > i {
     padding-left: 10px;
 }
 
-.article-bottom > a, .article-bottom > div{
+.article-bottom > a, .article-bottom > div {
     color: #4f4d5f;
 }
 
-.category-title{
+.category-title {
     font-size: 1.3rem;
     text-transform: uppercase;
 }
 
 /* CONTACT HOME */
-.contact-home > div > h2{
+.contact-home > div > h2 {
     font-weight: 300;
 }
 
-.contact-home > div{
+.contact-home > div {
     margin-top: 50px;
     padding: 0 15px 0 15px;
 }
+
 /* CONTACT */
 
-.banner > p{
+.banner > p {
     font-size: 1.8rem;
     padding-top: 20px;
 }
 
-.info-contact{
+.info-contact {
     padding: 30px 15px 30px 15px;
 }
 
-.info-contact > div{
+.info-contact > div {
     text-align: center;
 }
 
 /** LOGIN / REGISTRATION **/
-.login{
+.login {
     padding: 0 20px 0 20px;
 }
 
-.login-form, .contact-form{
+.login-form, .contact-form {
     display: grid;
     text-align: center;
     grid-gap: 35px;
     border-radius: 20px;
 }
 
-.img-form-login{
+.img-form-login {
     display: flex;
     justify-content: center;
 }
 
-.img-form-login > img{
+.img-form-login > img {
     width: 100px;
 }
 
-.fa-user, .fa-lock, .fa-envelope, .fa-phone{
+.fa-user, .fa-lock, .fa-envelope, .fa-phone {
     position: absolute;
     height: 40px;
     top: 0;
@@ -144,13 +146,13 @@ article > div > h1{
     display: flex;
 }
 
-.textarea-contact{
+.textarea-contact {
     height: 80px !important;
     max-height: 80px;
     max-width: 300px;
 }
 
-.login-form > label > input, .contact-form > label > input, .contact-form > label > textarea{
+.login-form > label > input, .contact-form > label > input, .contact-form > label > textarea {
     border: none;
     border-bottom: 2px solid #f1f1f1;
     width: 100%;
@@ -158,11 +160,11 @@ article > div > h1{
     max-height: 90px;
 }
 
-.login-form > a{
+.login-form > a {
     font-size: 1.5rem;
 }
 
-.text-danger{
+.text-danger {
     color: darkred;
     font-weight: bold;
 }

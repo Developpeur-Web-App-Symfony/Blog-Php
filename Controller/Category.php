@@ -72,8 +72,7 @@ class Category extends \Framework\Controller
                 $category->setName($this->request->getParameter('name'));
                 $validator = new ValidatorAddCategory($category);
                 if ($validator->formAddCategoryValidate()) {
-                    if ($validator->categoryNameValidate())
-                    {
+                    if ($validator->categoryNameValidate()) {
                         $repositoryCategory->updateCategory();
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie modifier avec succès"]);
                         header('Location: /dashboard/articleManagement');
@@ -85,7 +84,6 @@ class Category extends \Framework\Controller
                 }
             }
         }
-
         $this->generateView([
             'category' => $categorySelect ?? null,
             'validator' => $validator ?? null,
@@ -107,13 +105,11 @@ class Category extends \Framework\Controller
                 $repositoryCategory = new \Repository\Category($category);
                 $repositoryCategory->deleteCategory($categoryId);
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie supprimer avec succès"]);
-                header('Location: /dashboard/articleManagement');
-                exit;
             } else {
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
-                header('Location: /dashboard/articleManagement');
-                exit;
             }
+            header('Location: /dashboard/articleManagement');
+            exit;
         }
     }
 

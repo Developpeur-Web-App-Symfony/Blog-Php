@@ -73,13 +73,11 @@ class Comment extends \Framework\Controller
                 $repositoryComment = new \Repository\Comment($comment);
                 $repositoryComment->deleteComment();
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Commentaire supprimer avec succès"]);
-                header('Location: /comment/commentManagement');
-                exit;
             } else {
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
-                header('Location: /comment/commentManagement');
-                exit;
             }
+            header('Location: /comment/commentManagement');
+            exit;
         }
     }
 }

@@ -1,45 +1,31 @@
-.nav-article{
-    margin: 50px 0 50px 0;
-    text-transform: uppercase;
-}
-
-.articles{
+.articles {
     padding: 0 15px 0 15px;
 }
 
-.nav-article > ul{
-    display: flex;
-    justify-content: space-around;
-}
-
-.articles > div > a{
+.articles > div > a {
     position: relative;
 }
 
-article > div > h1, article > div > .article-bottom{
+article > div > h1, article > div > .article-bottom {
     color: #4f4d5f;
 }
 
-figcaption{
-    background: rgba(0,0,0,0.15);
+figcaption {
+    background: rgba(0, 0, 0, 0.15);
     padding: 10px;
     display: grid;
 }
 
-figcaption > h1,figcaption > span{
+figcaption > h1, figcaption > span {
     color: white;
 }
 
-.exerpt-article, figcaption > h1{
+.exerpt-article, figcaption > h1 {
     text-align: center;
 }
 
-figcaption > span{
+figcaption > span {
     font-size: 1.5rem;
-}
-
-.nav-article > ul > li > a{
-    font-size: 1.8rem;
 }
 
 .articles > div {
@@ -48,45 +34,45 @@ figcaption > span{
 }
 
 /** ARTICLE DETAIL **/
-.detail-article{
+.detail-article {
     display: grid;
     grid-gap: 30px;
     padding: 10px 20px 10px 20px;
 }
 
-.detail-article > article > h2{
+.detail-article > article > h2 {
     font-weight: 400;
     font-style: italic;
     color: #8f8e97;
     text-align: center;
 }
 
-article >p, form{
+article > p, form {
     padding: 20px;
 }
 
-form{
+form {
     display: grid;
     grid-gap: 15px;
 }
 
-.comment{
+.comment {
     border: 2px solid #8f8e97;
     padding: 10px;
     color: #4f4d5f;
 }
 
-.infos-article > p{
+.infos-article > p {
     font-size: 1.5rem;
     color: #8f8e97;
     text-align: end;
 }
 
-form > div{
+form > div {
     text-align: center;
 }
 
-form > input, form > textarea{
+form > input, form > textarea {
     border: none;
     border-bottom: 2px solid #f1f1f1;
     width: 100%;
@@ -94,24 +80,24 @@ form > input, form > textarea{
 
 /* ARTICLE CREATION */
 
-.create-article-form{
+.create-article-form {
     padding: 30px 15px 30px 15px;
 }
 
-.new-article-form > label{
+.new-article-form > label {
     position: relative;
     height: 40px;
     display: flex;
 }
 
-.new-article-form{
+.new-article-form {
     display: grid;
     text-align: center;
     grid-gap: 35px;
     border-radius: 20px;
 }
 
-.fa-heading, .fa-image, .fa-file-text-o, .fa-list-alt{
+.fa-heading, .fa-image, .fa-file-text-o, .fa-list-alt {
     position: absolute;
     height: 40px;
     top: 0;
@@ -121,40 +107,40 @@ form > input, form > textarea{
     font-family: 'Noto Sans', sans-serif;
 }
 
-.new-article-form > label > input, .new-article-form > label > textarea, .new-article-form > label > select{
+.new-article-form > label > input, .new-article-form > label > textarea, .new-article-form > label > select {
     border: none;
     border-bottom: 2px solid #f1f1f1;
     padding-left: 30px;
     width: 100%;
 }
 
-label[for="content"], label[for="excerpt"]{
+label[for="content"], label[for="excerpt"] {
     height: 80px;
     max-height: 80px;
 }
 
-input[name="file"]{
+input[name="file"] {
     align-self: center;
     width: 100%;
 }
 
-label[for="category"], label[for="author"]{
+label[for="category"], label[for="author"] {
     height: 100%;
 }
 
-optgroup{
+optgroup {
     color: #757575;
 }
 
-.new-article-form > div > .btn-form{
+.new-article-form > div > .btn-form {
     margin: 10px;
 }
 
-textarea{
+textarea {
     max-width: 360px;
     max-height: 100px;
 }
 
-.author-comment{
+.author-comment {
     text-align: end;
 }

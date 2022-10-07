@@ -47,7 +47,6 @@ class User extends \Framework\Controller
             header("Location: /home/index");
             exit();
         }
-
         $user = new \Model\User();
         $repositoryUser = new \Repository\User($user);
         $userId = $this->request->getParameter('id');
@@ -62,54 +61,11 @@ class User extends \Framework\Controller
                 $user->setId($userId);
                 $validatorUser = new ValidatorUser($user);
                 if ($this->request->getParameter('role') !== null){
-
                     $role = implode("", $this->request->getParameter('role'));
-
                     $user->setRoleLevel($role);
-                    if ($validatorUser->formUpdateValidateAdmin()){
-                        if ($validatorUser->mailNotExistInBdd()
-                        && $validatorUser->usernameNotExistInBdd()){
-                            $data = [
-                                'username' => $user->getUsername(),
-                                'email' => $user->getEmail(),
-                            ];
-                            if($repositoryUser->updateAccountUser()) {
-                                $this->sendEmail('updateUser', 'Modification du compte sur le site de JM Website', $user->getEmail(), $data);
-                                $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès"]);
-                                header("Location: /user/account/$userId");
-                                exit();
-                            }
-                        }
-                        else{
-                            $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
-                            header("Location: /user/account/$userId");
-                            exit();
-                        }
-
-                    }
+                    $this->accountAdmin($validatorUser, $user, $repositoryUser, $userId);
                 } else{
-                    if ($validatorUser->formUpdateValidateUser()){
-                        if ($validatorUser->mailNotExistInBdd()
-                            && $validatorUser->usernameNotExistInBdd()){
-                            $user->setRoleLevel($userBdd->getRoleLevel());
-                            $data = [
-                                'username' => $user->getUsername(),
-                                'email' => $user->getEmail(),
-                            ];
-                            if($repositoryUser->updateAccountUser()) {
-                                $this->sendEmail('updateUser', 'Modification du compte sur le site de JM Website', $user->getEmail(), $data);
-                                $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès"]);
-                                header("Location: /user/account/$userId");
-                                exit();
-                            }
-                        } else{
-                            $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
-                            header("Location: /user/account/$userId");
-                            exit();
-                        }
-
-
-                    }
+                    $this->accountUser($validatorUser, $user, $userBdd, $repositoryUser, $userId);
                 }
             }
         }
@@ -119,6 +75,49 @@ class User extends \Framework\Controller
             'allRoles' => $allRoles ?? null,
             'validator' => $validatorUser ?? null
         ]);
+    }
+
+    public function accountUser($validatorUser, $user, $userBdd, $repositoryUser, $userId)
+    {
+        if ($validatorUser->formUpdateValidateUser()){
+            if ($validatorUser->mailNotExistInBdd()
+                && $validatorUser->usernameNotExistInBdd()){
+                $user->setRoleLevel($userBdd->getRoleLevel());
+                $data = [
+                    'username' => $user->getUsername(),
+                    'email' => $user->getEmail(),
+                ];
+                if($repositoryUser->updateAccountUser()) {
+                    $this->sendEmail('updateUser', 'Modification du compte sur le site de JM Website', $user->getEmail(), $data);
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès"]);
+                }
+            } else{
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
+            }
+            header("Location: /user/account/$userId");
+            exit();
+        }
+    }
+
+    public function accountAdmin($validatorUser, $user, $repositoryUser, $userId)
+    {
+        if ($validatorUser->formUpdateValidateAdmin()){
+            if ($validatorUser->mailNotExistInBdd() && $validatorUser->usernameNotExistInBdd()){
+                $data = [
+                    'username' => $user->getUsername(),
+                    'email' => $user->getEmail(),
+                ];
+                if($repositoryUser->updateAccountUser()) {
+                    $this->sendEmail('updateUser', 'Modification du compte sur le site de JM Website', $user->getEmail(), $data);
+                    $this->request->getSession()->setAttribut('flash', ['alert' => "Modification effectué avec succès"]);
+                }
+            }
+            else{
+                $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
+            }
+            header("Location: /user/account/$userId");
+            exit();
+        }
     }
 
     /**
@@ -152,8 +151,6 @@ class User extends \Framework\Controller
                 }
             }
         }
-
-
         $this->generateView([
             'user' => $userBdd ?? null,
             'validator' => $validatorUser ?? null

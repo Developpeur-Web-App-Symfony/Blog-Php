@@ -1,8 +1,8 @@
-.slider > img{
+.slider > img {
     max-height: 440px;
 }
 
-img, picture{
+img, picture {
     max-height: 400px;
 }
 

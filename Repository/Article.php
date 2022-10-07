@@ -83,7 +83,7 @@ LEFT JOIN users AS u
     public function deleteArticle($articleId)
     {
         $sql = 'DELETE FROM articles WHERE id =:id';
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $articleId,
         ));
     }
@@ -92,7 +92,7 @@ LEFT JOIN users AS u
     {
         $sql = "INSERT INTO articles( created_at, content, title, publish, excerpt, image_filename, image_alt, user_id, updated_at) VALUES( :created_at, :content, :title, :publish, :excerpt, :image_filename, :image_alt, :user_id, :updated_at)";
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'created_at' => $article->getCreatedAt(),
             'updated_at' => $article->getUpdatedAt(),
             'content' => $article->getContent(),
@@ -109,7 +109,7 @@ LEFT JOIN users AS u
     {
         $sql = "UPDATE articles SET updated_at=:updated_at, content=:content, title=:title, publish=:publish, excerpt=:excerpt, image_filename=:image_filename, image_alt=:image_alt, user_id=:user_id WHERE id=:id";
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $article->getId(),
             'updated_at' => $article->getUpdatedAt(),
             'content' => $article->getContent(),
@@ -120,6 +120,5 @@ LEFT JOIN users AS u
             'image_alt' => $article->getImageAlt(),
             'user_id' => $article->getUserId(),
         ));
-
     }
 }

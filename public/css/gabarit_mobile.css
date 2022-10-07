@@ -3,7 +3,7 @@
     font-size: 10px;
 }
 
-body{
+body {
     position: relative;
 }
 
@@ -16,11 +16,12 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 3.5rem;
     line-height: 1.2;
 }
-p,b {
+
+p, b {
     font-size: 1.5rem;
 }
 
-[class*="fa-"]{
+[class*="fa-"] {
     font-size: 2.5rem;
 }
 
@@ -28,7 +29,7 @@ nav {
     background-color: #ffffff;
 }
 
-nav > a{
+nav > a {
     text-align: center;
     text-transform: uppercase;
     font-size: 2rem;
@@ -53,7 +54,7 @@ header > nav {
     text-align: center;
 }
 
-.fa-facebook, .fa-instagram-square, .fa-arrow-right {
+.fa-facebook, .fa-arrow-right {
     color: #4f4d5f;
 }
 
@@ -69,7 +70,7 @@ header > nav {
     height: 40px;
 }
 
-#barIcon{
+#barIcon {
     font-size: 2.5rem;
 }
 
@@ -98,23 +99,23 @@ main {
     padding-bottom: 140px;
 }
 
-article{
+article {
     margin-top: 50px;
     padding: 0 15px 0 15px;
 }
 
-.banner{
+.banner {
     background-color: #f1f1f1;
     padding: 10px 15px 10px 15px;
 }
 
-.banner > h1{
+.banner > h1 {
     text-transform: uppercase;
     font-weight: 400;
     color: #8f8e97;
 }
 
-.btn-form{
+.btn-form {
     padding: 20px 60px;
     border-radius: 40px;
     border: none;
@@ -123,7 +124,7 @@ article{
     font-size: 2rem;
 }
 
-.btn-form-category{
+.btn-form-category {
     padding: 10px 15px;
     display: inline-flex;
     border-radius: 40px;
@@ -133,7 +134,7 @@ article{
     font-size: 1.8rem;
 }
 
-input, textarea, select{
+input, textarea, select {
     font-size: 2rem;
 }
 
@@ -151,13 +152,13 @@ footer {
     font-size: 1.5rem;
 }
 
-footer > a{
+footer > a {
     color: #838b95;
     font-size: 1.5rem;
     text-transform: uppercase;
 }
 
-.alert-message{
+.alert-message {
     text-align: center;
     text-decoration: underline;
 }

@@ -29,7 +29,7 @@ class Comment extends \Framework\Model
     {
         $sql = "INSERT INTO comments(created_at, content, article_id, user_id) VALUES(:created_at, :content, :article_id, :user_id)";
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'created_at' => $this->comment->getCreatedAt(),
             'content' => $this->comment->getContent(),
             'user_id' => $this->comment->getUserId(),
@@ -50,7 +50,7 @@ class Comment extends \Framework\Model
     public function updateComment()
     {
         $sql = 'UPDATE comments SET status=:status WHERE id =:id';
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $this->comment->getId(),
             'status' => $this->comment->getStatus()
         ));
@@ -59,7 +59,7 @@ class Comment extends \Framework\Model
     public function deleteComment()
     {
         $sql = 'DELETE FROM comments WHERE id =:id';
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $this->comment->getId(),
         ));
     }
