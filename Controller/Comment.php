@@ -23,8 +23,7 @@ class Comment extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $comment = new \Model\Comment();
         $comment->setStatus(Controller::IS_VALID['NO_VALID']);
@@ -43,8 +42,7 @@ class Comment extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $comment = new \Model\Comment();
         $repositoryComment = new \Repository\Comment($comment);
@@ -53,16 +51,14 @@ class Comment extends \Framework\Controller
         $comment->setStatus(Controller::IS_VALID['VALID']);
         $repositoryComment->updateComment();
         $this->request->getSession()->setAttribut('flash', ['alert' => "Commentaire valider avec succès"]);
-        header('Location: /comment/commentManagement');
-        exit;
+        $this->redirect("/comment/commentManagement");
     }
 
     public function delete()
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $tokenUser = Session::getSession()->getToken();
         if ($this->request->existsParameter('deleteCommentId') && $this->request->existsParameter('commentToken')) {
@@ -76,8 +72,7 @@ class Comment extends \Framework\Controller
             } else {
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
             }
-            header('Location: /comment/commentManagement');
-            exit;
+            $this->redirect("/comment/commentManagement");
         }
     }
 }

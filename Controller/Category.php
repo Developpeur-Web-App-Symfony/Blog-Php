@@ -24,8 +24,7 @@ class Category extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         if ($this->request->existsParameter('saveCategory')) {
             if ($this->request->getParameter('saveCategory') == 'save') {
@@ -38,12 +37,11 @@ class Category extends \Framework\Controller
                         $repositoryCategory = new \Repository\Category($category);
                         $repositoryCategory->save();
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie créer avec succès"]);
-                        header('Location: /dashboard/articleManagement');
+                        $this->redirect("/dashboard/articleManagement");
                     } else {
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Nom de catégorie déjà existant"]);
-                        header('Location: /category/create');
+                        $this->redirect("/category/create");
                     }
-                    exit();
                 }
             }
         }
@@ -59,8 +57,7 @@ class Category extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $categoryId = $this->request->getParameter('id');
         $category = new \Model\Category();
@@ -75,12 +72,11 @@ class Category extends \Framework\Controller
                     if ($validator->categoryNameValidate()) {
                         $repositoryCategory->updateCategory();
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Catégorie modifier avec succès"]);
-                        header('Location: /dashboard/articleManagement');
+                        $this->redirect("/dashboard/articleManagement");
                     } else {
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Nom de catégorie déjà existant"]);
-                        header("Location: /category/update/$categoryId");
+                        $this->redirect("/category/update/$categoryId");
                     }
-                    exit();
                 }
             }
         }
@@ -94,8 +90,7 @@ class Category extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $tokenUser = Session::getSession()->getToken();
         if ($this->request->existsParameter('categoryId') && $this->request->existsParameter('token')) {
@@ -108,8 +103,7 @@ class Category extends \Framework\Controller
             } else {
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
             }
-            header('Location: /dashboard/articleManagement');
-            exit;
+            $this->redirect("/dashboard/articleManagement");
         }
     }
 

@@ -16,8 +16,7 @@ class Dashboard extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) == Controller::VISITOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page, veuillez vous authentifier"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $user = new \Model\User();
         $userRepository = new \Repository\User($user);
@@ -35,8 +34,7 @@ class Dashboard extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $category = new \Model\Category();
         $repositoryCategory = new Category($category);

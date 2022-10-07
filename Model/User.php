@@ -23,8 +23,6 @@ class User extends \Framework\Model
     private mixed $token;
     private mixed $ip;
 
-    /** A supprimer **/
-    private int $errors = 0;
     private array $errorsMsg = [];
 
     public function getId(): mixed
@@ -141,8 +139,6 @@ class User extends \Framework\Model
     {
         $this->ip = $ip;
     }
-
-
 
     /**
      * @return array

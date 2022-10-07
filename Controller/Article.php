@@ -59,8 +59,7 @@ class Article extends \Framework\Controller
                         $comment->setStatus(Controller::IS_VALID['NO_VALID']);
                         $repositoryComment->save();
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Votre commentaire à bien été poster, il sera publié après validation"]);
-                        header("Location: /article/read/$articleId");
-                        exit();
+                        $this->redirect("/article/read/$articleId");
                     }
                 }
             }
@@ -80,8 +79,7 @@ class Article extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $category = new \Model\Category();
         $repositoryCategory = new Category($category);
@@ -121,8 +119,7 @@ class Article extends \Framework\Controller
                         $repositoryArticleHasCategory->save($categoryId, $articleId);
                     }
                     $this->request->getSession()->setAttribut('flash', ['alert' => "Article créer avec succès"]);
-                    header('Location: /dashboard/articleManagement');
-                    exit();
+                    $this->redirect('/dashboard/articleManagement');
                 }
             }
         }
@@ -142,8 +139,7 @@ class Article extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $articleId = $this->request->getParameter('id');
         $repositoryArticle = new \Repository\Article();
@@ -200,8 +196,7 @@ class Article extends \Framework\Controller
                     $repositoryArticleHasCategory->deleteCategoryHasArticle($categoryIdInBdd, $articleId);
                     $repositoryArticleHasCategory->save($categoryList, $articleId);
                     $this->request->getSession()->setAttribut('flash', ['alert' => "Article modifier avec succès"]);
-                    header('Location: /dashboard/articleManagement');
-                    exit();
+                    $this->redirect('/dashboard/articleManagement');
                 }
             }
         }
@@ -219,8 +214,7 @@ class Article extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $tokenUser = Session::getSession()->getToken();
 
@@ -233,8 +227,7 @@ class Article extends \Framework\Controller
             } else {
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Une erreur est survenue, veuillez réessayer"]);
             }
-            header('Location: /dashboard/articleManagement');
-            exit;
+            $this->redirect('/dashboard/articleManagement');
         }
 
     }

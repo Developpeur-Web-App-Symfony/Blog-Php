@@ -25,8 +25,7 @@ class User extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) < Controller::ADMIN) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $user = new \Model\User();
         $repositoryUser = new \Repository\User($user);
@@ -44,8 +43,7 @@ class User extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) == Controller::VISITOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page, veuillez vous connecter"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect('/home/index');
         }
         $user = new \Model\User();
         $repositoryUser = new \Repository\User($user);
@@ -94,8 +92,7 @@ class User extends \Framework\Controller
             } else{
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
             }
-            header("Location: /user/account/$userId");
-            exit();
+            $this->redirect("/user/account/$userId");
         }
     }
 
@@ -115,8 +112,7 @@ class User extends \Framework\Controller
             else{
                 $this->request->getSession()->setAttribut('flash', ['alert' => "Nom d'utilisateur ou email indisponible"]);
             }
-            header("Location: /user/account/$userId");
-            exit();
+            $this->redirect("/user/account/$userId");
         }
     }
 
@@ -127,8 +123,7 @@ class User extends \Framework\Controller
     {
         if (intval(Session::getSession()->getRoleLevel()) == Controller::VISITOR) {
             $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page, veuillez vous connecter"]);
-            header("Location: /home/index");
-            exit();
+            $this->redirect("/home/index");
         }
         $user = new \Model\User();
         $repositoryUser = new \Repository\User($user);
@@ -146,8 +141,7 @@ class User extends \Framework\Controller
                     $repositoryUser->updateNewPassword();
                     $this->sendEmail('newPassword', 'Modification de votre compte sur le site JMWebsite', $user->getEmail());
                     $this->request->getSession()->setAttribut('flash', ['alert' => "Vous pouvez dès à présent vous connecter avec votre nouveau mot de passe"]);
-                    header("Location: /user/account/$userId");
-                    exit();
+                    $this->redirect("/user/account/$userId");
                 }
             }
         }

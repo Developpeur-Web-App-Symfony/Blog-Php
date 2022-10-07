@@ -159,4 +159,10 @@ abstract class Controller
             return  false;
         }
     }
+
+    public function redirect($url)
+    {
+        header("Location: " . $url);
+        exit();
+    }
 }
