@@ -2,6 +2,8 @@
 namespace Controller;
 
 use Exception;
+use Framework\Controller;
+use Framework\Session;
 use Repository\Category;
 
 class Dashboard extends \Framework\Controller
@@ -12,16 +14,16 @@ class Dashboard extends \Framework\Controller
      */
     public function index()
     {
-        $this->generateView([
-        ]);
-    }
+        if (intval(Session::getSession()->getRoleLevel()) == Controller::VISITOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page, veuillez vous authentifier"]);
+            $this->redirect("/home/index");
+        }
+        $user = new \Model\User();
+        $userRepository = new \Repository\User($user);
+        $userBdd = $userRepository->getUser(Session::getSession()->getId());
 
-    /**
-     * @throws Exception
-     */
-    public function accountManagement()
-    {
         $this->generateView([
+            'user' => $userBdd
         ]);
     }
 
@@ -30,6 +32,10 @@ class Dashboard extends \Framework\Controller
      */
     public function articleManagement()
     {
+        if (intval(Session::getSession()->getRoleLevel()) < Controller::AUTHOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès a cette page"]);
+            $this->redirect("/home/index");
+        }
         $category = new \Model\Category();
         $repositoryCategory = new Category($category);
         $allCategory = $repositoryCategory->getAllCategory();
@@ -37,27 +43,13 @@ class Dashboard extends \Framework\Controller
         $repositoryArticle = new \Repository\Article();
         $allArticle = $repositoryArticle->getAllArticles();
 
+        $token = Session::getSession()->getToken();
+
         $this->generateView([
             'allCategory' => $allCategory ?? null,
             'allArticle' => $allArticle ?? null,
+            'token' => $token,
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function commentManagement()
-    {
-        $this->generateView([
-        ]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function userManagement()
-    {
-        $this->generateView([
-        ]);
-    }
 }

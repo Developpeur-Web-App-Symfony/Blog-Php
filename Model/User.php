@@ -21,9 +21,8 @@ class User extends \Framework\Model
 
     private mixed $is_valid;
     private mixed $token;
+    private mixed $ip;
 
-    /** A supprimer **/
-    private int $errors = 0;
     private array $errorsMsg = [];
 
     public function getId(): mixed
@@ -126,6 +125,22 @@ class User extends \Framework\Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getIp(): mixed
+    {
+        return $this->ip;
+    }
+
+    /**
+     * @param mixed $ip
+     */
+    public function setIp(mixed $ip): void
+    {
+        $this->ip = $ip;
+    }
+
+    /**
      * @return array
      */
     public function getErrorsMsg(): array
@@ -159,6 +174,7 @@ class User extends \Framework\Model
         $this->setCreatedAt($dateNow->format('Y-m-d H:i:s'));
         $this->setRoleLevel(Controller::VISITOR);
         $this->setValid(Controller::IS_VALID ['NO_VALID']);
+        $this->setIp($_SERVER['REMOTE_ADDR']);
         $this->generateToken();
     }
 

@@ -1,0 +1,79 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Compte utilisateur" }}{% endblock %}
+
+{% block main %}
+    <div>
+        <section class="banner">
+            <h1>{{ user.username }}</h1>
+        </section>
+        <section class="user">
+            <form class="user-form" method="post">
+                <div class="img-form-user">
+                    <img src="/media/icons-utilisateur.png" alt="logo">
+                </div>
+                <div>
+                    <p>{% if user.valid == 1 %}
+                            {{ "Compte activé" }}
+                        {% else %}
+                            {{ "En cours d'activation" }}
+                        {% endif %} -
+                        {% for role in allRoles %}
+                        {% if user.roleLevel == role.level %}
+                            {{ role.slug }}
+                        {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>Créer le : {{ user.createdAt|date("d/m/Y H:i") }}</p>
+                </div>
+                <label for="username">
+                    <i class="fa fa-user"></i>
+                    <input name="username" type="text" placeholder="Nom d'utilisateur"
+                           value="{% if post.username is defined %}{{ post.username }}{% else %}{{ user.username }}{% endif %}">
+                </label>
+                {% if validator.getErrorsMsg.username is defined %}
+                    <p class="text-danger">{{ validator.getErrorsMsg.username }}</p>
+                {% endif %}
+                <label for="email">
+                    <i class="fa fa-envelope"></i>
+                    <input name="email" type="text" placeholder="Email"
+                           value="{% if post.email is defined %}{{ post.email }}{% else %}{{ user.email }}{% endif %}">
+                </label>
+                {% if validator.getErrorsMsg.email is defined %}
+                    <p class="text-danger">{{ validator.getErrorsMsg.email }}</p>
+                {% endif %}
+                {% if userCurrent.roleLevel == constant('Framework\\Controller::ADMIN') %}
+                    <label for="role">
+                        <i class="fa fa-list-alt"></i>
+                        <select name="role[]" size="3">
+                            <optgroup label="Roles">
+                                {% for role in allRoles %}
+                                    <option value="{{ role.level }}" name="{{ role.slug }}"
+                                            {% if user.roleLevel == role.level %}selected{% endif %}>
+                                        {{ role.slug }}
+                                    </option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </label>
+                    {% if validator.getErrorsMsg.role is defined %}
+                        <p class="text-danger">{{ validator.getErrorsMsg.role }}</p>
+                    {% endif %}
+                {% endif %}
+                <div>
+                    <input type="hidden" name="userForm" value="update">
+                    <input class="btn-form" type="submit" id="submit" value="Mettre à jour">
+                </div>
+                <div>
+                    <a class="btn-form" href="/user/updatePassword/{{ user.id }}">Modifier le mot de passe</a>
+                </div>
+            </form>
+        </section>
+    </div>
+{% endblock %}
+
+

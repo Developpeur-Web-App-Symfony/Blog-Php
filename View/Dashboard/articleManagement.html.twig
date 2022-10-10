@@ -17,13 +17,17 @@
                 <ul>
                     {% for category in allCategory %}
                         <li class="category-list">{{ category.name }}
-                            <a class="btn-form-category" role="button" href="/category/delete/{{ category.id }}">
-                                <i class="fa fa-times"></i>
-                            </a>
                             <a class="btn-form-category" role="button" href="/category/update/{{ category.id }}">
                                 <i class="fas fa-edit"></i>
                             </a>
+                            <form method="post" action="/category/delete">
+                                <input type="hidden" name="categoryId" value="{{ category.id }}">
+                                <input type="hidden" name="token" value="{{ token }}">
+                                <button class="btn-form-category"><i class="fa fa-times"></i></button>
+                            </form>
                         </li>
+                    {% else %}
+                        <li>Aucune catégorie créer</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -35,7 +39,7 @@
                 <img src="{{ constant('Framework\\Controller::LINK_FILENAME') }}{{ article.imageFilename }}" alt="{{ article.imageAlt }}">
                 <h1>{{ article.title }}</h1>
                 <span class="date-create">Créer le: <i class="fa fa-calendar"></i> {{ article.createdAt|date("d/m/Y H:i") }}</span>
-                <span class="date-create">Dernière modification le: <i class="fa fa-calendar"></i> {{ article.lastModification|date("d/m/Y H:i") }}</span>
+                <span class="date-create">Dernière modification le: <i class="fa fa-calendar"></i> {{ article.updatedAt|date("d/m/Y H:i") }}</span>
                 <span class="user-create">Auteur: <i class="fa fa-user"></i> <b>{{ article.username }}</b></span>
                 <p class="exerpt-article">{{ article.excerpt }}</p>
                 <span class="category-title">Catégorie: {{ article.name }}</span>
@@ -46,7 +50,11 @@
                 </span>
                 <div class="management-article">
                     <a class="btn-form" href="/article/update/{{ article.id }}">Modifier</a>
-                    <a class="btn-form" href="/article/delete/{{ article.id }}">Supprimer</a>
+                    <form method="post" action="/article/delete">
+                        <input type="hidden" name="deleteArticleId" value="{{ article.id }}">
+                        <input type="hidden" name="articleToken" value="{{ token }}">
+                        <button class="btn-form">Supprimer</button>
+                    </form>
                 </div>
             </article>
             {% endfor %}

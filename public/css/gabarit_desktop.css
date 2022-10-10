@@ -1,0 +1,29 @@
+/* Style chargé sur toutes les pages dans la versions desktop */
+header > nav {
+  padding: 0;
+}
+
+#btn-nav-menu {
+  display: none;
+}
+
+#nav-menu-list {
+  position: relative;
+  min-width: 510px;
+  background-color: #ffffff;
+}
+
+.nav-menu > ul {
+  display: flex;
+  padding: 0;
+}
+
+#nav-menu-list > li {
+  padding: 10px;
+}
+
+#nav-menu-list > li > a {
+  color: #4f4d5f;
+  padding: 10px 0;
+  margin-bottom: 0;
+}

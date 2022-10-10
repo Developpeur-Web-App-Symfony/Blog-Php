@@ -29,17 +29,17 @@ class ValidatorUpload extends Validator
     }
 
     // Vérifie si le fichier a été uploadé sans erreur.
-    public function checkErrorFile(): bool
+    public function checkErrorFile()
     {
         $request = new Request($_FILES);
         $file = $request->getParameter('file');
         $fileError = $request->getParameter('file')['error'];
-        if (isset($file) && $fileError !== 0) {
+        if (isset($file) && $fileError !== '0') {
             $this->errors++;
             $this->errorsMsg['file'] = "Erreur " . $fileError;
-        } else{
-            return true;
+            return false;
         }
+        return true;
     }
 
     private function checkExtensionFile()

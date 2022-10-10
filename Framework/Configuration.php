@@ -12,7 +12,7 @@ class Configuration
     /**
      * @param $nom
      * @param null $valueDefault
-     * @return mixed|null |null
+     * @return mixed|null
      * @throws Exception
      */
     public static function get($nom, $valueDefault = null)
@@ -28,10 +28,9 @@ class Configuration
     // Renvoie le tableau des paramètres en le chargeant au besoin
 
     /**
-     * @return array|bool
      * @throws Exception
      */
-    private static function getParameters()
+    private static function getParameters(): bool|array
     {
         if (self::$parameters == null) {
             $pathFile = "../config/dev.ini";

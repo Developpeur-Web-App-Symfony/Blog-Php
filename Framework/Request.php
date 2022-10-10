@@ -11,7 +11,7 @@ class Request
 
     public function __construct($parameters)
     {
-        $this->parameters = $parameters;
+        $this->parameters = $this->clean($parameters);
         $this->session = new Session();
     }
 
@@ -34,5 +34,22 @@ class Request
             return $this->parameters[$nom];
         } else
             return null;
+    }
+
+    // Nettoie une valeur insérée dans une page HTML
+    public function clean($data) {
+        if (is_array($data)) {
+            foreach ( $data as $key => $value ) {
+                $data[htmlspecialchars($key)] = $this->clean($value);
+            }
+        } else if (is_object($data)) {
+            $values = get_class_vars(get_class($data));
+            foreach ( $values as $key => $value ) {
+                $data->{htmlspecialchars($key)} = $this->clean($value);
+            }
+        } else {
+            $data = htmlspecialchars($data);
+        }
+        return $data;
     }
 }

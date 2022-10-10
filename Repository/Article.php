@@ -11,7 +11,7 @@ class Article extends \Framework\Model
 
     public function getAllArticles($publish = null, $nbStart = null, $nbEnd = null): array
     {
-        $sql = 'SELECT a.id, a.created_at as createdAt, a.last_modification as lastModification, a.user_id as userId, a.content, a.title, a.excerpt, a.publish, a.image_filename as imageFilename, a.image_alt as imageAlt, ac.articles_id,  u.username, GROUP_CONCAT(c.name) as name
+        $sql = 'SELECT a.id, a.created_at as createdAt, a.updated_at as updatedAt, a.user_id as userId, a.content, a.title, a.excerpt, a.publish, a.image_filename as imageFilename, a.image_alt as imageAlt, ac.articles_id,  u.username, GROUP_CONCAT(c.name) as name
 FROM articles_has_categories AS ac 
 RIGHT JOIN articles AS a 
 ON ac.articles_id = a.id 
@@ -21,20 +21,20 @@ LEFT JOIN users AS u
         ON a.user_id = u.id';
 
         if ($publish != null && $nbStart !== null or $nbEnd !== null) {
-            $sql .= " WHERE a.publish =:publish ORDER BY a.created_at DESC LIMIT " . $nbStart . "," . $nbEnd;
+            $sql .= " WHERE a.publish =:publish ORDER BY a.updated_at DESC LIMIT " . $nbStart . "," . $nbEnd;
             $req = $this->executeRequest($sql, array(
                 'publish' => $publish,
             ));
 
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         } elseif ($publish != null) {
-            $sql .= " WHERE a.publish =:publish GROUP BY a.id ORDER BY a.created_at DESC ";
+            $sql .= " WHERE a.publish =:publish GROUP BY a.id ORDER BY a.updated_at DESC ";
             $req = $this->executeRequest($sql, array(
                 'publish' => $publish,
             ));
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         } elseif ($publish === null && $nbStart === null or $nbEnd === null){
-            $sql .= " GROUP BY a.id ORDER BY a.created_at DESC";
+            $sql .= " GROUP BY a.id ORDER BY a.updated_at DESC";
             $req = $this->executeRequest($sql);
             return $req->fetchAll(PDO::FETCH_CLASS, \Model\Article::class);
         }
@@ -47,7 +47,7 @@ LEFT JOIN users AS u
      */
     public function getArticle($articleId)
     {
-        $sql = 'SELECT a.id, a.created_at as createdAt, a.last_modification as lastModification, a.user_id as userId, a.content, a.title, a.excerpt, a.publish, a.image_filename as imageFilename, a.image_alt as imageAlt, ac.articles_id,  u.username, GROUP_CONCAT(c.name) as name
+        $sql = 'SELECT a.id, a.created_at as createdAt, a.updated_at as updatedAt, a.user_id as userId, a.content, a.title, a.excerpt, a.publish, a.image_filename as imageFilename, a.image_alt as imageAlt, ac.articles_id,  u.username, GROUP_CONCAT(c.name) as name
 FROM articles_has_categories AS ac 
 RIGHT JOIN articles AS a 
 ON ac.articles_id = a.id 
@@ -83,17 +83,18 @@ LEFT JOIN users AS u
     public function deleteArticle($articleId)
     {
         $sql = 'DELETE FROM articles WHERE id =:id';
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $articleId,
         ));
     }
 
     public function save($article)
     {
-        $sql = "INSERT INTO articles( created_at, content, title, publish, excerpt, image_filename, image_alt, user_id) VALUES( :created_at, :content, :title, :publish, :excerpt, :image_filename, :image_alt, :user_id)";
+        $sql = "INSERT INTO articles( created_at, content, title, publish, excerpt, image_filename, image_alt, user_id, updated_at) VALUES( :created_at, :content, :title, :publish, :excerpt, :image_filename, :image_alt, :user_id, :updated_at)";
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'created_at' => $article->getCreatedAt(),
+            'updated_at' => $article->getUpdatedAt(),
             'content' => $article->getContent(),
             'title' => $article->getTitle(),
             'publish' => $article->getPublish(),
@@ -106,11 +107,11 @@ LEFT JOIN users AS u
 
     public function update($article)
     {
-        $sql = "UPDATE articles SET last_modification=:last_modification, content=:content, title=:title, publish=:publish, excerpt=:excerpt, image_filename=:image_filename, image_alt=:image_alt, user_id=:user_id WHERE id=:id";
+        $sql = "UPDATE articles SET updated_at=:updated_at, content=:content, title=:title, publish=:publish, excerpt=:excerpt, image_filename=:image_filename, image_alt=:image_alt, user_id=:user_id WHERE id=:id";
 
-        $req = $this->executeRequest($sql, array(
+        $this->executeRequest($sql, array(
             'id' => $article->getId(),
-            'last_modification' => $article->getLastModification(),
+            'updated_at' => $article->getUpdatedAt(),
             'content' => $article->getContent(),
             'title' => $article->getTitle(),
             'publish' => $article->getPublish(),

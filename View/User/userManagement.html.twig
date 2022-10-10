@@ -1,0 +1,36 @@
+{% extends "gabarit.html.twig" %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ style ~ 'mobile.css' }}">
+    <link rel="stylesheet" href="{{ style ~ 'tablet.css' }}" media="{{ mediaTablet }}">
+    <link rel="stylesheet" href="{{ style ~ 'desktop.css' }}" media="{{ mediaDesktop }}">
+{% endblock %}
+{% block title %}{{ "Gestion des utilisateurs" }}{% endblock %}
+{% block main %}
+    <div>
+        <section class="banner">
+            <h1>Utilisateurs</h1>
+        </section>
+        <div class="user-list">
+            {% for user in allUsers %}
+                <div class="user-infos-management">
+                    <div class="icon-user">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div>
+                        <b>{{ user.username }}</b>
+                        <p>Role: {{ user.slug }}</p>
+                        <p>{% if user.valid == 1 %}{{ 'Compte activé' }}{% else %}{{ "En cours d'activation" }}{% endif %}</p>
+                    </div>
+                    <a class="btn-form-user" role="button" href="/user/account/{{ user.id }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+            {% else %}
+                <p>Aucun utilisateurs inscrit</p>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+

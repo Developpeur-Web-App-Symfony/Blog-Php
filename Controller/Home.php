@@ -21,28 +21,26 @@ class Home extends \Framework\Controller
         $allArticle = $repositoryArticle->getAllArticles(Controller::PUBLISH['PUBLISH']);
 
         if ($this->request->existsParameter('contactForm')) {
-            if ($this->request->existsParameter('contactForm') == 'contact') {
-                $name =$this->request->getParameter('name');
-                $email =$this->request->getParameter('email');
-                $phone =$this->request->getParameter('phone');
-                $content =$this->request->getParameter('content');
+            if ($this->request->getParameter('contactForm') == 'contact') {
+                $name = $this->request->getParameter('name');
+                $email = $this->request->getParameter('email');
+                $phone = $this->request->getParameter('phone');
+                $content = $this->request->getParameter('content');
                 $validatorContact = new ValidatorContact();
-                if ($validatorContact->formContactValidate($name,$email,$content)){
+                if ($validatorContact->formContactValidate($name, $email, $content)) {
                     $data = [
                         'name' => $name,
                         'email' => $email,
                         'phone' => $phone,
                         'content' => $content
                     ];
-                    $this->sendEmail('contact', 'Formulaire de contact sur le site de JM Website',Controller::FROMEMAIL, $data);
+                    $this->sendEmail('contact', 'Formulaire de contact sur le site de JM Website', Controller::FROMEMAIL, $data);
                     $this->request->getSession()->setAttribut('flash', ['alert' => "Votre message a bien été envoyé, nous reviendrons vers vous dans les plus brefs délais"]);
-                    header('Location: index');
-                    exit();
+                    $this->redirect("index");
                 }
 
             }
         }
-
         $this->generateView([
             'allArticle' => $allArticle ?? null,
             'validator' => $validatorContact ?? null
@@ -55,23 +53,22 @@ class Home extends \Framework\Controller
     public function contact()
     {
         if ($this->request->existsParameter('contactForm')) {
-            if ($this->request->existsParameter('contactForm') == 'contact') {
-                $name =$this->request->getParameter('name');
-                $email =$this->request->getParameter('email');
-                $phone =$this->request->getParameter('phone');
-                $content =$this->request->getParameter('content');
+            if ($this->request->getParameter('contactForm') == 'contact') {
+                $name = $this->request->getParameter('name');
+                $email = $this->request->getParameter('email');
+                $phone = $this->request->getParameter('phone');
+                $content = $this->request->getParameter('content');
                 $validatorContact = new ValidatorContact();
-                if ($validatorContact->formContactValidate($name,$email,$content)){
+                if ($validatorContact->formContactValidate($name, $email, $content)) {
                     $data = [
                         'name' => $name,
                         'email' => $email,
                         'phone' => $phone,
                         'content' => $content
                     ];
-                    $this->sendEmail('contact', 'Formulaire de contact sur le site de JM Website',Controller::FROMEMAIL, $data);
+                    $this->sendEmail('contact', 'Formulaire de contact sur le site de JM Website', Controller::FROMEMAIL, $data);
                     $this->request->getSession()->setAttribut('flash', ['alert' => "Votre message a bien été envoyé, nous vous reviendrons vers vous dans les plus brefs délais"]);
-                    header('Location: home');
-                    exit();
+                    $this->redirect("index");
                 }
 
             }
@@ -87,8 +84,12 @@ class Home extends \Framework\Controller
      */
     public function signIn()
     {
+        if (intval(Session::getSession()->getRoleLevel()) > Controller::VISITOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page"]);
+            $this->redirect("/home/index");
+        }
         if ($this->request->existsParameter('loginForm')) {
-            if ($this->request->existsParameter('loginForm') == 'login') {
+            if ($this->request->getParameter('loginForm') == 'login') {
                 $user = new User();
                 $user->setEmail($this->request->getParameter('email'));
                 $user->setPassword($this->request->getParameter('password'));
@@ -97,19 +98,20 @@ class Home extends \Framework\Controller
                     $repositoryUser = new \Repository\User($user);
                     $userBdd = $repositoryUser->getUserInBdd(Controller::IS_VALID['VALID']);
                     if ($userBdd) {
+                        $validatorUser->getIpAdressUser();
                         $user->hydrate($userBdd);
                         $userRole = $user->getRoleLevel();
-                        $validatorUser->roleBlocked($userRole);
-
                         if ($validatorUser->login()) {
+                            $repositoryUser->updateIpUser();
                             $sessionAuth = new Session();
+                            $user->setCPassword(null);
                             $sessionAuth->setAttribut('auth', $user);
                             $validatorUser->checkRoleRedirect($userRole);
                         } else {
                             $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect"]);
                         }
                     } else {
-                        $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect"]);
+                        $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant incorrect ou compte désactivé"]);
                     }
                 }
             }
@@ -125,6 +127,10 @@ class Home extends \Framework\Controller
      */
     public function register()
     {
+        if (intval(Session::getSession()->getRoleLevel()) > Controller::VISITOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page"]);
+            $this->redirect("/home/index");
+        }
         if ($this->request->existsParameter('registerForm')) {
             if ($this->request->getParameter('registerForm') == 'register') {
                 $user = new User();
@@ -146,13 +152,11 @@ class Home extends \Framework\Controller
                         if ($repositoryUser->save()) {
                             $this->sendEmail('register', 'Inscription sur le site JM Website', $user->getEmail(), $data);
                             $this->request->getSession()->setAttribut('flash', ['alert' => "Veuillez consulté votre messagerie afin de valider la création de votre compte"]);
-                            header('Location: signIn');
-                            exit();
+                            $this->redirect("signIn");
                         }
                     } else {
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Identifiant indisponible"]);
-                        header('Location: register');
-                        exit();
+                        $this->redirect("register");
                     }
                 }
             }
@@ -168,12 +172,15 @@ class Home extends \Framework\Controller
      */
     public function userValidationRegistered()
     {
+        if (intval(Session::getSession()->getRoleLevel()) > Controller::VISITOR) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Votre compte est déjà activé"]);
+            $this->redirect("/home/index");
+        }
         if ($this->request->existsParameter('email') && $this->request->existsParameter('token')) {
             $user = new User();
             $user->setEmail($this->request->getParameter('email'));
             $user->setToken($this->request->getParameter('token'));
             $validatorUser = new ValidatorUser($user);
-
             if ($validatorUser->emailAndTokenValidation()) {
                 $repositoryUser = new \Repository\User($user);
                 $userBdd = $repositoryUser->getEmailAndTokenUserInBdd();
@@ -183,13 +190,11 @@ class Home extends \Framework\Controller
                     $user->setRoleLevel(Controller::USER);
                     $repositoryUser->updateUser();
                     $this->request->getSession()->setAttribut('flash', ['alert' => "Votre compte est désormais activé, vous pouvez dès à présent vous connecter à l'aide de vos identifiants"]);
-                    header('Location: home/signIn');
-                    exit();
+                    $this->redirect("/home/signIn");
                 }
             }
         } else {
-            header('Location: home');
-            exit();
+            $this->redirect("/home/index");
         }
         $this->generateView([
             'user' => $user ?? null,
@@ -203,7 +208,7 @@ class Home extends \Framework\Controller
     public function forgotPassword()
     {
         if ($this->request->existsParameter('forgotPasswordForm')) {
-            if ($this->request->existsParameter('forgotPasswordForm') == 'forgotPassword') {
+            if ($this->request->getParameter('forgotPasswordForm') == 'forgotPassword') {
                 $user = new User();
                 $user->setEmail($this->request->getParameter('email'));
                 $validatorUser = new ValidatorUser($user);
@@ -221,8 +226,7 @@ class Home extends \Framework\Controller
                         $repositoryUser->updateToken();
                         $this->sendEmail('forgotPassword', 'Reinitialisation du mot de passe', $user->getEmail(), $data);
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Veuillez consulté votre messagerie afin de reinitialiser votre mot de passe"]);
-                        header('Location: forgotPassword');
-                        exit();
+                        $this->redirect("forgotPassword");
                     } else {
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Email incorrect"]);
                     }
@@ -240,6 +244,10 @@ class Home extends \Framework\Controller
      */
     public function resetPassword()
     {
+        if (!$this->request->existsParameter('email') && !$this->request->existsParameter('token')) {
+            $this->request->getSession()->setAttribut('flash', ['alert' => "Vous n'avez pas accès à cette page"]);
+            $this->redirect("/home/index");
+        }
         if ($this->request->existsParameter('passwordForm')) {
             if ($this->request->getParameter('passwordForm') == 'newPassword') {
                 $user = new User();
@@ -257,8 +265,7 @@ class Home extends \Framework\Controller
                         $repositoryUser->updatePassword();
                         $this->sendEmail('newPassword', 'Modification de votre compte sur le site JMWebsite', $user->getEmail());
                         $this->request->getSession()->setAttribut('flash', ['alert' => "Vous pouvez dès à présent vous connecter avec votre nouveau mot de passe"]);
-                        header('Location: /home/signIn');
-                        exit();
+                        $this->redirect("/home/signIn");
                     }
                 }
             }

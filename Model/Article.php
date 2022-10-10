@@ -8,7 +8,7 @@ class Article extends \Framework\Model
 {
     private mixed $id;
     private mixed $created_at;
-    private mixed $lastModification;
+    private mixed $updated_at;
     private mixed $content;
     private mixed $title;
     private mixed $publish;
@@ -21,6 +21,7 @@ class Article extends \Framework\Model
     {
         $dateTime = new \DateTime();
         $this->created_at = $dateTime->format('Y-m-d H:i:s');
+        $this->updated_at = $dateTime->format('Y-m-d H:i:s');
     }
 
     /**
@@ -58,17 +59,17 @@ class Article extends \Framework\Model
     /**
      * @return mixed
      */
-    public function getLastModification(): mixed
+    public function getUpdatedAt(): mixed
     {
-        return $this->lastModification;
+        return $this->updated_at;
     }
 
     /**
-     * @param mixed $lastModification
+     * @param mixed $updated_at
      */
-    public function setLastModification(mixed $lastModification): void
+    public function setUpdatedAt(mixed $updated_at): void
     {
-        $this->lastModification = $lastModification;
+        $this->updated_at = $updated_at;
     }
 
     /**

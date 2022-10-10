@@ -3,7 +3,10 @@ namespace Framework;
 
 
 use Exception;
+use Model\User;
 use PHPMailer\PHPMailer\PHPMailer;
+use Services\Validator;
+use Services\ValidatorUser;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -58,6 +61,15 @@ abstract class Controller
         $this->loader = new FilesystemLoader(__DIR__ .'/../View');
         //On paramêtre l'environnement twig
         $this->twig = new Environment($this->loader);
+        //On régénère la sessionId à chaque changement de page pour eviter le sessionHijacking
+        session_regenerate_id();
+        //Verification sur chaque page de l'adresse ip de l'utilisateur en comparant a celle en base de données, sinon déconnexion
+        if (Session::getSession()->getRoleLevel() > self::VISITOR) {
+            $repositoryUser = new \Repository\User(Session::getSession());
+            $user = $repositoryUser->getUser(Session::getSession()->getId());
+            $validatorUser = new ValidatorUser($user);
+            $validatorUser->checkIpUserIsIdentic();
+        }
     }
 
     // Définit la requête entrante
@@ -123,8 +135,8 @@ abstract class Controller
         $mail->isSMTP();
         $mail->Host = Configuration::get('mailtransport');
         $mail->Port = Configuration::get('mailport');
-        $mail->SMTPAuth = true;
-        $mail->SMTPAutoTLS = true;
+        $mail->SMTPAuth = false;
+        $mail->SMTPAutoTLS = false;
         $mail->CharSet = 'UTF-8';
 
         $mail->SMTPSecure = Configuration::get('mailsecurity');
@@ -140,10 +152,17 @@ abstract class Controller
         $mail->Body = $body;
 
         if($mail->send()){
-            echo 'Message envoyer';
+            return true;
         }else{
             echo "Le mail n'a pas était envoyé ";
             echo 'Mailer Error: ' . $mail->ErrorInfo;
+            return  false;
         }
+    }
+
+    public function redirect($url)
+    {
+        header("Location: " . $url);
+        exit();
     }
 }

@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;800&family=Noto+Sans:wght@200;400;500;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/normalizer.css">
     <link rel="stylesheet" href="/css/gabarit_mobile.css">
+    <link rel="stylesheet" href="/css/gabarit_desktop.css" media="screen and (min-device-width: 1024px)">
     {% block stylesheet %}{% endblock %}
     <script src="https://kit.fontawesome.com/38412cb349.js" crossorigin="anonymous"></script>
 </head>
@@ -22,8 +23,7 @@
             <span>JM Website</span>
         </a>
         <div class="follow-nav-logo">
-            <a href="https://www.facebook.com/pages/category/Product-Service/JM-Websites-370052016940987/"><i class="fa-brands fa-facebook"></i></a>
-            <a href=""><i class="fa-brands fa-instagram-square"></i></a>
+            <a target="_blank" href="https://www.facebook.com/pages/category/Product-Service/JM-Websites-370052016940987/"><i class="fa-brands fa-facebook"></i></a>
         </div>
         <div class="nav-menu" role="navigation" aria-label="navi">
             <button id="btn-nav-menu"><i class="fa-solid fa-bars" id="barIcon"></i>
@@ -58,8 +58,9 @@
 
 <footer>
     <ul>
-        <li><a href="">Administration</a></li>
+        <li><a href="/dashboard/index">Administration</a></li>
         <li>Designed by Matthieu Junge</li>
+        <li><a target="_blank" href="/media/cv/developpeur-web-cv.pdf">Lien vers mon CV</a></li>
     </ul>
 </footer>
 

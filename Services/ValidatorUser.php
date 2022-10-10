@@ -4,6 +4,7 @@
 namespace Services;
 
 use Framework\Controller;
+use Framework\Session;
 use Model\User;
 use Services\Validator;
 
@@ -21,9 +22,6 @@ class ValidatorUser extends Validator
         $this->user = $user;
     }
 
-    /**
-     * @return array
-     */
     public function getErrorsMsg(): array
     {
         return $this->errorsMsg;
@@ -55,6 +53,14 @@ class ValidatorUser extends Validator
         }
     }
 
+    private function checkRole()
+    {
+        if ($this->isEmpty($this->user->getRoleLevel())) {
+            $this->errors++;
+            $this->errorsMsg['role'] = "Veuillez sélectionner au minimum une categorie";
+        }
+    }
+
     private function checkPassword()
     {
         if ($this->isEmpty($this->user->getPassword())) {
@@ -73,6 +79,29 @@ class ValidatorUser extends Validator
         $this->checkUsername();
         $this->checkEmail();
         $this->checkPassword();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function formUpdateValidateAdmin(): bool
+    {
+        $this->checkUsername();
+        $this->checkEmail();
+        $this->checkRole();
+        if ($this->errors !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function formUpdateValidateUser(): bool
+    {
+        $this->checkUsername();
+        $this->checkEmail();
         if ($this->errors !== 0) {
             return false;
         } else {
@@ -161,7 +190,7 @@ class ValidatorUser extends Validator
             exit();
         }
         if ($userRole == Controller::USER){
-            header('Location: /dashboard/user');
+            header('Location: /home/index');
             exit();
         }
         if ($userRole == Controller::AUTHOR){
@@ -178,6 +207,7 @@ class ValidatorUser extends Validator
             exit();
         }
     }
+
     public function registerValidate(): bool
     {
         $repoUser = new \Repository\User($this->user);
@@ -185,5 +215,46 @@ class ValidatorUser extends Validator
             return true;
         }
         return false;
+    }
+
+    public function mailNotExistInBdd(): bool
+    {
+        $repoUser = new \Repository\User($this->user);
+        if ($repoUser->checkOtherMailInBdd() === 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function usernameNotExistInBdd(): bool
+    {
+        $repoUser = new \Repository\User($this->user);
+        if ($repoUser->checkUsernameInBdd() === 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function getIpAdressUser()
+    {
+        // si l'ip provient du partage Internet
+        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
+            $this->user->setIp($_SERVER['HTTP_CLIENT_IP']);
+            //si l'ip vient du proxy
+        } elseif (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+            $this->user->setIp($_SERVER['HTTP_X_FORWARDED_FOR']);
+            //si l'ip provient de l'adresse distante
+        } else {
+            $this->user->setIp($_SERVER['REMOTE_ADDR']);
+        }
+        return $this->user->getIp();
+    }
+
+    public function checkIpUserIsIdentic() {
+        if ($this->isNotIdentic($this->user->getIp(),$this->getIpAdressUser())) {
+            header('Location: /home/disconnected');
+            return false;
+        }
+        return true;
     }
 }

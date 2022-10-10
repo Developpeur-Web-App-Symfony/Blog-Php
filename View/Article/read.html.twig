@@ -17,7 +17,7 @@
             <p>{{ article.content }}</p>
             <div class="infos-article">
                 <p>Catégorie(s): {{ article.name }}</p>
-                <p>Modifié le {{ article.lastModification|date("d/m/Y H:i") }}</p>
+                <p>Modifié le {{ article.updatedAt|date("d/m/Y H:i") }}</p>
                 <p>Auteur <b>{{ article.username }}</b></p>
             </div>
         </article>
@@ -41,6 +41,7 @@
             <div class="comment">
                 <p class="content-comment"><u>Commentaire :</u> {{ comment.content }}</p>
                 <p class="author-comment"><b>{{ comment.username }}</b></p>
+                <p class="date-comment"><b>Posté le:{{ comment.created_at|date("d/m/Y H:i") }}</b></p>
             </div>
             {% endfor %}
         {% endif %}
