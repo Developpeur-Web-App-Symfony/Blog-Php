@@ -2,7 +2,7 @@
 Clonez le repository.
 
 Importez le fichier SQL sur votre serveur de base de donnée MySQL.
-    
+
 Modifiez le fichier config/dev.ini en renseignant vos informations de connexion.
 
 Démarrez le projet en local en pointant sur le dossier blog.
