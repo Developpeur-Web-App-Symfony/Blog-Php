@@ -1,11 +1,11 @@
 .slider > img {
-    max-height: 440px;
+  max-height: 440px;
 }
 
 img, picture {
-    max-height: 400px;
+  max-height: 400px;
 }
 
 .textarea-contact {
-    max-width: 740px;
+  max-width: 740px;
 }

@@ -10,7 +10,6 @@ abstract class Model
 
     protected function executeRequest($sql, $params = null): bool|\PDOStatement
     {
-
         if ($params === null) {
             $result = self::getBdd()->query($sql);   // exécution directe
         } else {
