@@ -1,5 +1,9 @@
 # Blog-Php
-Clonez le repository.
+Clonez le repository:
+ - Dans un terminal de commande :
+ - C:\User> git clone https://github.com/Developpeur-Web-App-Symfony/Blog-Php.git
+ - C:\User>cd Blog-Php
+ - C:\User\Blog-Php>composer install
 
 Importez le fichier SQL sur votre serveur de base de donnée MySQL.
 
